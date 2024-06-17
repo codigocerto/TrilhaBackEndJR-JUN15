@@ -27,22 +27,42 @@ class UsersRepository {
     return result;
   }
 
-  update(userId: string, { name, email, password }: User) {
-    const result = prisma.user.update({
+  async findByEmail(email: string) {
+    const result = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return result;
+  }
+
+  async update(userId: string, name: string, email: string) {
+    const result = await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
         name,
         email,
-        password,
       },
     });
     return result;
   }
 
-  delete(id: string) {
-    const result = prisma.user.delete({
+  async updatePassword(newPassword: string, userId: string) {
+    const result = await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
+    return result;
+  }
+
+  async delete(id: string) {
+    const result = await prisma.user.delete({
       where: {
         id,
       },
