@@ -1,5 +1,12 @@
+import { Task } from "./taskModel";
+
 export interface User {
-  username: string;
+  name: string;
+  email: string;
   password: string;
-  tasks: string[];
+}
+
+export interface UserTasks {
+  name: string;
+  tasks: Task[];
 }
