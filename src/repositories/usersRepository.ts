@@ -27,7 +27,7 @@ class UsersRepository {
     return result;
   }
 
-  update(userId: string, name: string, email: string, password: string) {
+  update(userId: string, { name, email, password }: User) {
     const result = prisma.user.update({
       where: {
         id: userId,
