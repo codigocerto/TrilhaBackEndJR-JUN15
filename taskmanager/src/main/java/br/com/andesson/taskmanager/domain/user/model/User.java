@@ -1,8 +1,7 @@
-package br.com.andesson.taskmanager.domain.user;
+package br.com.andesson.taskmanager.domain.user.model;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Column;
