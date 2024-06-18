@@ -1,15 +1,23 @@
-import express, { Application } from "express";
+import express, { Application, Router } from "express";
+import { userRoutes } from "./routes/usersRoutes";
 
 class App {
-  private app: Application;
+  app: Application;
   constructor() {
     this.app = express();
-    this.middlewaresInitialize();
+    this.initMiddlewares();
+    this.initRoutes();
   }
 
-  middlewaresInitialize() {
+  private initMiddlewares() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+  }
+
+  private initRoutes() {
+    const router = express.Router();
+    userRoutes(router);
+    this.app.use("/", router);
   }
 
   listen() {
