@@ -40,12 +40,12 @@ public class User implements UserDetails, Serializable {
     private Long id;
 
     /**
-     * The name of the user.
+     * The username of the user.
      */
     @NotNull
     @Size(min = 4, max = 100)
-    @Column(name = "name", nullable = false, length = 100)
-    private String name;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
     /**
      * The password of the user.
@@ -81,7 +81,7 @@ public class User implements UserDetails, Serializable {
      */
     @Override
     public String getUsername() {
-        return name;
+        return username;
     }
 
     /**
@@ -133,7 +133,7 @@ public class User implements UserDetails, Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
