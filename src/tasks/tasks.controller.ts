@@ -92,6 +92,7 @@ export class TasksController {
   @ApiNotFoundResponse({ description: 'Task not found' })
   @ApiInternalServerErrorResponse({ description: 'Internal server error' })
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.tasksService.remove(+id);
