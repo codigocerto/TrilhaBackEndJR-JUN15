@@ -40,7 +40,6 @@ class TasksRepository {
     };
   }
 
-  // Será implementado posteriormente em uma rota protegida para administrador.
   async findAll() {
     const result = await prisma.task.findMany({});
     return result;
@@ -86,8 +85,8 @@ class TasksRepository {
     return result;
   }
 
-  delete(id: string) {
-    const result = prisma.task.delete({
+  async delete(id: string) {
+    const result = await prisma.task.delete({
       where: {
         id,
       },
@@ -95,6 +94,7 @@ class TasksRepository {
     return result;
   }
 
+  // Helper method used by the Create method that checks to see if a task with the same name already exists
   async findByTitleAndUserId(title: string, userId: string) {
     const result = await prisma.task.findFirst({
       where: {
@@ -105,6 +105,7 @@ class TasksRepository {
     return result;
   }
 
+  // Helper method used in the Update and Delete methods
   async findById(id: string) {
     return prisma.task.findUnique({
       where: { id },

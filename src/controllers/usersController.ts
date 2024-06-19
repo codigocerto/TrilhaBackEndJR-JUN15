@@ -43,7 +43,7 @@ class UsersController {
   }
 
   async findById(request: Request, response: Response, next: NextFunction) {
-    const userId = request.params.id;
+    const { userId } = request.params;
     try {
       const user = await this.usersServices.findById(userId);
 
@@ -85,7 +85,7 @@ class UsersController {
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
-    const userId = request.params.id;
+    const { userId } = request.params;
 
     try {
       await this.usersServices.delete(userId);

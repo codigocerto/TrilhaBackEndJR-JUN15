@@ -52,6 +52,15 @@ class TasksServices {
     };
   }
 
+  async delete(id: string) {
+    const existingTask = await this.tasksRepository.findById(id);
+    if (!existingTask) {
+      throw new Error("Task not found");
+    }
+
+    await this.tasksRepository.delete(id);
+  }
+
   async findById(id: string) {
     const task = await this.tasksRepository.findById(id);
     return task;

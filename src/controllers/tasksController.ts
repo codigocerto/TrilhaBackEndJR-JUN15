@@ -9,6 +9,7 @@ class TasksController {
     this.create = this.create.bind(this);
     this.findByUserId = this.findByUserId.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -55,6 +56,17 @@ class TasksController {
       });
 
       return response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+
+    try {
+      await this.tasksServices.delete(id);
+      return response.status(204).send();
     } catch (error) {
       next(error);
     }
