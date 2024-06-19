@@ -4,6 +4,7 @@ import { User, UserUpdate } from "../models/userModel";
 
 class UsersController {
   private usersServices: UsersServices;
+
   constructor() {
     this.usersServices = new UsersServices();
     this.create = this.create.bind(this);

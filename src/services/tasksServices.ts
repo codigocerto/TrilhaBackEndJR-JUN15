@@ -9,9 +9,13 @@ class TasksServices {
   }
 
   async create({ title, description, completed, userId }: Partial<Task>) {
+    if (!title || !userId) {
+      throw new Error("Title and userId are required.");
+    }
+
     const existingTask = await this.tasksRepository.findByTitleAndUserId(
-      title!,
-      userId!
+      title,
+      userId
     );
     if (existingTask) {
       throw new Error("Task with the same title already exists for this user.");
@@ -27,11 +31,19 @@ class TasksServices {
   }
 
   async findByUserId(userId: string) {
+    if (!userId) {
+      throw new Error("UserId is required.");
+    }
+
     const tasks = await this.tasksRepository.findByUserId(userId);
     return tasks;
   }
 
   async update(taskId: string, data: Partial<Task>) {
+    if (!taskId) {
+      throw new Error("TaskId is required.");
+    }
+
     const existingTask = await this.tasksRepository.findById(taskId);
     if (!existingTask) {
       throw new Error("Task not found");
@@ -53,6 +65,10 @@ class TasksServices {
   }
 
   async delete(id: string) {
+    if (!id) {
+      throw new Error("TaskId is required.");
+    }
+
     const existingTask = await this.tasksRepository.findById(id);
     if (!existingTask) {
       throw new Error("Task not found");
@@ -62,6 +78,10 @@ class TasksServices {
   }
 
   async findById(id: string) {
+    if (!id) {
+      throw new Error("TaskId is required.");
+    }
+
     const task = await this.tasksRepository.findById(id);
     return task;
   }

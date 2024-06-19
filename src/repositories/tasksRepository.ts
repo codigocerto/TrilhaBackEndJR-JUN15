@@ -46,6 +46,10 @@ class TasksRepository {
   }
 
   async findByUserId(userId: string) {
+    if (!userId) {
+      throw new Error("UserId is required");
+    }
+
     const result = await prisma.task.findMany({
       where: {
         userId,
@@ -73,6 +77,10 @@ class TasksRepository {
   }
 
   async update(taskId: string, data: Partial<Task>) {
+    if (!taskId) {
+      throw new Error("TaskId is required");
+    }
+
     const result = await prisma.task.update({
       where: {
         id: taskId,
@@ -86,6 +94,10 @@ class TasksRepository {
   }
 
   async delete(id: string) {
+    if (!id) {
+      throw new Error("TaskId is required");
+    }
+
     const result = await prisma.task.delete({
       where: {
         id,
@@ -94,8 +106,11 @@ class TasksRepository {
     return result;
   }
 
-  // Helper method used by the Create method that checks to see if a task with the same name already exists
   async findByTitleAndUserId(title: string, userId: string) {
+    if (!title || !userId) {
+      throw new Error("Title and userId are required");
+    }
+
     const result = await prisma.task.findFirst({
       where: {
         title,
@@ -105,8 +120,11 @@ class TasksRepository {
     return result;
   }
 
-  // Helper method used in the Update and Delete methods
   async findById(id: string) {
+    if (!id) {
+      throw new Error("TaskId is required");
+    }
+
     return prisma.task.findUnique({
       where: { id },
       include: { user: true },

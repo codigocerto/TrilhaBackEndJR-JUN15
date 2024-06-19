@@ -13,68 +13,57 @@ class UsersServices {
     const findUser = await this.usersRepository.findByEmail(email);
 
     if (findUser) {
-      throw new Error("User exists");
+      throw new Error("User with this email already exists");
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const create = await this.usersRepository.create({
+    const createUser = await this.usersRepository.create({
       name,
       email,
       password: hashPassword,
     });
-    return create;
+
+    return createUser;
   }
 
   async findAll() {
     const users = await this.usersRepository.findAll();
-
     return users;
   }
 
   async findById(id: string) {
-    const users = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id);
 
-    return users;
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
   }
 
   async update(
     userId: string,
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
-    const findUserById = await this.usersRepository.findById(userId);
+    const userToUpdate = await this.usersRepository.findById(userId);
 
-    if (!findUserById) {
+    if (!userToUpdate) {
       throw new Error("User not found");
     }
 
     if (oldPassword && newPassword) {
       const passwordMatch = await bcrypt.compare(
         oldPassword,
-        findUserById.password
+        userToUpdate.password
       );
 
       if (!passwordMatch) {
-        throw new Error("Password invalid.");
+        throw new Error("Invalid password");
       }
 
       const hashPassword = await bcrypt.hash(newPassword, 10);
-
-      const updatedUser = await this.usersRepository.updatePassword(
-        hashPassword,
-        userId
-      );
-
-      if (name || email) {
-        const updatedUserWithData = await this.usersRepository.update(
-          userId,
-          name,
-          email
-        );
-        return updatedUserWithData;
-      }
-
-      return updatedUser;
+      await this.usersRepository.updatePassword(hashPassword, userId);
     }
 
     if (name || email) {
