@@ -2,7 +2,16 @@ import { Task } from "@prisma/client";
 import { prisma } from "../database/prisma";
 
 class TasksRepository {
-  async create({ title, description, completed, userId }: Task) {
+  async create({
+    title,
+    description,
+    completed = false,
+    userId,
+  }: Partial<Task>) {
+    if (!title || !description || !userId) {
+      throw new Error("Title, description, and userId are required");
+    }
+
     const result = await prisma.task.create({
       data: {
         title,
@@ -10,8 +19,25 @@ class TasksRepository {
         completed,
         userId,
       },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
-    return result;
+    return {
+      id: result.id,
+      title: result.title,
+      description: result.description,
+      completed: result.completed,
+      user: {
+        id: result.user.id,
+        name: result.user.name,
+      },
+    };
   }
 
   async findAll() {
@@ -49,6 +75,16 @@ class TasksRepository {
     const result = prisma.task.delete({
       where: {
         id,
+      },
+    });
+    return result;
+  }
+
+  async findByTitleAndUserId(title: string, userId: string) {
+    const result = await prisma.task.findFirst({
+      where: {
+        title,
+        userId,
       },
     });
     return result;

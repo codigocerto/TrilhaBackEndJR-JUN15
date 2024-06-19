@@ -1,5 +1,6 @@
 import express, { Application, Router } from "express";
 import { userRoutes } from "./routes/usersRoutes";
+import { tasksRoutes } from "./routes/tasksRoutes";
 
 class App {
   app: Application;
@@ -17,6 +18,7 @@ class App {
   private initRoutes() {
     const router = express.Router();
     userRoutes(router);
+    tasksRoutes(router);
     this.app.use("/", router);
   }
 
