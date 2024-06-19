@@ -63,7 +63,6 @@ Não é necessário configurar o banco, ele ja é instalado durante a instalaç�
 - [jsonwebtoken](https://jwt.io/): 9.0.2
 - [typeorm](https://www.npmjs.com/package/typeorm): 0.3.20
 
-
 ## 🚀 Executação do projeto
 ```bash
 - $ npm run start:dev
