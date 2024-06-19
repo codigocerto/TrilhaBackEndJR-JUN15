@@ -8,4 +8,5 @@ export const userRoutes = (router: Router) => {
   router.get("/users", usersController.findAll);
   router.get("/users/:id", usersController.findById);
   router.put("/users/:id", usersController.update);
+  router.delete("/users/:id", usersController.delete);
 };

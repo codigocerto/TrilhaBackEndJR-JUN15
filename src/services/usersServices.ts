@@ -89,8 +89,14 @@ class UsersServices {
     throw new Error("No fields to update provided");
   }
 
-  async delete(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+  async delete(userId: string): Promise<void> {
+    const userToDelete = await this.usersRepository.findById(userId);
+
+    if (!userToDelete) {
+      throw new Error("User not found");
+    }
+
+    await this.usersRepository.delete(userId);
   }
 }
 

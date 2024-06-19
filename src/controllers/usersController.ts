@@ -10,6 +10,7 @@ class UsersController {
     this.findAll = this.findAll.bind(this);
     this.findById = this.findById.bind(this);
     this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -78,6 +79,17 @@ class UsersController {
       const { password: omitPassword, ...userWithoutPassword } = updatedUser;
 
       return response.status(200).json(userWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(request: Request, response: Response, next: NextFunction) {
+    const userId = request.params.id;
+
+    try {
+      await this.usersServices.delete(userId);
+      return response.status(204).send();
     } catch (error) {
       next(error);
     }
