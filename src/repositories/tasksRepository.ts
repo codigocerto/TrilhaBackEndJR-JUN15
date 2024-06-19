@@ -40,18 +40,37 @@ class TasksRepository {
     };
   }
 
+  // Será implementado posteriormente em uma rota protegida para administrador.
   async findAll() {
     const result = await prisma.task.findMany({});
     return result;
   }
 
   async findByUserId(userId: string) {
-    const result = await prisma.task.findUnique({
+    const result = await prisma.task.findMany({
       where: {
-        id: userId,
+        userId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
-    return result;
+
+    return result.map((task) => ({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      completed: task.completed,
+      user: {
+        id: task.user.id,
+        name: task.user.name,
+      },
+    }));
   }
 
   async update(

@@ -25,6 +25,11 @@ class TasksServices {
     });
     return createTask;
   }
+
+  async findByUserId(userId: string) {
+    const tasks = await this.tasksRepository.findByUserId(userId);
+    return tasks;
+  }
 }
 
 export { TasksServices };

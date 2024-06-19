@@ -1,4 +1,4 @@
-import express, { Application, Router } from "express";
+import express, { Application } from "express";
 import { userRoutes } from "./routes/usersRoutes";
 import { tasksRoutes } from "./routes/tasksRoutes";
 
@@ -19,7 +19,7 @@ class App {
     const router = express.Router();
     userRoutes(router);
     tasksRoutes(router);
-    this.app.use("/", router);
+    this.app.use(router);
   }
 
   listen() {

@@ -7,6 +7,7 @@ class TasksController {
   constructor() {
     this.tasksServices = new TasksServices();
     this.create = this.create.bind(this);
+    this.findByUserId = this.findByUserId.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -20,6 +21,17 @@ class TasksController {
         userId,
       });
       return response.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findByUserId(request: Request, response: Response, next: NextFunction) {
+    const { userId } = request.params;
+
+    try {
+      const result = await this.tasksServices.findByUserId(userId);
+      return response.status(200).json(result);
     } catch (error) {
       next(error);
     }
