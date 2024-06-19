@@ -39,15 +39,16 @@ class UsersServices {
   }
 
   async update(
-    id: string,
+    userId: string,
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
-    let password;
+    const findUserById = await this.usersRepository.findById(userId);
+
+    if (!findUserById) {
+      throw new Error("User not found");
+    }
+
     if (oldPassword && newPassword) {
-      const findUserById = await this.usersRepository.findById(id);
-      if (!findUserById) {
-        throw new Error("User not found");
-      }
       const passwordMatch = await bcrypt.compare(
         oldPassword,
         findUserById.password
@@ -56,29 +57,40 @@ class UsersServices {
       if (!passwordMatch) {
         throw new Error("Password invalid.");
       }
-      password = await bcrypt.hash(newPassword, 10);
 
-      const update = await this.usersRepository.updatePassword(password, id);
+      const hashPassword = await bcrypt.hash(newPassword, 10);
 
-      return update;
+      const updatedUser = await this.usersRepository.updatePassword(
+        hashPassword,
+        userId
+      );
+
+      if (name || email) {
+        const updatedUserWithData = await this.usersRepository.update(
+          userId,
+          name,
+          email
+        );
+        return updatedUserWithData;
+      }
+
+      return updatedUser;
     }
 
     if (name || email) {
-      const findUserById = await this.usersRepository.findById(id);
-      if (!findUserById) {
-        throw new Error("User not found");
-      }
-      const update = await this.usersRepository.update(id, name, email);
-      return update;
+      const updatedUser = await this.usersRepository.update(
+        userId,
+        name,
+        email
+      );
+      return updatedUser;
     }
+
+    throw new Error("No fields to update provided");
   }
 
   async delete(id: string): Promise<void> {
-    try {
-      await this.usersRepository.delete(id);
-    } catch (error) {
-      throw new Error(`User ${id} not found: ${error}`);
-    }
+    await this.usersRepository.delete(id);
   }
 }
 
