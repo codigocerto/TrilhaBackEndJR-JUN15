@@ -172,3 +172,4 @@ description: "edited task"
 - **Descrição**: Remove uma task correspondente ao id. (**Precisa de autenticação, Precisa ser um usuário admin**).
 - **Parâmetros**:
 - `id`: Identificador único da task.
+
