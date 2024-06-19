@@ -6,4 +6,6 @@ export const userRoutes = (router: Router) => {
 
   router.post("/users", usersController.create);
   router.get("/users", usersController.findAll);
+  router.get("/users/:id", usersController.findById);
+  router.put("/users/:id", usersController.update);
 };

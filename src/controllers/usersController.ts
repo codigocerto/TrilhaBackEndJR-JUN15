@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UsersServices } from "../services/usersServices";
-import { User } from "../models/userModel";
+import { User, UserUpdate } from "../models/userModel";
 
 class UsersController {
   private usersServices: UsersServices;
@@ -8,6 +8,8 @@ class UsersController {
     this.usersServices = new UsersServices();
     this.create = this.create.bind(this);
     this.findAll = this.findAll.bind(this);
+    this.findById = this.findById.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -16,7 +18,9 @@ class UsersController {
     try {
       const result = await this.usersServices.create({ name, email, password });
 
-      return response.status(201).json(result);
+      const { password: omitPassword, ...userWithoutPassword } = result;
+
+      return response.status(201).json(userWithoutPassword);
     } catch (error) {
       next(error);
     }
@@ -32,6 +36,48 @@ class UsersController {
       });
 
       return response.status(200).json(usersWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findById(request: Request, response: Response, next: NextFunction) {
+    const userId = request.params.id;
+    try {
+      const user = await this.usersServices.findById(userId);
+
+      if (!user) {
+        return response.status(404).json({ message: "User not found" });
+      }
+
+      const { password, ...userWithoutPassword } = user;
+
+      return response.status(200).json(userWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(request: Request, response: Response, next: NextFunction) {
+    const userId = request.params.id;
+    const { name, email, oldPassword, newPassword } =
+      request.body as UserUpdate;
+
+    try {
+      const updatedUser = await this.usersServices.update(userId, {
+        name,
+        email,
+        oldPassword,
+        newPassword,
+      });
+
+      if (!updatedUser) {
+        return response.status(404).json({ message: "User not found" });
+      }
+
+      const { password: omitPassword, ...userWithoutPassword } = updatedUser;
+
+      return response.status(200).json(userWithoutPassword);
     } catch (error) {
       next(error);
     }
