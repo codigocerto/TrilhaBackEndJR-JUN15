@@ -30,6 +30,32 @@ class TasksServices {
     const tasks = await this.tasksRepository.findByUserId(userId);
     return tasks;
   }
+
+  async update(taskId: string, data: Partial<Task>) {
+    const existingTask = await this.tasksRepository.findById(taskId);
+    if (!existingTask) {
+      throw new Error("Task not found");
+    }
+
+    const updatedTask = await this.tasksRepository.update(taskId, data);
+    const { userId, user } = updatedTask;
+    const { name } = user;
+    return {
+      id: updatedTask.id,
+      title: updatedTask.title,
+      description: updatedTask.description,
+      completed: updatedTask.completed,
+      user: {
+        id: userId,
+        name,
+      },
+    };
+  }
+
+  async findById(id: string) {
+    const task = await this.tasksRepository.findById(id);
+    return task;
+  }
 }
 
 export { TasksServices };

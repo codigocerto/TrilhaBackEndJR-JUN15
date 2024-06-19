@@ -6,4 +6,5 @@ export const tasksRoutes = (router: Router) => {
 
   router.post("/tasks", tasksController.create);
   router.get("/tasks/user/:userId", tasksController.findByUserId);
+  router.put("/tasks/:id", tasksController.update);
 };

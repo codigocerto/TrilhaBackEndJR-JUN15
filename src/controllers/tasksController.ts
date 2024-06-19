@@ -8,6 +8,7 @@ class TasksController {
     this.tasksServices = new TasksServices();
     this.create = this.create.bind(this);
     this.findByUserId = this.findByUserId.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -31,6 +32,28 @@ class TasksController {
 
     try {
       const result = await this.tasksServices.findByUserId(userId);
+      return response.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async update(request: Request, response: Response, next: NextFunction) {
+    const { id } = request.params;
+    const { title, description, completed } = request.body;
+
+    try {
+      const existingTask = await this.tasksServices.findById(id);
+      if (!existingTask) {
+        return response.status(404).json({ error: "Task not found" });
+      }
+
+      const result = await this.tasksServices.update(id, {
+        title,
+        description,
+        completed,
+      });
+
       return response.status(200).json(result);
     } catch (error) {
       next(error);

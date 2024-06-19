@@ -73,18 +73,14 @@ class TasksRepository {
     }));
   }
 
-  async update(
-    userId: string,
-    { title, description, completed }: Partial<Task>
-  ) {
+  async update(taskId: string, data: Partial<Task>) {
     const result = await prisma.task.update({
       where: {
-        id: userId,
+        id: taskId,
       },
-      data: {
-        title,
-        description,
-        completed,
+      data,
+      include: {
+        user: true,
       },
     });
     return result;
@@ -107,6 +103,13 @@ class TasksRepository {
       },
     });
     return result;
+  }
+
+  async findById(id: string) {
+    return prisma.task.findUnique({
+      where: { id },
+      include: { user: true },
+    });
   }
 }
 

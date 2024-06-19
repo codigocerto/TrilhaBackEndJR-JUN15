@@ -17,9 +17,9 @@ class App {
 
   private initRoutes() {
     const router = express.Router();
+    this.app.use(router);
     userRoutes(router);
     tasksRoutes(router);
-    this.app.use(router);
   }
 
   listen() {
