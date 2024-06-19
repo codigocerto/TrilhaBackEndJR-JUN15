@@ -1,4 +1,4 @@
-import { RoleEnum } from '@/src/enums/role.enum';
+import { RoleEnum } from '../../enums/role.enum';
 import { Task } from '@/src/tasks/entities/task.entity';
 import {
   Column,
