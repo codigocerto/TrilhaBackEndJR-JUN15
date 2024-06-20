@@ -112,18 +112,21 @@ class UsersRepository {
 
   async delete(id: string) {
     try {
+      await prisma.task.deleteMany({
+        where: {
+          userId: id,
+        },
+      });
+
       const result = await prisma.user.delete({
         where: {
           id,
         },
       });
+
       return result;
     } catch (error: any) {
-      throw new Error(
-        `Failed to delete user ${id}: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
-      );
+      throw new Error(`Failed to delete user ${id}: ${error.message}`);
     }
   }
 }

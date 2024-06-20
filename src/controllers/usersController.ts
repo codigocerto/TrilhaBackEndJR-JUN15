@@ -86,10 +86,10 @@ class UsersController {
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
-    const { userId } = request.params;
+    const { id } = request.params;
 
     try {
-      await this.usersServices.delete(userId);
+      await this.usersServices.delete(id);
       return response.status(204).send();
     } catch (error) {
       next(error);

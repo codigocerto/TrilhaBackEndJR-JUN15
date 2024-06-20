@@ -91,14 +91,14 @@ class UsersServices {
     return emailRegex.test(email);
   }
 
-  async delete(userId: string): Promise<void> {
-    const userToDelete = await this.usersRepository.findById(userId);
+  async delete(id: string): Promise<void> {
+    const userToDelete = await this.usersRepository.findById(id);
 
     if (!userToDelete) {
       throw new Error("User not found");
     }
 
-    await this.usersRepository.delete(userId);
+    await this.usersRepository.delete(id);
   }
 }
 
