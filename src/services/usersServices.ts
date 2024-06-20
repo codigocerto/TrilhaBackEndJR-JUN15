@@ -1,6 +1,7 @@
 import * as bcrypt from "bcrypt";
 import { User, UserUpdate } from "../models/userModel";
 import { UsersRepository } from "../repositories/usersRepository";
+import jwt from "jsonwebtoken";
 
 class UsersServices {
   private usersRepository: UsersRepository;
@@ -25,6 +26,27 @@ class UsersServices {
     });
 
     return createUser;
+  }
+
+  async login(email: string, password: string) {
+    // Verificar se o usuário existe
+    const user = await this.usersRepository.findByEmail(email);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const userId = user.id;
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      throw new Error("Invalid password");
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.ACCESS_KEY_TOKEN!, {
+      expiresIn: "1h",
+    });
+
+    return { token, userId };
   }
 
   async update(

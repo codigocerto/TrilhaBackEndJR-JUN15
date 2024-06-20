@@ -10,6 +10,7 @@ class UsersController {
     this.create = this.create.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
+    this.login = this.login.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
@@ -21,6 +22,17 @@ class UsersController {
       const { password: omitPassword, ...userWithoutPassword } = result;
 
       return response.status(201).json(userWithoutPassword);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async login(request: Request, response: Response, next: NextFunction) {
+    const { email, password } = request.body;
+
+    try {
+      const token = await this.usersServices.login(email, password);
+      return response.status(200).json({ token });
     } catch (error) {
       next(error);
     }
