@@ -44,9 +44,9 @@ class UsersController {
   }
 
   async findById(request: Request, response: Response, next: NextFunction) {
-    const { userId } = request.params;
+    const { id } = request.params;
     try {
-      const user = await this.usersServices.findById(userId);
+      const user = await this.usersServices.findById(id);
 
       if (!user) {
         return response.status(404).json({ message: "User not found" });
@@ -61,12 +61,12 @@ class UsersController {
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const userId = request.params.id;
+    const { id } = request.params;
     const { name, email, oldPassword, newPassword } =
       request.body as UserUpdate;
 
     try {
-      const updatedUser = await this.usersServices.update(userId, {
+      const updatedUser = await this.usersServices.update(id, {
         name,
         email,
         oldPassword,

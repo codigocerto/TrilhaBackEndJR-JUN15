@@ -67,6 +67,14 @@ class UsersServices {
     }
 
     if (name || email) {
+      if (name === undefined || name.trim() === "") {
+        throw new Error("Name cannot be empty");
+      }
+
+      if (email === undefined || !this.isValidEmail(email)) {
+        throw new Error("Invalid email");
+      }
+
       const updatedUser = await this.usersRepository.update(
         userId,
         name,
@@ -76,6 +84,11 @@ class UsersServices {
     }
 
     throw new Error("No fields to update provided");
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
   async delete(userId: string): Promise<void> {
