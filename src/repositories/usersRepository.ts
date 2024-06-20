@@ -22,19 +22,6 @@ class UsersRepository {
     }
   }
 
-  async findAll() {
-    try {
-      const result = await prisma.user.findMany({});
-      return result;
-    } catch (error: any) {
-      throw new Error(
-        `Failed to find users: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
-      );
-    }
-  }
-
   async findById(id: string) {
     try {
       const result = await prisma.user.findUnique({

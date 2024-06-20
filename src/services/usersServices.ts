@@ -27,21 +27,6 @@ class UsersServices {
     return createUser;
   }
 
-  async findAll() {
-    const users = await this.usersRepository.findAll();
-    return users;
-  }
-
-  async findById(id: string) {
-    const user = await this.usersRepository.findById(id);
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    return user;
-  }
-
   async update(
     id: string,
     { name, email, oldPassword, newPassword }: UserUpdate
@@ -79,11 +64,6 @@ class UsersServices {
     return updatedUser;
   }
 
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
-
   async delete(id: string): Promise<void> {
     const userToDelete = await this.usersRepository.findById(id);
 
@@ -92,6 +72,11 @@ class UsersServices {
     }
 
     await this.usersRepository.delete(id);
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }
 

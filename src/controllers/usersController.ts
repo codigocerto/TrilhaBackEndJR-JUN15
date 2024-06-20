@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { UsersServices } from "../services/usersServices";
-import { User, UserUpdate } from "../models/userModel";
+import { UserUpdate } from "../models/userModel";
 
 class UsersController {
   private usersServices: UsersServices;
@@ -8,8 +8,6 @@ class UsersController {
   constructor() {
     this.usersServices = new UsersServices();
     this.create = this.create.bind(this);
-    this.findAll = this.findAll.bind(this);
-    this.findById = this.findById.bind(this);
     this.update = this.update.bind(this);
     this.delete = this.delete.bind(this);
   }
@@ -23,38 +21,6 @@ class UsersController {
       const { password: omitPassword, ...userWithoutPassword } = result;
 
       return response.status(201).json(userWithoutPassword);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async findAll(request: Request, response: Response, next: NextFunction) {
-    try {
-      const users = await this.usersServices.findAll();
-
-      const usersWithoutPassword = users.map((user: User) => {
-        const { password, ...userWithoutPassword } = user;
-        return userWithoutPassword;
-      });
-
-      return response.status(200).json(usersWithoutPassword);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async findById(request: Request, response: Response, next: NextFunction) {
-    const { id } = request.params;
-    try {
-      const user = await this.usersServices.findById(id);
-
-      if (!user) {
-        return response.status(404).json({ message: "User not found" });
-      }
-
-      const { password, ...userWithoutPassword } = user;
-
-      return response.status(200).json(userWithoutPassword);
     } catch (error) {
       next(error);
     }
