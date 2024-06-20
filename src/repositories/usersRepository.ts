@@ -69,11 +69,11 @@ class UsersRepository {
     }
   }
 
-  async update(userId: string, name: string, email: string) {
+  async update(id: string, name: string, email: string) {
     try {
       const result = await prisma.user.update({
         where: {
-          id: userId,
+          id,
         },
         data: {
           name,
@@ -83,18 +83,18 @@ class UsersRepository {
       return result;
     } catch (error: any) {
       throw new Error(
-        `Failed to update user ${userId}: ${
+        `Failed to update user ${id}: ${
           (error as Prisma.PrismaClientKnownRequestError).message
         }`
       );
     }
   }
 
-  async updatePassword(newPassword: string, userId: string) {
+  async updatePassword(newPassword: string, id: string) {
     try {
       const result = await prisma.user.update({
         where: {
-          id: userId,
+          id,
         },
         data: {
           password: newPassword,
@@ -103,7 +103,7 @@ class UsersRepository {
       return result;
     } catch (error: any) {
       throw new Error(
-        `Failed to update password for user ${userId}: ${
+        `Failed to update password for user ${id}: ${
           (error as Prisma.PrismaClientKnownRequestError).message
         }`
       );
