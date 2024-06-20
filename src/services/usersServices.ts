@@ -43,10 +43,10 @@ class UsersServices {
   }
 
   async update(
-    userId: string,
+    id: string,
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
-    const userToUpdate = await this.usersRepository.findById(userId);
+    const userToUpdate = await this.usersRepository.findById(id);
 
     if (!userToUpdate) {
       throw new Error("User not found");
@@ -63,27 +63,20 @@ class UsersServices {
       }
 
       const hashPassword = await bcrypt.hash(newPassword, 10);
-      await this.usersRepository.updatePassword(hashPassword, userId);
+      await this.usersRepository.updatePassword(hashPassword, id);
     }
 
-    if (name || email) {
-      if (name === undefined || name.trim() === "") {
-        throw new Error("Name cannot be empty");
-      }
-
-      if (email === undefined || !this.isValidEmail(email)) {
-        throw new Error("Invalid email");
-      }
-
-      const updatedUser = await this.usersRepository.update(
-        userId,
-        name,
-        email
-      );
-      return updatedUser;
+    if (name !== undefined && name.trim() === "") {
+      throw new Error("Name cannot be empty");
     }
 
-    throw new Error("No fields to update provided");
+    if (email !== undefined && !this.isValidEmail(email)) {
+      throw new Error("Invalid email");
+    }
+
+    const updatedUser = await this.usersRepository.update(id, name, email);
+
+    return updatedUser;
   }
 
   private isValidEmail(email: string): boolean {

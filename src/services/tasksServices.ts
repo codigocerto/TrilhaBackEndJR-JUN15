@@ -49,6 +49,10 @@ class TasksServices {
       throw new Error("Task not found");
     }
 
+    if (data.title !== undefined && data.title.trim() === "") {
+      throw new Error("Title cannot be empty.");
+    }
+
     const updatedTask = await this.tasksRepository.update(taskId, data);
     const { userId, user } = updatedTask;
     const { name } = user;
