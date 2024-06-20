@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import { userRoutes } from "./routes/usersRoutes";
 import { tasksRoutes } from "./routes/tasksRoutes";
+import { errorHandler } from "./middlewares/errorHandler";
 
 class App {
   app: Application;
@@ -8,6 +9,7 @@ class App {
     this.app = express();
     this.initMiddlewares();
     this.initRoutes();
+    this.initErrorHandling();
   }
 
   private initMiddlewares() {
@@ -20,6 +22,10 @@ class App {
     this.app.use(router);
     userRoutes(router);
     tasksRoutes(router);
+  }
+
+  private initErrorHandling() {
+    this.app.use(errorHandler);
   }
 
   listen() {
