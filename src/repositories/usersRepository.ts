@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 import { prisma } from "../database/prisma";
 import { User } from "../models/userModel";
 
@@ -14,11 +13,7 @@ class UsersRepository {
       });
       return result;
     } catch (error: any) {
-      throw new Error(
-        `Failed to create user: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
-      );
+      throw new Error(`Failed to create user: ${error.message}`);
     }
   }
 
@@ -31,11 +26,7 @@ class UsersRepository {
       });
       return result;
     } catch (error: any) {
-      throw new Error(
-        `Failed to find user by id ${id}: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
-      );
+      throw new Error(`Failed to find user by id ${id}: ${error.message}`);
     }
   }
 
@@ -49,9 +40,7 @@ class UsersRepository {
       return result;
     } catch (error: any) {
       throw new Error(
-        `Failed to find user by email ${email}: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
+        `Failed to find user by email ${email}: ${error.message}`
       );
     }
   }
@@ -69,11 +58,7 @@ class UsersRepository {
       });
       return result;
     } catch (error: any) {
-      throw new Error(
-        `Failed to update user ${id}: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
-      );
+      throw new Error(`Failed to update user ${id}: ${error.message}`);
     }
   }
 
@@ -90,9 +75,7 @@ class UsersRepository {
       return result;
     } catch (error: any) {
       throw new Error(
-        `Failed to update password for user ${id}: ${
-          (error as Prisma.PrismaClientKnownRequestError).message
-        }`
+        `Failed to update password for user ${id}: ${error.message}`
       );
     }
   }

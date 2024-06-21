@@ -29,7 +29,6 @@ class UsersServices {
   }
 
   async login(email: string, password: string) {
-    // Verificar se o usuário existe
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
       throw new Error("User not found");
@@ -57,6 +56,20 @@ class UsersServices {
 
     if (!userToUpdate) {
       throw new Error("User not found");
+    }
+
+    if (
+      (oldPassword !== undefined && newPassword === undefined) ||
+      newPassword == ""
+    ) {
+      throw new Error("Problem updating password");
+    }
+
+    if (
+      (newPassword !== undefined && oldPassword === undefined) ||
+      oldPassword == ""
+    ) {
+      throw new Error("Problem updating password");
     }
 
     if (oldPassword && newPassword) {

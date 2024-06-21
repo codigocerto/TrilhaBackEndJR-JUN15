@@ -23,6 +23,6 @@ model Task {
   title       String
   description String
   completed   Boolean @default(false)
-  user        User    @relation(fields: [userId], references: [id])
   userId      String
+  user        User    @relation(fields: [userId], references: [id])
 }

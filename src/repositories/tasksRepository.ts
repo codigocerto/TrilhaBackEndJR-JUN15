@@ -1,13 +1,8 @@
-import { Task } from "@prisma/client";
 import { prisma } from "../database/prisma";
+import { Task } from "../models/taskModel";
 
 class TasksRepository {
-  async create({
-    title,
-    description,
-    completed = false,
-    userId,
-  }: Partial<Task>) {
+  async create({ title, description, completed = false, userId }: Task) {
     if (!title || !description || !userId) {
       throw new Error("Title, description, and userId are required");
     }
@@ -64,15 +59,11 @@ class TasksRepository {
       },
     });
 
-    return result.map((task) => ({
-      id: task.id,
+    return result.map((task: Task) => ({
       title: task.title,
       description: task.description,
       completed: task.completed,
-      user: {
-        id: task.user.id,
-        name: task.user.name,
-      },
+      userId: {},
     }));
   }
 

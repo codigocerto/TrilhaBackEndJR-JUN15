@@ -2,7 +2,7 @@
   "name": "task-manager-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
     "dev": "tsx watch src/app.ts"
   },
