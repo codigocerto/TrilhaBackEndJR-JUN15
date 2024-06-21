@@ -2,6 +2,7 @@ import * as bcrypt from "bcrypt";
 import { User, UserUpdate } from "../models/userModel";
 import { UsersRepository } from "../repositories/usersRepository";
 import jwt from "jsonwebtoken";
+import { UpdateValidation } from "../enums/updateValidationEnum";
 
 class UsersServices {
   private usersRepository: UsersRepository;
@@ -54,49 +55,39 @@ class UsersServices {
   ) {
     const userToUpdate = await this.usersRepository.findById(id);
 
-    if (!userToUpdate) {
-      throw new Error("User not found");
-    }
+    const validationType = await this.getUpdateValidationType(userToUpdate, {
+      name,
+      email,
+      oldPassword,
+      newPassword,
+    });
 
-    if (
-      (oldPassword !== undefined && newPassword === undefined) ||
-      newPassword == ""
-    ) {
-      throw new Error("Problem updating password");
-    }
+    switch (validationType) {
+      case UpdateValidation.USER_NOT_FOUND:
+        throw new Error("User not found");
 
-    if (
-      (newPassword !== undefined && oldPassword === undefined) ||
-      oldPassword == ""
-    ) {
-      throw new Error("Problem updating password");
-    }
+      case UpdateValidation.MISSING_NEW_PASSWORD:
+      case UpdateValidation.MISSING_OLD_PASSWORD:
+        throw new Error("Problem updating password");
 
-    if (oldPassword && newPassword) {
-      const passwordMatch = await bcrypt.compare(
-        oldPassword,
-        userToUpdate.password
-      );
-
-      if (!passwordMatch) {
+      case UpdateValidation.INVALID_PASSWORD:
         throw new Error("Invalid password");
-      }
 
-      const hashPassword = await bcrypt.hash(newPassword, 10);
-      await this.usersRepository.updatePassword(hashPassword, id);
+      case UpdateValidation.EMPTY_NAME:
+        throw new Error("Name cannot be empty");
+
+      case UpdateValidation.INVALID_EMAIL:
+        throw new Error("Invalid email");
+
+      case UpdateValidation.VALID:
+        if (oldPassword && newPassword) {
+          const hashPassword = await bcrypt.hash(newPassword, 10);
+          await this.usersRepository.updatePassword(hashPassword, id);
+        }
+
+        const updatedUser = await this.usersRepository.update(id, name, email);
+        return updatedUser;
     }
-
-    if (name !== undefined && name.trim() === "") {
-      throw new Error("Name cannot be empty");
-    }
-
-    if (email !== undefined && !this.isValidEmail(email)) {
-      throw new Error("Invalid email");
-    }
-
-    const updatedUser = await this.usersRepository.update(id, name, email);
-
-    return updatedUser;
   }
 
   async delete(id: string): Promise<void> {
@@ -112,6 +103,46 @@ class UsersServices {
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  private async getUpdateValidationType(
+    userToUpdate: User | null,
+    { name, email, oldPassword, newPassword }: UserUpdate
+  ): Promise<UpdateValidation> {
+    if (!userToUpdate) {
+      return UpdateValidation.USER_NOT_FOUND;
+    }
+
+    const isUpdatingPassword =
+      oldPassword !== undefined || newPassword !== undefined;
+    const isOldPasswordMissing =
+      oldPassword === undefined || oldPassword === "";
+    const isNewPasswordMissing =
+      newPassword === undefined || newPassword === "";
+
+    if (isUpdatingPassword && (isOldPasswordMissing || isNewPasswordMissing)) {
+      return UpdateValidation.MISSING_NEW_PASSWORD;
+    }
+
+    if (isUpdatingPassword && !isOldPasswordMissing && !isNewPasswordMissing) {
+      const passwordMatch = await bcrypt.compare(
+        oldPassword,
+        userToUpdate.password
+      );
+      if (!passwordMatch) {
+        return UpdateValidation.INVALID_PASSWORD;
+      }
+    }
+
+    if (name !== undefined && name.trim() === "") {
+      return UpdateValidation.EMPTY_NAME;
+    }
+
+    if (email !== undefined && !this.isValidEmail(email)) {
+      return UpdateValidation.INVALID_EMAIL;
+    }
+
+    return UpdateValidation.VALID;
   }
 }
 
