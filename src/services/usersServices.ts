@@ -12,10 +12,22 @@ class UsersServices {
   }
 
   async create({ name, email, password }: User) {
-    const findUser = await this.usersRepository.findByEmail(email);
+    if (!name || !email || !password) {
+      throw new Error("Name, email, and password");
+    }
 
-    if (findUser) {
+    if (!this.isValidEmail(email)) {
+      throw new Error("Invalid email");
+    }
+
+    if (await this.usersRepository.findByEmail(email)) {
       throw new Error("User with this email already exists");
+    }
+
+    if (!this.isValidPassword(password)) {
+      throw new Error(
+        "Invalid password. Minimum 8 characters with 1 uppercase letter, 1 lowercase letter and 1 special character"
+      );
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -30,6 +42,9 @@ class UsersServices {
   }
 
   async login(email: string, password: string) {
+    if (!this.isValidEmail(email) || !this.isValidPassword(password)) {
+      throw new Error("Invalid email or password");
+    }
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
       throw new Error("User not found");
@@ -39,7 +54,7 @@ class UsersServices {
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      throw new Error("Invalid password");
+      throw new Error("Invalid email or password");
     }
 
     const token = jwt.sign({ id: user.id }, process.env.ACCESS_KEY_TOKEN!, {
@@ -103,6 +118,11 @@ class UsersServices {
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  }
+
+  private isValidPassword(password: string): boolean {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+    return passwordRegex.test(password);
   }
 
   private async getUpdateValidationType(

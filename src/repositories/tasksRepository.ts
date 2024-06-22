@@ -3,10 +3,6 @@ import { Task } from "../models/taskModel";
 
 class TasksRepository {
   async create({ title, description, completed = false, userId }: Task) {
-    if (!title || !description || !userId) {
-      throw new Error("Title, description, and userId are required");
-    }
-
     const result = await prisma.task.create({
       data: {
         title,
@@ -41,10 +37,6 @@ class TasksRepository {
   }
 
   async findByUserId(userId: string) {
-    if (!userId) {
-      throw new Error("UserId is required");
-    }
-
     const result = await prisma.task.findMany({
       where: {
         userId,
@@ -55,10 +47,6 @@ class TasksRepository {
   }
 
   async update(taskId: string, data: Partial<Task>) {
-    if (!taskId) {
-      throw new Error("TaskId is required");
-    }
-
     const result = await prisma.task.update({
       where: {
         id: taskId,
@@ -72,10 +60,6 @@ class TasksRepository {
   }
 
   async delete(id: string) {
-    if (!id) {
-      throw new Error("TaskId is required");
-    }
-
     const result = await prisma.task.delete({
       where: {
         id,
@@ -85,10 +69,6 @@ class TasksRepository {
   }
 
   async findByTitleAndUserId(title: string, userId: string) {
-    if (!title || !userId) {
-      throw new Error("Title and userId are required");
-    }
-
     const result = await prisma.task.findFirst({
       where: {
         title,
@@ -99,10 +79,6 @@ class TasksRepository {
   }
 
   async findById(id: string) {
-    if (!id) {
-      throw new Error("TaskId is required");
-    }
-
     return prisma.task.findUnique({
       where: { id },
       include: { user: true },
