@@ -8,9 +8,14 @@ class TasksServices {
     this.tasksRepository = new TasksRepository();
   }
 
-  async create({ title, description, completed, userId }: Partial<Task>) {
-    if (!title || !userId) {
-      throw new Error("Title and userId are required.");
+  async create({
+    title,
+    description,
+    completed = false,
+    userId,
+  }: Partial<Task>) {
+    if (!title || !description || !userId) {
+      throw new Error("Title, description, and userId are required");
     }
 
     const existingTask = await this.tasksRepository.findByTitleAndUserId(
@@ -55,7 +60,6 @@ class TasksServices {
 
     const updatedTask = await this.tasksRepository.update(taskId, data);
     const { userId, user } = updatedTask;
-    const { name } = user;
     return {
       id: updatedTask.id,
       title: updatedTask.title,
@@ -63,7 +67,7 @@ class TasksServices {
       completed: updatedTask.completed,
       user: {
         id: userId,
-        name,
+        name: user.name,
       },
     };
   }

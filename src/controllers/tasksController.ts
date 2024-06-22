@@ -6,10 +6,6 @@ class TasksController {
 
   constructor() {
     this.tasksServices = new TasksServices();
-    this.create = this.create.bind(this);
-    this.findByUserId = this.findByUserId.bind(this);
-    this.update = this.update.bind(this);
-    this.delete = this.delete.bind(this);
   }
 
   async create(request: Request, response: Response, next: NextFunction) {

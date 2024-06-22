@@ -49,22 +49,9 @@ class TasksRepository {
       where: {
         userId,
       },
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
     });
 
-    return result.map((task: Task) => ({
-      title: task.title,
-      description: task.description,
-      completed: task.completed,
-      userId: {},
-    }));
+    return result;
   }
 
   async update(taskId: string, data: Partial<Task>) {
