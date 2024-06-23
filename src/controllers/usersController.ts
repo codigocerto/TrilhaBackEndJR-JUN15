@@ -17,9 +17,13 @@ class UsersController {
     const { name, email, password } = request.body;
 
     try {
-      const result = await this.usersServices.create({ name, email, password });
+      const newUser = await this.usersServices.create({
+        name,
+        email,
+        password,
+      });
 
-      const { password: omitPassword, ...userWithoutPassword } = result;
+      const { password: omitPassword, ...userWithoutPassword } = newUser;
 
       return response.status(201).json(userWithoutPassword);
     } catch (error) {
@@ -31,32 +35,31 @@ class UsersController {
     const { email, password } = request.body;
 
     try {
-      const token = await this.usersServices.login(email, password);
-      return response.status(200).json({ token });
+      const { token, userId } = await this.usersServices.login(email, password);
+      return response.status(200).json({ token, userId });
     } catch (error) {
       next(error);
     }
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const { id } = request.params;
     const { name, email, oldPassword, newPassword } =
       request.body as UserUpdate;
-
     try {
-      const updatedUser = await this.usersServices.update(id, {
-        name,
-        email,
-        oldPassword,
-        newPassword,
-      });
-
-      if (!updatedUser) {
-        return response.status(404).json({ message: "User not found" });
-      }
+      const authenticatedUserId = request.id;
+      const { id } = request.params;
+      const updatedUser = await this.usersServices.update(
+        authenticatedUserId!,
+        id,
+        {
+          name,
+          email,
+          oldPassword,
+          newPassword,
+        }
+      );
 
       const { password: omitPassword, ...userWithoutPassword } = updatedUser;
-
       return response.status(200).json(userWithoutPassword);
     } catch (error) {
       next(error);
@@ -64,10 +67,11 @@ class UsersController {
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
+    const authenticatedUserId = request.id;
     const { id } = request.params;
 
     try {
-      await this.usersServices.delete(id);
+      await this.usersServices.delete(authenticatedUserId!, id);
       return response.status(204).send();
     } catch (error) {
       next(error);

@@ -12,7 +12,7 @@ class UsersServices {
 
   async create({ name, email, password }: User) {
     if (!name || !email || !password) {
-      throw new Error("Name, email, and password");
+      throw new Error("Name, email, and password are required");
     }
 
     if (!this.isValidEmail(email)) {
@@ -46,7 +46,7 @@ class UsersServices {
     }
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error("Invalid email or password");
     }
 
     const userId = user.id;
@@ -64,9 +64,14 @@ class UsersServices {
   }
 
   async update(
+    authenticatedUserId: string,
     id: string,
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
+    if (authenticatedUserId !== id) {
+      throw new Error("Unauthorized");
+    }
+
     const userToUpdate = await this.usersRepository.findById(id);
 
     if (!userToUpdate) {
@@ -111,7 +116,11 @@ class UsersServices {
     return updatedUser;
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(authenticatedUserId: string, id: string): Promise<void> {
+    if (authenticatedUserId !== id) {
+      throw new Error("Unauthorized");
+    }
+
     const userToDelete = await this.usersRepository.findById(id);
 
     if (!userToDelete) {

@@ -1,8 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
+export interface AuthenticatedRequest extends Request {
+  userId?: string;
+}
+
 class AuthMiddleware {
-  auth(request: Request, response: Response, next: NextFunction) {
+  auth(request: AuthenticatedRequest, response: Response, next: NextFunction) {
     const token = request.headers.authorization?.replace("Bearer ", "");
 
     if (!token) {
