@@ -2,6 +2,11 @@ import * as bcrypt from "bcrypt";
 import { User, UserUpdate } from "../models/userModel";
 import { UsersRepository } from "../repositories/usersRepository";
 import jwt from "jsonwebtoken";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/errors";
 
 class UsersServices {
   private usersRepository: UsersRepository;
@@ -12,19 +17,19 @@ class UsersServices {
 
   async create({ name, email, password }: User) {
     if (!name || !email || !password) {
-      throw new Error("Name, email, and password are required");
+      throw new BadRequestError("Name, email, and password are required");
     }
 
     if (!this.isValidEmail(email)) {
-      throw new Error("Invalid email");
+      throw new BadRequestError("Invalid email");
     }
 
     if (await this.usersRepository.findByEmail(email)) {
-      throw new Error("User with this email already exists");
+      throw new BadRequestError("User with this email already exists");
     }
 
     if (!this.isValidPassword(password)) {
-      throw new Error(
+      throw new BadRequestError(
         "Invalid password. Minimum 8 characters with 1 uppercase letter, 1 lowercase letter and 1 special character"
       );
     }
@@ -42,18 +47,18 @@ class UsersServices {
 
   async login(email: string, password: string) {
     if (!this.isValidEmail(email) || !this.isValidPassword(password)) {
-      throw new Error("Invalid email or password");
+      throw new BadRequestError("Invalid email or password");
     }
     const user = await this.usersRepository.findByEmail(email);
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new UnauthorizedError("Invalid email or password");
     }
 
     const userId = user.id;
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      throw new Error("Invalid email or password");
+      throw new UnauthorizedError("Invalid email or password");
     }
 
     const token = jwt.sign({ id: user.id }, process.env.ACCESS_KEY_TOKEN!, {
@@ -69,21 +74,21 @@ class UsersServices {
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
     if (authenticatedUserId !== id) {
-      throw new Error("Unauthorized");
+      throw new UnauthorizedError("Unauthorized");
     }
 
     const userToUpdate = await this.usersRepository.findById(id);
 
     if (!userToUpdate) {
-      throw new Error("User not found");
+      throw new NotFoundError("User not found");
     }
 
     if (email && !this.isValidEmail(email)) {
-      throw new Error("Invalid email");
+      throw new BadRequestError("Invalid email");
     }
 
     if (name === undefined || name === "") {
-      throw new Error("Name cannot be empty");
+      throw new BadRequestError("Name cannot be empty");
     }
 
     const isUpdatingPassword =
@@ -91,19 +96,23 @@ class UsersServices {
 
     if (isUpdatingPassword) {
       if (oldPassword === undefined || oldPassword === "") {
-        throw new Error("Old password is required to update password");
+        throw new BadRequestError(
+          "Old password is required to update password"
+        );
       }
 
       if (newPassword === undefined || newPassword === "") {
-        throw new Error("New password is required to update password");
+        throw new BadRequestError(
+          "New password is required to update password"
+        );
       }
 
       if (!(await bcrypt.compare(oldPassword, userToUpdate.password))) {
-        throw new Error("Invalid password");
+        throw new UnauthorizedError("Invalid password");
       }
 
       if (!this.isValidPassword(newPassword)) {
-        throw new Error(
+        throw new BadRequestError(
           "Invalid new password. Minimum 8 characters with 1 uppercase letter, 1 lowercase letter and 1 special character"
         );
       }
@@ -118,13 +127,13 @@ class UsersServices {
 
   async delete(authenticatedUserId: string, id: string): Promise<void> {
     if (authenticatedUserId !== id) {
-      throw new Error("Unauthorized");
+      throw new BadRequestError("Unauthorized");
     }
 
     const userToDelete = await this.usersRepository.findById(id);
 
     if (!userToDelete) {
-      throw new Error("User not found");
+      throw new NotFoundError("User not found");
     }
 
     await this.usersRepository.delete(id);

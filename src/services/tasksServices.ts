@@ -1,5 +1,6 @@
 import { Task } from "../models/taskModel";
 import { TasksRepository } from "../repositories/tasksRepository";
+import { BadRequestError, NotFoundError } from "../utils/errors";
 
 class TasksServices {
   private tasksRepository: TasksRepository;
@@ -15,7 +16,7 @@ class TasksServices {
     userId,
   }: Partial<Task>) {
     if (!title || !description || !userId) {
-      throw new Error("Title, description, and userId are required");
+      throw new BadRequestError("Title, description, and userId are required");
     }
 
     const existingTask = await this.tasksRepository.findByTitleAndUserId(
@@ -23,7 +24,9 @@ class TasksServices {
       userId
     );
     if (existingTask) {
-      throw new Error("Task with the same title already exists for this user.");
+      throw new BadRequestError(
+        "Task with the same title already exists for this user."
+      );
     }
 
     const createTask = await this.tasksRepository.create({
@@ -37,7 +40,7 @@ class TasksServices {
 
   async findByUserId(userId: string) {
     if (!userId) {
-      throw new Error("UserId is required.");
+      throw new BadRequestError("UserId is required.");
     }
 
     const tasks = await this.tasksRepository.findByUserId(userId);
@@ -46,16 +49,16 @@ class TasksServices {
 
   async update(taskId: string, data: Partial<Task>) {
     if (!taskId) {
-      throw new Error("TaskId is required.");
+      throw new BadRequestError("TaskId is required.");
     }
 
     const existingTask = await this.tasksRepository.findById(taskId);
     if (!existingTask) {
-      throw new Error("Task not found");
+      throw new NotFoundError("Task not found");
     }
 
     if (data.title !== undefined && data.title.trim() === "") {
-      throw new Error("Title cannot be empty.");
+      throw new BadRequestError("Title cannot be empty.");
     }
 
     const updatedTask = await this.tasksRepository.update(taskId, data);
@@ -74,12 +77,12 @@ class TasksServices {
 
   async delete(id: string) {
     if (!id) {
-      throw new Error("TaskId is required.");
+      throw new BadRequestError("TaskId is required.");
     }
 
     const existingTask = await this.tasksRepository.findById(id);
     if (!existingTask) {
-      throw new Error("Task not found");
+      throw new NotFoundError("Task not found");
     }
 
     await this.tasksRepository.delete(id);
@@ -87,7 +90,7 @@ class TasksServices {
 
   async findById(id: string) {
     if (!id) {
-      throw new Error("TaskId is required.");
+      throw new BadRequestError("TaskId is required.");
     }
 
     const task = await this.tasksRepository.findById(id);

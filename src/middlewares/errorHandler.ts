@@ -1,32 +1,25 @@
 import { NextFunction, Request, Response } from "express";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/errors";
 
-function errorHandler(
+const errorHandler = (
   error: Error,
   request: Request,
   response: Response,
   next: NextFunction
-) {
-  console.error("Error:", error.message);
-
-  let statusCode = 500;
-  if (error instanceof Error) {
-    switch (error.message) {
-      case "User exists":
-        statusCode = 400;
-        break;
-      case "User not found":
-        statusCode = 404;
-        break;
-      case "Password invalid.":
-        statusCode = 401;
-        break;
-      default:
-        statusCode = 500;
-        break;
-    }
+) => {
+  if (
+    error instanceof BadRequestError ||
+    error instanceof UnauthorizedError ||
+    error instanceof NotFoundError
+  ) {
+    return response.status(error.statusCode).json({ error: error.message });
   }
 
-  return response.status(statusCode).json({ error: error.message });
-}
+  return response.status(500).json({ error: "Internal Server Error" });
+};
 
 export { errorHandler };
