@@ -1,6 +1,10 @@
 import { Task } from "../models/taskModel";
 import { TasksRepository } from "../repositories/tasksRepository";
-import { BadRequestError, NotFoundError } from "../utils/errors";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../utils/errors";
 
 class TasksServices {
   private tasksRepository: TasksRepository;
@@ -14,9 +18,16 @@ class TasksServices {
     description,
     completed = false,
     userId,
-  }: Partial<Task>) {
+    authenticatedUserId,
+  }: Partial<Task> & { authenticatedUserId: string }) {
     if (!title || !description || !userId) {
       throw new BadRequestError("Title, description, and userId are required");
+    }
+
+    if (userId !== authenticatedUserId) {
+      throw new UnauthorizedError(
+        "You can only create tasks for your own account"
+      );
     }
 
     const existingTask = await this.tasksRepository.findByTitleAndUserId(
@@ -25,7 +36,7 @@ class TasksServices {
     );
     if (existingTask) {
       throw new BadRequestError(
-        "Task with the same title already exists for this user."
+        "Task with the same title already exists for this user"
       );
     }
 
@@ -38,18 +49,26 @@ class TasksServices {
     return createTask;
   }
 
-  async findByUserId(userId: string) {
+  async findByUserId(authenticatedUserId: string, userId: string) {
     if (!userId) {
-      throw new BadRequestError("UserId is required.");
+      throw new BadRequestError("UserId is required");
+    }
+
+    if (authenticatedUserId !== userId) {
+      throw new UnauthorizedError("You are not authorized to view these tasks");
     }
 
     const tasks = await this.tasksRepository.findByUserId(userId);
     return tasks;
   }
 
-  async update(taskId: string, data: Partial<Task>) {
+  async update(
+    authenticatedUserId: string,
+    taskId: string,
+    data: Partial<Task>
+  ) {
     if (!taskId) {
-      throw new BadRequestError("TaskId is required.");
+      throw new BadRequestError("TaskId is required");
     }
 
     const existingTask = await this.tasksRepository.findById(taskId);
@@ -57,8 +76,12 @@ class TasksServices {
       throw new NotFoundError("Task not found");
     }
 
+    if (existingTask.userId !== authenticatedUserId) {
+      throw new UnauthorizedError("You are not authorized to update this task");
+    }
+
     if (data.title !== undefined && data.title.trim() === "") {
-      throw new BadRequestError("Title cannot be empty.");
+      throw new BadRequestError("Title cannot be empty");
     }
 
     const updatedTask = await this.tasksRepository.update(taskId, data);
@@ -75,9 +98,9 @@ class TasksServices {
     };
   }
 
-  async delete(id: string) {
+  async delete(authenticatedUserId: string, id: string) {
     if (!id) {
-      throw new BadRequestError("TaskId is required.");
+      throw new BadRequestError("TaskId is required");
     }
 
     const existingTask = await this.tasksRepository.findById(id);
@@ -85,15 +108,27 @@ class TasksServices {
       throw new NotFoundError("Task not found");
     }
 
+    if (existingTask.userId !== authenticatedUserId) {
+      throw new UnauthorizedError("You are not authorized to delete this task");
+    }
+
     await this.tasksRepository.delete(id);
   }
 
-  async findById(id: string) {
+  async findById(authenticatedUserId: string, id: string) {
     if (!id) {
-      throw new BadRequestError("TaskId is required.");
+      throw new BadRequestError("TaskId is required");
     }
 
     const task = await this.tasksRepository.findById(id);
+    if (!task) {
+      throw new NotFoundError("Task not found");
+    }
+
+    if (task.userId !== authenticatedUserId) {
+      throw new UnauthorizedError("You are not authorized to view this task");
+    }
+
     return task;
   }
 }

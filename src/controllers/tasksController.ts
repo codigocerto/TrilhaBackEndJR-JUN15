@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { TasksServices } from "../services/tasksServices";
+import { BadRequestError } from "../utils/errors";
 
 class TasksController {
   private tasksServices: TasksServices;
@@ -12,14 +13,35 @@ class TasksController {
     const { title, description, completed } = request.body;
     const userId = request.id;
 
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
+
     try {
-      const result = await this.tasksServices.create({
+      const newTask = await this.tasksServices.create({
         title,
         description,
         completed,
         userId,
+        authenticatedUserId: userId,
       });
-      return response.status(201).json(result);
+      return response.status(201).json(newTask);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async findById(request: Request, response: Response, next: NextFunction) {
+    const userId = request.id;
+    const { taskId } = request.params;
+
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
+
+    try {
+      const task = await this.tasksServices.findById(userId, taskId);
+      return response.status(200).json(task);
     } catch (error) {
       next(error);
     }
@@ -28,52 +50,50 @@ class TasksController {
   async findByUserId(request: Request, response: Response, next: NextFunction) {
     const userId = request.id;
 
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
+
     try {
-      const result = await this.tasksServices.findByUserId(userId!);
-      return response.status(200).json(result);
+      const tasks = await this.tasksServices.findByUserId(userId, userId);
+      return response.status(200).json(tasks);
     } catch (error) {
       next(error);
     }
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
-    const { id } = request.params;
     const { title, description, completed } = request.body;
     const userId = request.id;
+    const { taskId } = request.params;
+
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
 
     try {
-      const existingTask = await this.tasksServices.findById(id);
-      if (!existingTask || existingTask.userId !== userId) {
-        return response
-          .status(404)
-          .json({ error: "Task not found or unauthorized" });
-      }
-
-      const result = await this.tasksServices.update(id, {
+      const updatedTask = await this.tasksServices.update(userId, taskId, {
         title,
         description,
         completed,
       });
 
-      return response.status(200).json(result);
+      return response.status(200).json(updatedTask);
     } catch (error) {
       next(error);
     }
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
-    const { id } = request.params;
     const userId = request.id;
+    const { taskId } = request.params;
+
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
 
     try {
-      const existingTask = await this.tasksServices.findById(id);
-      if (!existingTask || existingTask.userId !== userId) {
-        return response
-          .status(404)
-          .json({ error: "Task not found or unauthorized" });
-      }
-
-      await this.tasksServices.delete(id);
+      await this.tasksServices.delete(userId, taskId);
       return response.status(204).send();
     } catch (error) {
       next(error);

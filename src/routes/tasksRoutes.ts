@@ -8,11 +8,8 @@ export const tasksRoutes = (router: Router) => {
   const tasksController = new TasksController();
 
   router.post("/tasks", authMiddleware.auth, tasksController.create);
-  router.get(
-    "/tasks/user/:userId",
-    authMiddleware.auth,
-    tasksController.findByUserId
-  );
-  router.put("/tasks/:id", authMiddleware.auth, tasksController.update);
-  router.delete("/tasks/:id", authMiddleware.auth, tasksController.delete);
+  router.get("/tasks", authMiddleware.auth, tasksController.findByUserId);
+  router.put("/tasks/:taskId", authMiddleware.auth, tasksController.update);
+  router.delete("/tasks/:taskId", authMiddleware.auth, tasksController.delete);
+  router.get("/tasks/:taskId", authMiddleware.auth, tasksController.findById);
 };
