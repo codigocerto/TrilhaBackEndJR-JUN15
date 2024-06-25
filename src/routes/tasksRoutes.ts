@@ -10,7 +10,7 @@ export const tasksRoutes = (router: Router) => {
   router.post("/tasks", authMiddleware.auth, (req, res, next) =>
     tasksController.create(req, res, next)
   );
-  router.get("/task/:taskId", authMiddleware.auth, (req, res, next) =>
+  router.get("/tasks/:taskId", authMiddleware.auth, (req, res, next) =>
     tasksController.findById(req, res, next)
   );
   router.get("/tasks/:userId", authMiddleware.auth, (req, res, next) =>

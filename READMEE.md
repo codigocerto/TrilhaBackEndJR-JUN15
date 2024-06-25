@@ -2,7 +2,7 @@
 [TYPESCRIPT__BADGE]: https://img.shields.io/badge/typescript-D4FAFF?style=for-the-badge&logo=typescript
 [EXPRESS__BADGE]: https://img.shields.io/badge/express-005CFE?style=for-the-badge&logo=express
 
-<h1 align="center" style="font-weight: bold;">CandyCost 💻</h1>
+<h1 align="center" style="font-weight: bold;">Trilha Inicial BackEnd Jr 💻</h1>
 
 ![nodejs][NODEJS__BADGE]
 ![typescript][TYPESCRIPT__BADGE]
@@ -53,7 +53,7 @@ ACCESS_KEY_TOKEN="create_a_secret_key_for_the_jsonwebtoken"
 How to install the dependencies of this project.
 
 ```bash
-cd candycosts
+cd TrilhaBackEndJR-JUN15-main
 npm install
 ```
 
@@ -69,120 +69,91 @@ The api will start on port 3000.
 
 <h2 id="routes">📍 API Endpoints</h2>
 
-This api covers two route branches: `/ingredients` and `/products`
+This api covers two route branches: `/users` and `/tasks`
 
-<h3 id="ingredients_routes">Ingredients Routes</h3>
+<h3 id="users_routes">Users Routes</h3>
 
 ​
-| route | description  
+| routes | description  
 |----------------------|-----------------------------------------------------
-| <kbd>POST /ingredients</kbd> | register an ingredient in the database [post details](#post-ingredient)
-| <kbd>GET /ingredients</kbd> | list registered ingredients [response details](#get-ingredients)
-| <kbd>GET /ingredients/:id</kbd> | returns the ingredient by id [response details](#get-ingredient-id)
-| <kbd>PATCH /ingredients/:id</kbd> | update the ingredient by id [patch details](#patch-ingredient)
-| <kbd>DELETE /ingredients/:id</kbd> | delete the ingredient by id [response details](#delete-ingredient)
+| <kbd>POST /users</kbd> | register an user in the database [post details](#post-user)
+| <kbd>POST /users/login</kbd> | log a user into the api [response details](#post-login)
+| <kbd>PUT /users/:id</kbd> | update user by id [response details](#put-user)
+| <kbd>DELETE /users/:id</kbd> | delete the user by id [response details](#delete-user)
 
-<h3 id="post-ingredient">POST /ingredients</h3>
+<h3 id="post-user">POST /users</h3>
+
+All fields are mandatory and the password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter and 1 special character.
+
+**REQUEST**
+
+```json
+{
+  "name": "Sicrano",
+  "email": "sicrano@email.com",
+  "password": "Sicrano1#"
+}
+```
+
+**RESPONSE (201 Created)**
+
+```json
+{
+  "id": "a6d0ccee-cfdb-4270-9df6-b0221811c81a",
+  "name": "Sicrano",
+  "email": "sicrano@email.com"
+}
+```
+
+If there is already an user registered with the same email, the API will return the error:
+
+**RESPONSE (400 Bad Request)**
+
+```json
+{
+  "error": "User with this email already exists"
+}
+```
+
+<h3 id="post-login">POST /users/login</h3>
 
 **REQUEST**
 
 ```json
 {
-  "name": "Cocoa Powder",
-  "manufacturer": "Now Foods",
-  "price": "10",
-  "unit": "Kg"
+  "email": "sicrano@email.com",
+  "password": "Sicrano1#"
 }
 ```
 
-**RESPONSE**
+**RESPONSE (200 Ok)**
 
 ```json
 {
-  "message": "Ingredient registered successfully."
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2ZDBjY2VlLWNmZGItNDI3MC05ZGY2LWIwMjIxODExYzgxYSIsImlhdCI6MTcxOTM0NjExNCwiZXhwIjoxNzE5MzQ5NzE0fQ.3B-AaWD7hEwv61yNbrFiZH6bleqQB51ubuD3xES6Mp8",
+  "userId": "a6d0ccee-cfdb-4270-9df6-b0221811c81a"
 }
 ```
 
-If there is already an ingredient registered with the same name and the same manufacturer in the database, the API will return the error:
+If the email or password is incorrect, the API will return the error:
+
+**RESPONSE (400 Bad Request)**
 
 ```json
 {
-  "status": 400,
-  "message": "There is already a similar ingredient registered."
+  "error": "Invalid email or password"
 }
 ```
 
-<h3 id="get-ingredients">GET /ingredients</h3>
+<h3 id="put-user">PUT /users/a6d0ccee-cfdb-4270-9df6-b0221811c81a</h3>
 
-**RESPONSE**
-
-```json
-[
-  {
-    "_id": "663fe21776042a97733486c7",
-    "name": "Cocoa Powder",
-    "manufacturer": "Now Foods",
-    "price": 10,
-    "unit": "Kg",
-    "createdAt": "2024-05-11T21:24:39.889Z",
-    "__v": 0
-  },
-  {
-    "_id": "663fe25b76042a97733486cb",
-    "name": "Wheat flour",
-    "manufacturer": "Best Flour",
-    "price": 5,
-    "unit": "Kg",
-    "createdAt": "2024-05-11T21:25:47.044Z",
-    "__v": 0
-  },
-  {
-    "_id": "663fe29f76042a97733486cf",
-    "name": "Sugar",
-    "manufacturer": "Sweetness",
-    "price": 3.99,
-    "unit": "Kg",
-    "createdAt": "2024-05-11T21:26:55.801Z",
-    "__v": 0
-  }
-]
-```
-
-<h3 id="get-ingredient-id">GET /ingredients/663fe25b76042a97733486cb</h3>
-
-**RESPONSE**
-
-```json
-{
-  "_id": "663fe25b76042a97733486cb",
-  "name": "Wheat flour",
-  "manufacturer": "Best Flour",
-  "price": 5.1,
-  "unit": "Kg",
-  "createdAt": "2024-05-11T21:25:47.044Z",
-  "__v": 0
-}
-```
-
-If the ingredient with the specified ID is not found, the API will return the error:
-
-```json
-{
-  "status": 404,
-  "message": "Ingredient not found."
-}
-```
-
-<h3 id="patch-ingredient">PATCH /ingredients/663fe25b76042a97733486cb</h3>
+You can update the following data for a user: name, email or password. It is possible to update just one piece of data at a time or all of a user's data. To update your password, you must submit your old and new password. The new password must also have at least 8 characters, including 1 uppercase letter, 1 lowercase letter and 1 special character.
 
 **REQUEST**
 
-You can update the following data in an ingredient: `name`, `manufacturer`, `price` and `unit`.
-It's possible to update just one piece of data at a time or all of the data for an ingredient.
-
 ```json
 {
-  "price": 6
+  "name": "Sicrano Atualizado"
 }
 ```
 
@@ -190,43 +161,96 @@ Or
 
 ```json
 {
-  "unit": "lbs"
+  "email": "sicrano.atualizado@email.com"
 }
 ```
 
-**RESPONSE**
+Or
 
 ```json
 {
-  "message": "Ingredient updated successfully."
+  "oldPassword": "Sicrano1#",
+  "newPassword": "Sicrano2#"
 }
 ```
 
-If the name and manufacturer are updated and there is already a similar one in the database, the API will return the error:
+**RESPONSE (200 Ok)**
 
 ```json
 {
-  "status": 400,
-  "message": "There is already a similar ingredient registered."
+  "id": "a6d0ccee-cfdb-4270-9df6-b0221811c81a",
+  "name": "Sicrano Atualizado",
+  "email": "sicrano.atualizado@email.com"
 }
 ```
 
-<h3 id="delete-ingredient">DELETE /ingredients/663fe25b76042a97733486cb</h3>
+If the user is not found in the database, the API will return the error:
 
-**RESPONSE**
+**RESPONSE (404 Not Found)**
 
 ```json
 {
-  "message": "Ingredient deleted successfully."
+  "error": "User not found"
 }
 ```
 
-If the ingredient with the specified ID is not found, the API will return the error:
+If the user is not logged in, the API will return the error:
+
+**RESPONSE (401 Unauthorized)**
 
 ```json
 {
-  "status": 404,
-  "message": "Ingredient not found."
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If the user tries to update another user, the API will return the error:
+
+**RESPONSE (401 Unauthorized)**
+
+```json
+{
+  "error": "Unauthorized"
+}
+```
+
+<h3 id="delete-user">DELETE /users/a6d0ccee-cfdb-4270-9df6-b0221811c81a</h3>
+
+**RESPONSE (204 No Content)**
+
+```json
+
+  No body returned for response
+
+```
+
+If the user is not found in the database, the API will return the error:
+
+**RESPONSE (404 Not Found)**
+
+```json
+{
+  "error": "User not found"
+}
+```
+
+If the user is not logged in, the API will return the error:
+
+**RESPONSE (401 Unauthorized)**
+
+```json
+{
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If the user tries to delete another user, the API will return the error:
+
+**RESPONSE (401 Unauthorized)**
+
+```json
+{
+  "error": "Unauthorized"
 }
 ```
 
