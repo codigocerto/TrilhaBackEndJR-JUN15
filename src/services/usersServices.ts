@@ -73,14 +73,14 @@ class UsersServices {
     id: string,
     { name, email, oldPassword, newPassword }: UserUpdate
   ) {
-    if (authenticatedUserId !== id) {
-      throw new UnauthorizedError("Unauthorized");
-    }
-
     const userToUpdate = await this.usersRepository.findById(id);
 
     if (!userToUpdate) {
       throw new NotFoundError("User not found");
+    }
+
+    if (authenticatedUserId !== id) {
+      throw new UnauthorizedError("Unauthorized");
     }
 
     if (email && !this.isValidEmail(email)) {
@@ -126,14 +126,14 @@ class UsersServices {
   }
 
   async delete(authenticatedUserId: string, id: string): Promise<void> {
-    if (authenticatedUserId !== id) {
-      throw new BadRequestError("Unauthorized");
-    }
-
     const userToDelete = await this.usersRepository.findById(id);
 
     if (!userToDelete) {
       throw new NotFoundError("User not found");
+    }
+
+    if (authenticatedUserId !== id) {
+      throw new BadRequestError("Unauthorized");
     }
 
     await this.usersRepository.delete(id);

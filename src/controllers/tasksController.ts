@@ -10,20 +10,15 @@ class TasksController {
   }
 
   async create(request: Request, response: Response, next: NextFunction) {
-    const { title, description, completed } = request.body;
-    const userId = request.id;
-
-    if (!userId) {
-      return next(new BadRequestError("User ID is required"));
-    }
+    const { title, description, completed, userId } = request.body;
 
     try {
-      const newTask = await this.tasksServices.create({
+      const authenticatedUserId = request.id;
+      const newTask = await this.tasksServices.create(authenticatedUserId!, {
         title,
         description,
         completed,
         userId,
-        authenticatedUserId: userId,
       });
       return response.status(201).json(newTask);
     } catch (error) {
@@ -32,15 +27,14 @@ class TasksController {
   }
 
   async findById(request: Request, response: Response, next: NextFunction) {
-    const userId = request.id;
     const { taskId } = request.params;
 
-    if (!userId) {
+    if (!taskId) {
       return next(new BadRequestError("User ID is required"));
     }
 
     try {
-      const task = await this.tasksServices.findById(userId, taskId);
+      const task = await this.tasksServices.findById(taskId);
       return response.status(200).json(task);
     } catch (error) {
       next(error);
@@ -48,14 +42,11 @@ class TasksController {
   }
 
   async findByUserId(request: Request, response: Response, next: NextFunction) {
-    const userId = request.id;
-
-    if (!userId) {
-      return next(new BadRequestError("User ID is required"));
-    }
+    const taskId = request.id;
+    const { userId } = request.params;
 
     try {
-      const tasks = await this.tasksServices.findByUserId(userId, userId);
+      const tasks = await this.tasksServices.findByUserId(userId, taskId!);
       return response.status(200).json(tasks);
     } catch (error) {
       next(error);
@@ -63,16 +54,12 @@ class TasksController {
   }
 
   async update(request: Request, response: Response, next: NextFunction) {
+    const taskId = request.id;
+    const { userId } = request.params;
     const { title, description, completed } = request.body;
-    const userId = request.id;
-    const { taskId } = request.params;
-
-    if (!userId) {
-      return next(new BadRequestError("User ID is required"));
-    }
 
     try {
-      const updatedTask = await this.tasksServices.update(userId, taskId, {
+      const updatedTask = await this.tasksServices.update(taskId!, userId, {
         title,
         description,
         completed,
@@ -85,15 +72,11 @@ class TasksController {
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
-    const userId = request.id;
     const { taskId } = request.params;
-
-    if (!userId) {
-      return next(new BadRequestError("User ID is required"));
-    }
+    const authenticatedUserId = request.id;
 
     try {
-      await this.tasksServices.delete(userId, taskId);
+      await this.tasksServices.delete(authenticatedUserId!, taskId!);
       return response.status(204).send();
     } catch (error) {
       next(error);

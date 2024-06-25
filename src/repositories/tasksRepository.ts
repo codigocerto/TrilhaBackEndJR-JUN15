@@ -3,7 +3,7 @@ import { Task } from "../models/taskModel";
 
 class TasksRepository {
   async create({ title, description, completed = false, userId }: Task) {
-    const result = await prisma.task.create({
+    const createdTask = await prisma.task.create({
       data: {
         title,
         description,
@@ -19,35 +19,26 @@ class TasksRepository {
         },
       },
     });
-    return {
-      id: result.id,
-      title: result.title,
-      description: result.description,
-      completed: result.completed,
-      user: {
-        id: result.user.id,
-        name: result.user.name,
-      },
-    };
+    return createdTask;
   }
 
-  async findAll() {
-    const result = await prisma.task.findMany({});
-    return result;
+  async findById(taskId: string) {
+    const task = await prisma.task.findUnique({
+      where: { id: taskId },
+    });
+    return task;
   }
 
   async findByUserId(userId: string) {
-    const result = await prisma.task.findMany({
-      where: {
-        userId,
-      },
+    const tasksByUserId = await prisma.task.findMany({
+      where: { userId },
     });
 
-    return result;
+    return tasksByUserId;
   }
 
   async update(taskId: string, data: Partial<Task>) {
-    const result = await prisma.task.update({
+    const updatedTask = await prisma.task.update({
       where: {
         id: taskId,
       },
@@ -56,33 +47,26 @@ class TasksRepository {
         user: true,
       },
     });
-    return result;
+    return updatedTask;
   }
 
-  async delete(id: string) {
-    const result = await prisma.task.delete({
+  async deleteById(taskId: string) {
+    const deletedTask = await prisma.task.delete({
       where: {
-        id,
+        id: taskId,
       },
     });
-    return result;
+    return deletedTask;
   }
 
   async findByTitleAndUserId(title: string, userId: string) {
-    const result = await prisma.task.findFirst({
+    const task = await prisma.task.findFirst({
       where: {
         title,
         userId,
       },
     });
-    return result;
-  }
-
-  async findById(id: string) {
-    return prisma.task.findUnique({
-      where: { id },
-      include: { user: true },
-    });
+    return task;
   }
 }
 

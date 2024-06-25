@@ -7,9 +7,19 @@ const authMiddleware = new AuthMiddleware();
 export const tasksRoutes = (router: Router) => {
   const tasksController = new TasksController();
 
-  router.post("/tasks", authMiddleware.auth, tasksController.create);
-  router.get("/tasks", authMiddleware.auth, tasksController.findByUserId);
-  router.put("/tasks/:taskId", authMiddleware.auth, tasksController.update);
-  router.delete("/tasks/:taskId", authMiddleware.auth, tasksController.delete);
-  router.get("/tasks/:taskId", authMiddleware.auth, tasksController.findById);
+  router.post("/tasks", authMiddleware.auth, (req, res, next) =>
+    tasksController.create(req, res, next)
+  );
+  router.get("/task/:taskId", authMiddleware.auth, (req, res, next) =>
+    tasksController.findById(req, res, next)
+  );
+  router.get("/tasks/:userId", authMiddleware.auth, (req, res, next) =>
+    tasksController.findByUserId(req, res, next)
+  );
+  router.put("/tasks/:userId", authMiddleware.auth, (req, res, next) =>
+    tasksController.update(req, res, next)
+  );
+  router.delete("/tasks/:taskId", authMiddleware.auth, (req, res, next) =>
+    tasksController.delete(req, res, next)
+  );
 };
