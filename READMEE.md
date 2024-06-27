@@ -352,13 +352,23 @@ If a task already exists, registered in the database, with the same title and cr
 }
 ```
 
-If a task already exists, registered in the database, with the same title and created by the same user, the API returns the message:
+If the user is not logged in, the API returns the message:
 
-**RESPONSE: <kbd>400 Bad Request</kbd>**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
-  "error": "Task with the same title already exists for this user"
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If a user tries to create a task on behalf of another user, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "You can only create tasks for your own account"
 }
 ```
 
@@ -407,53 +417,31 @@ If the user tries to list another user's tasks, the API returns the message:
 }
 ```
 
-<h3 id="patch-product">PATCH /products/6643dfb05bdf22de8c852bcc</h3>
+<h3 id="put-task">PUT /tasks/375377e0-1d1a-487d-b89d-f36634c25faa</h3>
+
+You can update the following data in an task: `title`, `description` and `completed`.
+It's possible to update just one piece of data at a time or all of the data for an task.
 
 **REQUEST**
 
-You can update the following data in an product: `name`, `description` and `ingredients`.
-It's possible to update just one piece of data at a time or all of the data for an product.
-
 ```json
 {
-  "name": "Creamy Coconut Cake"
+  "title": "Tarefa de Sicrano Atualizada",
+  "description": "Atualizada por ele mesmo",
+  "completed": true
 }
 ```
 
-Or
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
-  "ingredients": [
-    {
-      "ingredientId": "663fe21776042a97733486c7",
-      "amount": 1.5,
-      "_id": "664b59ffa5f9f4fc1eb21d79"
-    },
-    {
-      "ingredientId": "663fe29f76042a97733486cf",
-      "amount": 2.5,
-      "_id": "664b59ffa5f9f4fc1eb21d7a"
-    },
-    {
-      "ingredientId": "663fe2de76042a97733486d5",
-      "amount": 1,
-      "_id": "664b59ffa5f9f4fc1eb21d7b"
-    },
-    {
-      "ingredientId": "663fe32976042a97733486db",
-      "amount": 0.5,
-      "_id": "664b59ffa5f9f4fc1eb21d7c"
-    }
-  ]
-}
-```
-
-**RESPONSE**
-
-```json
-{
-  "message": "Product updated successfully."
+  "id": "375377e0-1d1a-487d-b89d-f36634c25faa",
+  "title": "Tarefa de Sicrano Atualizada",
+  "description": "Atualizada por ele mesmo",
+  "completed": false,
+  "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
+  "userName": "Sicrano"
 }
 ```
 
