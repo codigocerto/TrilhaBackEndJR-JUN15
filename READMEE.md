@@ -313,9 +313,9 @@ If the user tries to delete another user, the API returns the message:
 | routes | description  
 |----------------------|-----------------------------------------------------
 | <kbd>POST /tasks</kbd> | register an task in the database [post details](#post-task)
-| <kbd>GET /tasks/:taskId</kbd> | returns a task by id [response details](#get-task)
-| <kbd>PUT /tasks/:taskId</kbd> | update a task by id [patch details](#put-task)
-| <kbd>DELETE /tasks/:taskId</kbd> | delete the task by id [response details](#delete-task)
+| <kbd>GET /tasks/:taskId</kbd> | returns a task by id [get details](#get-task)
+| <kbd>PUT /tasks/:taskId</kbd> | update a task by id [put details](#put-task)
+| <kbd>DELETE /tasks/:taskId</kbd> | delete the task by id [delete details](#delete-task)
 
 <h3 id="post-task">POST <kbd>/tasks</kbd></h3>
 
@@ -417,7 +417,7 @@ If the user tries to list another user's tasks, the API returns the message:
 }
 ```
 
-<h3 id="put-task">PUT /tasks/375377e0-1d1a-487d-b89d-f36634c25faa</h3>
+<h3 id="put-task">PUT <kbd>/tasks/375377e0-1d1a-487d-b89d-f36634c25faa</kbd></h3>
 
 You can update the following data in an task: `title`, `description` and `completed`.
 It's possible to update just one piece of data at a time or all of the data for an task.
@@ -432,14 +432,14 @@ It's possible to update just one piece of data at a time or all of the data for 
 }
 ```
 
-**RESPONSE: <kbd>401 Unauthorized</kbd>**
+**RESPONSE: <kbd>200 OK</kbd>**
 
 ```json
 {
   "id": "375377e0-1d1a-487d-b89d-f36634c25faa",
   "title": "Tarefa de Sicrano Atualizada",
   "description": "Atualizada por ele mesmo",
-  "completed": false,
+  "completed": true,
   "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
   "userName": "Sicrano"
 }
@@ -447,29 +447,71 @@ It's possible to update just one piece of data at a time or all of the data for 
 
 If the request is to update a task with the same name and created by the same user, the API returns the message:
 
+**RESPONSE: <kbd>400 Bad Request</kbd>**
+
 ```json
 {
-  "status": 400,
-  "message": "There is already a product registered with that name. His id is: (here it shows the id of the existing product)"
+  "error": "A task with the same title already exists for this user"
 }
 ```
 
-<h3 id="delete-product">DELETE /products/6643dfb05bdf22de8c852bcc</h3>
+If the user is not logged in, the API returns the message:
 
-**RESPONSE**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
-  "message": "Product deleted successfully."
+  "error": "Unauthorized: Invalid token"
 }
 ```
 
-If the product with the specified ID is not found, the API returns the message:
+If the user tries to update another user's tasks, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
-  "status": 404,
-  "message": "Product not found."
+  "error": "You are not authorized to update this task"
+}
+```
+
+<h3 id="delete-task">DELETE <kbd>/tasks/375377e0-1d1a-487d-b89d-f36634c25faa</kbd></h3>
+
+**RESPONSE: <kbd>204 No Content</kbd>**
+
+```json
+
+No body returned for response
+
+```
+
+If the task is not found, the API returns the message:
+
+**RESPONSE: <kbd>404 Not Found</kbd>**
+
+```json
+{
+  "error": "Task not found"
+}
+```
+
+If the user is not logged in, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If the user tries to delete another user's tasks, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "You are not authorized to delete this task"
 }
 ```
 
@@ -508,14 +550,14 @@ Be part of this project and appear here in the hall of fame!
 
 <h2 id="contribute">📫 Contribute</h2>
 
-Thank you for considering contributing to CandyCost! To contribute, please follow these steps:
+Thank you for considering contributing to Trilha Inicial BackEnd Jr! To contribute, please follow these steps:
 
 1. **Fork the repository**: Click on the 'Fork' button at the top right of this page to create a copy of the repository in your GitHub account.
 
 2. **Clone the repository**: Clone your forked repository to your local machine using:
 
    ```bash
-   git clone https://github.com/your-username/candycosts.git
+   git clone https://github.com/your-user-name/TrilhaBackEndJR-JUN15.git
    ```
 
 3. **Create a new branch**: Create a new branch for your feature or bugfix using:
@@ -548,4 +590,4 @@ Thank you for considering contributing to CandyCost! To contribute, please follo
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/emersonbbezerra/candycosts?tab=MIT-1-ov-file#readme) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/emersonbbezerra/TrilhaBackEndJR-JUN15?tab=MIT-1-ov-file#readme) file for details.
