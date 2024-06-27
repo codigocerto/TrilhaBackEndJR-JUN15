@@ -4,6 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
+    "build": "tsc",
     "dev": "tsx watch src/app.ts"
   },
   "keywords": [],
