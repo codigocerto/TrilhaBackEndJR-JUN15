@@ -106,21 +106,25 @@ class TasksServices {
       throw new NotFoundError("Task not found");
     }
 
-    const taskVerify = await this.tasksRepository.findByTitleAndUserId(
-      existingTask.title,
-      existingTask.userId
-    );
-    if (taskVerify) {
-      throw new BadRequestError(
-        "Task with the same title already exists for this user"
-      );
-    }
-
     if (existingTask.userId !== authenticatedUserId) {
       throw new UnauthorizedError("You are not authorized to update this task");
     }
 
+    if (data.title) {
+      const duplicateTask = await this.tasksRepository.findByTitleAndUserId(
+        data.title,
+        authenticatedUserId
+      );
+
+      if (duplicateTask && duplicateTask.id !== taskId) {
+        throw new BadRequestError(
+          "A task with the same title already exists for this user"
+        );
+      }
+    }
+
     const updatedTask = await this.tasksRepository.update(taskId, data);
+
     return {
       id: updatedTask.id,
       title: updatedTask.title,

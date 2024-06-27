@@ -445,7 +445,7 @@ It's possible to update just one piece of data at a time or all of the data for 
 }
 ```
 
-If the request is to update the product name, it cannot be the same as one previously registered. If it already exists in the database, the API returns the message:
+If the request is to update a task with the same name and created by the same user, the API returns the message:
 
 ```json
 {
