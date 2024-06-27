@@ -35,8 +35,11 @@ class UsersController {
     const { email, password } = request.body;
 
     try {
-      const { token, userId } = await this.usersServices.login(email, password);
-      return response.status(200).json({ token, userId });
+      const { token, userId, userName } = await this.usersServices.login(
+        email,
+        password
+      );
+      return response.status(200).json({ token, userId, userName });
     } catch (error) {
       next(error);
     }
@@ -46,7 +49,7 @@ class UsersController {
     const { name, email, oldPassword, newPassword } =
       request.body as UserUpdate;
     try {
-      const authenticatedUserId = request.id;
+      const authenticatedUserId = request.userId;
       const { id } = request.params;
       const updatedUser = await this.usersServices.update(
         authenticatedUserId!,
@@ -67,7 +70,7 @@ class UsersController {
   }
 
   async delete(request: Request, response: Response, next: NextFunction) {
-    const authenticatedUserId = request.id;
+    const authenticatedUserId = request.userId;
     const { id } = request.params;
 
     try {

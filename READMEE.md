@@ -4,15 +4,19 @@
 
 <h1 align="center" style="font-weight: bold;">Trilha Inicial BackEnd Jr 💻</h1>
 
+<div align="center">
+
 ![nodejs][NODEJS__BADGE]
 ![typescript][TYPESCRIPT__BADGE]
 ![express][EXPRESS__BADGE]
 
+</div>
+
 <p align="center">
- <a href="#started">Getting Started</a> • 
+  <a href="#started">Getting Started</a> • 
   <a href="#routes">API Endpoints</a> •
- <a href="#colab">Collaborators</a> •
- <a href="#contribute">Contribute</a>
+  <a href="#colab">Collaborators</a> •
+  <a href="#contribute">Contribute</a>
 </p>
 
 <p align="center">
@@ -77,11 +81,12 @@ This api covers two route branches: `/users` and `/tasks`
 | routes | description  
 |----------------------|-----------------------------------------------------
 | <kbd>POST /users</kbd> | register an user in the database [post details](#post-user)
-| <kbd>POST /users/login</kbd> | log a user into the api [response details](#post-login)
-| <kbd>PUT /users/:id</kbd> | update user by id [response details](#put-user)
-| <kbd>DELETE /users/:id</kbd> | delete the user by id [response details](#delete-user)
+| <kbd>POST /users/login</kbd> | log a user into the api [login details](#post-login)
+| <kbd>GET /users/tasks/:userId</kbd> | returns user tasks [get details](#get-tasks-user)
+| <kbd>PUT /users/:id</kbd> | update user by id [update details](#put-user)
+| <kbd>DELETE /users/:id</kbd> | delete the user by id [delete details](#delete-user)
 
-<h3 id="post-user">POST /users</h3>
+<h3 id="post-user">POST <kbd>/users</kbd></h3>
 
 All fields are mandatory and the password must have at least 8 characters, including 1 uppercase letter, 1 lowercase letter and 1 special character.
 
@@ -95,19 +100,19 @@ All fields are mandatory and the password must have at least 8 characters, inclu
 }
 ```
 
-**RESPONSE (201 Created)**
+**RESPONSE: <kbd>201 Created</kbd>**
 
 ```json
 {
-  "id": "a6d0ccee-cfdb-4270-9df6-b0221811c81a",
+  "id": "546d1f2d-68a5-49ec-966b-dc79447ef589",
   "name": "Sicrano",
   "email": "sicrano@email.com"
 }
 ```
 
-If there is already an user registered with the same email, the API will return the error:
+If there is already an user registered with the same email, the API returns the message:
 
-**RESPONSE (400 Bad Request)**
+**RESPONSE: <kbd>400 Bad Request</kbd>**
 
 ```json
 {
@@ -115,7 +120,7 @@ If there is already an user registered with the same email, the API will return 
 }
 ```
 
-<h3 id="post-login">POST /users/login</h3>
+<h3 id="post-login">POST <kbd>/users/login</kbd></h3>
 
 **REQUEST**
 
@@ -126,18 +131,19 @@ If there is already an user registered with the same email, the API will return 
 }
 ```
 
-**RESPONSE (200 Ok)**
+**RESPONSE: <kbd>200 Ok</kbd>**
 
 ```json
 {
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2ZDBjY2VlLWNmZGItNDI3MC05ZGY2LWIwMjIxODExYzgxYSIsImlhdCI6MTcxOTM0NjExNCwiZXhwIjoxNzE5MzQ5NzE0fQ.3B-AaWD7hEwv61yNbrFiZH6bleqQB51ubuD3xES6Mp8",
-  "userId": "a6d0ccee-cfdb-4270-9df6-b0221811c81a"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU0NmQxZjJkLTY4YTUtNDllYy05NjZiLWRjNzk0NDdlZjU4OSIsImlhdCI6MTcxOTQ1MjE1NSwiZXhwIjoxNzE5NDU1NzU1fQ.-SyYWh3dz83l0TCfOLcHL83Q-xbA64XyLl0w9_PNfIA",
+  "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
+  "userName": "Sicrano"
 }
 ```
 
-If the email or password is incorrect, the API will return the error:
+If the email or password is incorrect, the API returns the message:
 
-**RESPONSE (400 Bad Request)**
+**RESPONSE: <kbd>400 Bad Request</kbd>**
 
 ```json
 {
@@ -145,7 +151,54 @@ If the email or password is incorrect, the API will return the error:
 }
 ```
 
-<h3 id="put-user">PUT /users/a6d0ccee-cfdb-4270-9df6-b0221811c81a</h3>
+<h3 id="get-tasks-user">GET <kbd>/users/tasks/546d1f2d-68a5-49ec-966b-dc79447ef589</kbd></h3>
+
+**RESPONSE**
+
+```json
+[
+  {
+    "id": "375377e0-1d1a-487d-b89d-f36634c25faa",
+    "title": "Tarefa de Sicrano",
+    "description": "Tarefa criada por Sicrano",
+    "completed": false,
+    "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
+    "userName": "Sicrano"
+  }
+]
+```
+
+If there is no task registered for the user, the API returns the message:
+
+**RESPONSE: <kbd>404 Not Found</kbd>**
+
+```json
+{
+  "error": "No tasks found for this user"
+}
+```
+
+If the user is not logged in, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If the user tries to list another user's tasks, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "You are not authorized to view these tasks"
+}
+```
+
+<h3 id="put-user">PUT <kbd>/users/546d1f2d-68a5-49ec-966b-dc79447ef589</kbd></h3>
 
 You can update the following data for a user: name, email or password. It is possible to update just one piece of data at a time or all of a user's data. To update your password, you must submit your old and new password. The new password must also have at least 8 characters, including 1 uppercase letter, 1 lowercase letter and 1 special character.
 
@@ -157,7 +210,7 @@ You can update the following data for a user: name, email or password. It is pos
 }
 ```
 
-Or
+<kbd>Or</kbd>
 
 ```json
 {
@@ -165,7 +218,7 @@ Or
 }
 ```
 
-Or
+<kbd>Or</kbd>
 
 ```json
 {
@@ -174,19 +227,19 @@ Or
 }
 ```
 
-**RESPONSE (200 Ok)**
+**RESPONSE: <kbd>200 Ok</kbd>**
 
 ```json
 {
-  "id": "a6d0ccee-cfdb-4270-9df6-b0221811c81a",
+  "id": "546d1f2d-68a5-49ec-966b-dc79447ef589",
   "name": "Sicrano Atualizado",
   "email": "sicrano.atualizado@email.com"
 }
 ```
 
-If the user is not found in the database, the API will return the error:
+If the user is not found in the database, the API returns the message:
 
-**RESPONSE (404 Not Found)**
+**RESPONSE: <kbd>404 Not Found</kbd>**
 
 ```json
 {
@@ -194,9 +247,9 @@ If the user is not found in the database, the API will return the error:
 }
 ```
 
-If the user is not logged in, the API will return the error:
+If the user is not logged in, the API returns the message:
 
-**RESPONSE (401 Unauthorized)**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
@@ -204,9 +257,9 @@ If the user is not logged in, the API will return the error:
 }
 ```
 
-If the user tries to update another user, the API will return the error:
+If the user tries to update another user, the API returns the message:
 
-**RESPONSE (401 Unauthorized)**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
@@ -214,9 +267,9 @@ If the user tries to update another user, the API will return the error:
 }
 ```
 
-<h3 id="delete-user">DELETE /users/a6d0ccee-cfdb-4270-9df6-b0221811c81a</h3>
+<h3 id="delete-user">DELETE <kbd>/users/546d1f2d-68a5-49ec-966b-dc79447ef589</kbd></h3>
 
-**RESPONSE (204 No Content)**
+**RESPONSE: <kbd>204 No Content</kbd>**
 
 ```json
 
@@ -224,9 +277,9 @@ If the user tries to update another user, the API will return the error:
 
 ```
 
-If the user is not found in the database, the API will return the error:
+If the user is not found in the database, the API returns the message:
 
-**RESPONSE (404 Not Found)**
+**RESPONSE: <kbd>404 Not Found</kbd>**
 
 ```json
 {
@@ -234,9 +287,9 @@ If the user is not found in the database, the API will return the error:
 }
 ```
 
-If the user is not logged in, the API will return the error:
+If the user is not logged in, the API returns the message:
 
-**RESPONSE (401 Unauthorized)**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
@@ -244,9 +297,9 @@ If the user is not logged in, the API will return the error:
 }
 ```
 
-If the user tries to delete another user, the API will return the error:
+If the user tries to delete another user, the API returns the message:
 
-**RESPONSE (401 Unauthorized)**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {
@@ -254,162 +307,103 @@ If the user tries to delete another user, the API will return the error:
 }
 ```
 
-<h3 id="products_routes">Products Routes</h3>
+<h3 id="tasks_routes">Tasks Routes</h3>
 
 ​
-| route | description  
+| routes | description  
 |----------------------|-----------------------------------------------------
-| <kbd>POST /products</kbd> | register an product in the database [post details](#post-product)
-| <kbd>GET /products</kbd> | list registered products [response details](#get-products)
-| <kbd>GET /products/:id</kbd> | returns the product by id [response details](#get-product-id)
-| <kbd>PATCH /products/:id</kbd> | update the product by id [patch details](#patch-product)
-| <kbd>DELETE /products/:id</kbd> | delete the product by id [response details](#delete-product)
+| <kbd>POST /tasks</kbd> | register an task in the database [post details](#post-task)
+| <kbd>GET /tasks/:taskId</kbd> | returns a task by id [response details](#get-task)
+| <kbd>PUT /tasks/:taskId</kbd> | update a task by id [patch details](#put-task)
+| <kbd>DELETE /tasks/:taskId</kbd> | delete the task by id [response details](#delete-task)
 
-<h3 id="post-product">POST /products</h3>
+<h3 id="post-task">POST <kbd>/tasks</kbd></h3>
 
 **REQUEST**
 
 ```json
 {
-  "name": "Chocolate Cake",
-  "description": "Traditional cocoa dough.",
-  "ingredients": [
-    { "ingredientId": "663fe21776042a97733486c7", "amount": 2 },
-    { "ingredientId": "663fe29f76042a97733486cf", "amount": 2 },
-    { "ingredientId": "663fe2de76042a97733486d5", "amount": 2 },
-    { "ingredientId": "663fe32976042a97733486db", "amount": 2 }
-  ]
+  "title": "Tarefa de Sicrano",
+  "description": "Tarefa criada por Sicrano",
+  "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589"
 }
 ```
 
-**RESPONSE**
+**RESPONSE: <kbd>201 Created</kbd>**
 
 ```json
 {
-  "message": "Product registered successfully."
+  "id": "375377e0-1d1a-487d-b89d-f36634c25faa",
+  "title": "Tarefa de Sicrano",
+  "description": "Tarefa criada por Sicrano",
+  "completed": false,
+  "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
+  "userName": "Sicrano"
 }
 ```
 
-If there is already an product registered with the same name in the database, the API will return the error:
+If a task already exists, registered in the database, with the same title and created by the same user, the API returns the message:
+
+**RESPONSE: <kbd>400 Bad Request</kbd>**
 
 ```json
 {
-  "message": "There is already a product registered with that name."
+  "error": "Task with the same title already exists for this user"
 }
 ```
 
-<h3 id="get-products">GET /products</h3>
+If a task already exists, registered in the database, with the same title and created by the same user, the API returns the message:
 
-**RESPONSE**
-
-```json
-[
-  {
-    "_id": "6643d83675c8e4f5f7543e1a",
-    "name": "Chocolate Cake",
-    "description": "Traditional cocoa dough.",
-    "ingredients": [
-      {
-        "ingredientId": "663fe21776042a97733486c7",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d79"
-      },
-      {
-        "ingredientId": "663fe29f76042a97733486cf",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7a"
-      },
-      {
-        "ingredientId": "663fe2de76042a97733486d5",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7b"
-      },
-      {
-        "ingredientId": "663fe32976042a97733486db",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7c"
-      }
-    ],
-    "cost": 77.72,
-    "createdAt": "2024-05-20T14:11:11.077Z",
-    "__v": 0
-  },
-  {
-    "_id": "6643dfb05bdf22de8c852bcc",
-    "name": "Coconut cake",
-    "description": "Cake with creamy coconut filling.",
-    "ingredients": [
-      {
-        "ingredientId": "663fe21776042a97733486c7",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d79"
-      },
-      {
-        "ingredientId": "663fe29f76042a97733486cf",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7a"
-      },
-      {
-        "ingredientId": "663fe2de76042a97733486d5",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7b"
-      },
-      {
-        "ingredientId": "663fe32976042a97733486db",
-        "amount": 2,
-        "_id": "664b59ffa5f9f4fc1eb21d7c"
-      }
-    ],
-    "cost": 38.86,
-    "createdAt": "2024-05-20T14:11:11.077Z",
-    "__v": 0
-  }
-]
-```
-
-<h3 id="get-product-id">GET /products/6643dfb05bdf22de8c852bcc</h3>
-
-**RESPONSE**
+**RESPONSE: <kbd>400 Bad Request</kbd>**
 
 ```json
 {
-  "_id": "6643dfb05bdf22de8c852bcc",
-  "name": "Coconut cake",
-  "description": "Cake with creamy coconut filling.",
-  "ingredients": [
-    {
-      "ingredientId": "663fe21776042a97733486c7",
-      "amount": 2,
-      "_id": "664b59ffa5f9f4fc1eb21d79"
-    },
-    {
-      "ingredientId": "663fe29f76042a97733486cf",
-      "amount": 2,
-      "_id": "664b59ffa5f9f4fc1eb21d7a"
-    },
-    {
-      "ingredientId": "663fe2de76042a97733486d5",
-      "amount": 2,
-      "_id": "664b59ffa5f9f4fc1eb21d7b"
-    },
-    {
-      "ingredientId": "663fe32976042a97733486db",
-      "amount": 2,
-      "_id": "664b59ffa5f9f4fc1eb21d7c"
-    }
-  ],
-  "cost": 38.86,
-  "createdAt": "2024-05-20T14:11:11.077Z",
-  "__v": 0
+  "error": "Task with the same title already exists for this user"
 }
 ```
 
-If the product with the specified ID is not found, the API will return the error:
+<h3 id="get-task">GET <kbd>/tasks/375377e0-1d1a-487d-b89d-f36634c25faa</kbd></h3>
+
+**RESPONSE: <kbd>200 OK</kbd>**
 
 ```json
 {
-  "status": 404,
-  "message": "Product not found."
+  "id": "375377e0-1d1a-487d-b89d-f36634c25faa",
+  "title": "Tarefa de Sicrano",
+  "description": "Tarefa criada por Sicrano",
+  "completed": false,
+  "userId": "546d1f2d-68a5-49ec-966b-dc79447ef589",
+  "userName": "Sicrano"
+}
+```
+
+If the task is not found in the database, the API returns the message:
+
+**RESPONSE: <kbd>404 Not Found</kbd>**
+
+```json
+{
+  "error": "Task not found"
+}
+```
+
+If the user is not logged in, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "Unauthorized: Invalid token"
+}
+```
+
+If the user tries to list another user's tasks, the API returns the message:
+
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
+
+```json
+{
+  "error": "You are not authorized to view this task"
 }
 ```
 
@@ -463,7 +457,7 @@ Or
 }
 ```
 
-If the request is to update the product name, it cannot be the same as one previously registered. If it already exists in the database, the API will return the error:
+If the request is to update the product name, it cannot be the same as one previously registered. If it already exists in the database, the API returns the message:
 
 ```json
 {
@@ -482,7 +476,7 @@ If the request is to update the product name, it cannot be the same as one previ
 }
 ```
 
-If the product with the specified ID is not found, the API will return the error:
+If the product with the specified ID is not found, the API returns the message:
 
 ```json
 {

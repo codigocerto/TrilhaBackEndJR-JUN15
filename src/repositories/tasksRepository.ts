@@ -25,6 +25,14 @@ class TasksRepository {
   async findById(taskId: string) {
     const task = await prisma.task.findUnique({
       where: { id: taskId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
     return task;
   }
@@ -32,6 +40,14 @@ class TasksRepository {
   async findByUserId(userId: string) {
     const tasksByUserId = await prisma.task.findMany({
       where: { userId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return tasksByUserId;
@@ -50,7 +66,7 @@ class TasksRepository {
     return updatedTask;
   }
 
-  async deleteById(taskId: string) {
+  async delete(taskId: string) {
     const deletedTask = await prisma.task.delete({
       where: {
         id: taskId,

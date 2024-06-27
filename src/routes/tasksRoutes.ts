@@ -13,10 +13,7 @@ export const tasksRoutes = (router: Router) => {
   router.get("/tasks/:taskId", authMiddleware.auth, (req, res, next) =>
     tasksController.findById(req, res, next)
   );
-  router.get("/tasks/:userId", authMiddleware.auth, (req, res, next) =>
-    tasksController.findByUserId(req, res, next)
-  );
-  router.put("/tasks/:userId", authMiddleware.auth, (req, res, next) =>
+  router.put("/tasks/:taskId", authMiddleware.auth, (req, res, next) =>
     tasksController.update(req, res, next)
   );
   router.delete("/tasks/:taskId", authMiddleware.auth, (req, res, next) =>

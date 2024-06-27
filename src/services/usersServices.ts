@@ -55,6 +55,7 @@ class UsersServices {
     }
 
     const userId = user.id;
+    const userName = user.name;
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
@@ -65,7 +66,7 @@ class UsersServices {
       expiresIn: "1h",
     });
 
-    return { token, userId };
+    return { token, userId, userName };
   }
 
   async update(
