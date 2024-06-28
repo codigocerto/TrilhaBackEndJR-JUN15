@@ -21,6 +21,8 @@
 
 <p align="center">
   <b>Project developed for the challenge proposed by Código Certo. A simple API for task management.</b>
+  <br>
+  <b><a href="https://trilhabackendjr-jun15-fork-production.up.railway.app/api-docs/">Test the API functionalities by clicking here! (Swagger UI)</a></b>
 </p>
 
 <h2 id="started">🚀 Getting started</h2>
