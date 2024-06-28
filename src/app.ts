@@ -3,6 +3,9 @@ import { userRoutes } from "./routes/usersRoutes";
 import { tasksRoutes } from "./routes/tasksRoutes";
 import { errorHandler } from "./middlewares/errorHandler";
 
+import swaggerUI from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
+
 class App {
   app: Application;
   constructor() {
@@ -19,6 +22,11 @@ class App {
 
   private initRoutes() {
     const router = express.Router();
+    this.app.use(
+      "/api-docs",
+      swaggerUI.serve,
+      swaggerUI.setup(swaggerDocument)
+    );
     this.app.use(router);
     userRoutes(router);
     tasksRoutes(router);

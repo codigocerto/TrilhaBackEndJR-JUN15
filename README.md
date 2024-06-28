@@ -143,7 +143,7 @@ If there is already an user registered with the same email, the API returns the 
 
 If the email or password is incorrect, the API returns the message:
 
-**RESPONSE: <kbd>400 Bad Request</kbd>**
+**RESPONSE: <kbd>401 Unauthorized</kbd>**
 
 ```json
 {

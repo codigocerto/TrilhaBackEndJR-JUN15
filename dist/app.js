@@ -7,6 +7,8 @@ const express_1 = __importDefault(require("express"));
 const usersRoutes_1 = require("./routes/usersRoutes");
 const tasksRoutes_1 = require("./routes/tasksRoutes");
 const errorHandler_1 = require("./middlewares/errorHandler");
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_json_1 = __importDefault(require("../swagger.json"));
 class App {
     app;
     constructor() {
@@ -21,6 +23,7 @@ class App {
     }
     initRoutes() {
         const router = express_1.default.Router();
+        this.app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
         this.app.use(router);
         (0, usersRoutes_1.userRoutes)(router);
         (0, tasksRoutes_1.tasksRoutes)(router);
