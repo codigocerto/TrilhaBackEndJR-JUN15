@@ -71,7 +71,7 @@ Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de
 - Entregas padrão ou cópias de outros projetos. Buscamos originalidade e autenticidade em cada contribuição.
 
 ### Prazo ⏳
-Os candidatos devem completar a trilha em no máximo em 2 semanas, começando a contar a partir de 15/06.
+A data máxima para entrega das trilhas foi removida, permitindo que as pessoas entreguem conforme sua disponibilidade. No entanto, ainda é necessário concluir a trilha com sucesso para ser inserido em uma equipe.
 
 A conclusão da trilha inicial é um requisito obrigatório para avançar para a trilha 
 final. Caso a trilha inicial não seja concluída dentro do prazo estabelecido, o 
