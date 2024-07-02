@@ -71,13 +71,7 @@ Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de
 - Entregas padrão ou cópias de outros projetos. Buscamos originalidade e autenticidade em cada contribuição.
 
 ### Prazo ⏳
-Os candidatos devem completar a trilha em no máximo em 2 semanas, começando a contar a partir de 15/06.
-
-A conclusão da trilha inicial é um requisito obrigatório para avançar para a trilha 
-final. Caso a trilha inicial não seja concluída dentro do prazo estabelecido, o 
-candidato estará impossibilitado de prosseguir para trilha final.
-
-**Data máxima para entrega: 29/06**
+A data máxima para entrega das trilhas foi removida, permitindo que as pessoas entreguem conforme sua disponibilidade. No entanto, ainda é necessário concluir a trilha com sucesso para ser inserido em uma equipe.
 
 ### Instruções de Entrega: 📬
 Após finalizar o projeto, publique-o em uma URL pública (por exemplo, Vercel, Netlify, GitHub Pages, etc.) e hospede o seu servidor na nuvem. Use serviços que ofereçam uso gratiuto por um período, como a AWS e preencha o [Formulário](https://forms.gle/gZViPMTSDV5nidSu6):  
