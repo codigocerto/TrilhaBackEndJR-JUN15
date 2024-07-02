@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
 )
 
@@ -15,7 +14,7 @@ type InputToken struct {
 }
 
 func GenerateToken(ctx context.Context, input InputToken) (string, error) {
-	claims := jwt.Claims{
+	claims := jwt.MapClaims{
 		"public_id": input.PublicID,
 		"name":      input.Name,
 		"email":     input.Email,

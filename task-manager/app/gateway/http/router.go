@@ -24,6 +24,7 @@ func newHandler(db *sql.DB) (http.Handler, error) {
 
 	r.Route("/api/v1/task-manager", func(r chi.Router) {
 		r.Post("/", rest.Handle(userHandler.CreateUser))
+		r.Post("/login", rest.Handle(userHandler.Login))
 	})
 
 	return r, nil

@@ -20,7 +20,7 @@ func (h Handler) Login(r *http.Request) responses.Response {
 
 	// Validate params request
 	if req.Email == "" || req.Password == "" {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, "email or password is empty"))
+		return responses.BadRequest(fmt.Errorf("%s: %w", operation, requests.ErrMissingParams))
 	}
 
 	input := usecases.LoginInput{
@@ -38,5 +38,5 @@ func (h Handler) Login(r *http.Request) responses.Response {
 		"Authorization": []string{"Bearer " + token},
 	}
 
-	return responses.OK(header)
+	return responses.OK(header, nil)
 }

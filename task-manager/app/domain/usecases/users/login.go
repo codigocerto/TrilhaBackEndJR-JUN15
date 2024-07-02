@@ -17,14 +17,14 @@ func (u Usecase) Login(ctx context.Context, input usecases.LoginInput) (string, 
 	}
 
 	// Check password
-	if err := u.repository.CheckPassword(ctx, user.PublicID, user.Password); err != nil {
+	if err := u.repository.CheckPassword(ctx, user.PublicID, input.Password); err != nil {
 		return "", fmt.Errorf("%s: %w", operation, err)
 	}
 
 	userToken := auth.InputToken{
 		PublicID: user.PublicID,
 		Name:     user.Name,
-		Email:    user.Email,
+		Email:    input.Email,
 	}
 
 	// Generate token
