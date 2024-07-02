@@ -2,9 +2,10 @@ package responses
 
 import "net/http"
 
-func OK(payload interface{}) Response {
+func OK(h http.Header, payload interface{}) Response {
 	return Response{
 		Status:  http.StatusOK,
+		header:  h,
 		Payload: payload,
 	}
 }
