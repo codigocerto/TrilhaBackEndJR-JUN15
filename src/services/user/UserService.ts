@@ -56,28 +56,6 @@ class UserService {
     }
   }
 
-  // async delete({ user_id }) {
-
-  //   console.log(user_id, "prisma");
-
-  //   if (!user_id) {
-  //       throw new Error('User ID is required');
-  //   }
-
-  //   try {
-  //       const removeUser = await prisma.user.delete({
-  //           where: {
-  //               id: user_id,
-  //           },
-  //       });
-  //       console.log(removeUser, "prisma");
-
-  //       return removeUser;
-  //   } catch (error) {
-  //       console.error("Error deleting user:", error);
-  //       throw error;
-  //   }
-
   async delete({ user_id }: RemoveUserRequest) {
 
     if (!user_id) {

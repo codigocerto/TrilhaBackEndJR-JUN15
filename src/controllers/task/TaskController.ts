@@ -4,8 +4,6 @@ import { TaskRequest } from './../../models/interfaces/task/TaskRequest';
 import { HttpResponse } from "../../infra/helper/HttpResponse";
 import { EditTaskRequest } from "../../models/interfaces/task/EditTaskRequest";
 
-
-
 class TaskController {
   constructor(private  taskService: TaskService) {}
 
@@ -52,10 +50,7 @@ class TaskController {
   }
 
   async listar(req: Request, res: Response) {
-    const userId = req.params.userId as string
-
-    console.log(userId);
-
+    const userId = req.params.userId as string;
 
     try {
       const tasks = await this.taskService.listTaskById({

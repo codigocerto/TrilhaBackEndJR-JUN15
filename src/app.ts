@@ -10,7 +10,7 @@ const port = 3333;
 
 app.use(express.json());
 app.use(cors());
-app.use("v1",router);
+app.use("/",router);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

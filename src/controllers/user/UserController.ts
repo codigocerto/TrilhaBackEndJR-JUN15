@@ -16,9 +16,6 @@ class UserController implements IUserController {
     try {
       const user = await this.userService.execute({ name, email, password });
 
-      console.log(user);
-
-
       return HttpResponse.ok(res, user);
     } catch (error: unknown) {
       console.log(error);
