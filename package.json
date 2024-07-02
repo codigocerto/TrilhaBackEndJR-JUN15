@@ -5,7 +5,8 @@
   "author": "rudineyliemes <orudineyliemes@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only src/app.ts"
+    "dev": "ts-node-dev --transpile-only src/app.ts",
+    "vercel-build": "npx prisma migrate deploy"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
