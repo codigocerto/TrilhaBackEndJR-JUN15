@@ -36,3 +36,10 @@ func NotFound(err error) Response {
 		Error:  err,
 	}
 }
+
+func Conflict(err error) Response {
+	return Response{
+		Status: http.StatusConflict,
+		Error:  err,
+	}
+}

@@ -1,8 +1,10 @@
 package user
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"task-manager/app/domain/entities/users"
 	"task-manager/app/domain/usecases"
 	"task-manager/app/gateway/http/rest/requests"
 	"task-manager/app/gateway/http/rest/responses"
@@ -39,6 +41,10 @@ func (h Handler) CreateUser(r *http.Request) responses.Response {
 
 	// Create user
 	if err := h.usecase.CreateUser(r.Context(), input); err != nil {
+		if errors.Is(err, users.ErrUserAlreadyExists) {
+			return responses.Conflict(fmt.Errorf("%s: %w", operation, err))
+		}
+
 		return responses.InternalServerError(fmt.Errorf("%s: %w", operation, err))
 	}
 
