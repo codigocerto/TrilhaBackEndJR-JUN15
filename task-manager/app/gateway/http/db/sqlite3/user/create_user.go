@@ -38,12 +38,12 @@ func (r *UserRepository) CreateUser(ctx context.Context, user users.User) error 
 	}
 
 	// Generate user public ID
-	user.Public = uuid.New()
+	user.PublicID = uuid.New()
 
 	_, err := r.db.ExecContext(
 		ctx,
 		_createUserQuery,
-		user.Public,
+		user.PublicID,
 		user.Name,
 		user.Email,
 		user.Password,
