@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/app.ts",
-    "vercel-build": "npx prisma migrate deploy"
+    "vercel-build": "npx prisma generate && npx prisma migrate deploy"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
