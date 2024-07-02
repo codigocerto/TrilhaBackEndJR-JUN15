@@ -2,9 +2,10 @@ package responses
 
 import "net/http"
 
-func OK(payload interface{}) Response {
+func OK(h http.Header, payload interface{}) Response {
 	return Response{
 		Status:  http.StatusOK,
+		header:  h,
 		Payload: payload,
 	}
 }
@@ -33,6 +34,13 @@ func InternalServerError(err error) Response {
 func NotFound(err error) Response {
 	return Response{
 		Status: http.StatusNotFound,
+		Error:  err,
+	}
+}
+
+func Conflict(err error) Response {
+	return Response{
+		Status: http.StatusConflict,
 		Error:  err,
 	}
 }
