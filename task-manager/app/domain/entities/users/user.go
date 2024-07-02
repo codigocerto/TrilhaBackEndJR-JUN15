@@ -13,7 +13,7 @@ var (
 )
 
 type User struct {
-	PublicID uuid.UUID
+	Public   uuid.UUID
 	Name     string
 	Email    string
 	Password string
