@@ -23,6 +23,8 @@ func (h *Handler) CreateTask(r *http.Request) responses.Response {
 		responses.BadRequest(fmt.Errorf("%s: %w", operation, fmt.Errorf("fields are required")))
 	}
 
+	fmt.Println("DATA", req.DateLimit)
+
 	input := usecases.CreateTaskInput{
 		Title:     req.Title,
 		Content:   req.Content,
