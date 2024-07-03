@@ -7,7 +7,6 @@ import (
 	"task-manager/app/gateway/http/rest/requests"
 	"task-manager/app/gateway/http/rest/responses"
 	"task-manager/app/gateway/http/task/schema"
-	"time"
 )
 
 func (h *Handler) CreateTask(r *http.Request) responses.Response {
@@ -20,20 +19,14 @@ func (h *Handler) CreateTask(r *http.Request) responses.Response {
 	}
 
 	// Validate request
-	if req.Title == "" || req.DateLimit == "" {
+	if req.Title == "" {
 		responses.BadRequest(fmt.Errorf("%s: %w", operation, fmt.Errorf("fields are required")))
-	}
-
-	// Convert date limit to time.Time
-	dateLimit, err := time.Parse("2006-01-02", req.DateLimit)
-	if err != nil {
-		responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
 	}
 
 	input := usecases.CreateTaskInput{
 		Title:     req.Title,
 		Content:   req.Content,
-		DateLimit: dateLimit,
+		DateLimit: req.DateLimit,
 	}
 
 	// Create task
