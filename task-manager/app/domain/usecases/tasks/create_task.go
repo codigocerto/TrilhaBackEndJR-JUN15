@@ -14,7 +14,7 @@ func (u *Usecase) CreateTask(ctx context.Context, input usecases.CreateTaskInput
 		Title:     input.Title,
 		Content:   input.Content,
 		DateLimit: input.DateLimit,
-		CreatedBy: input.CreatedBy,
+		Done:      false,
 	}
 
 	if err := u.repository.CreateTask(ctx, task); err != nil {
