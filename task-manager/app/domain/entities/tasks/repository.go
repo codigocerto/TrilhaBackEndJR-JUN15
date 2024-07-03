@@ -10,4 +10,5 @@ type TaskRepository interface {
 	CreateTask(ctx context.Context, task Task) error
 	DeleteTask(ctx context.Context, taskID uuid.UUID) error
 	GetTask(ctx context.Context, taskID uuid.UUID) (Task, error)
+	UpdateTask(ctx context.Context, task Task) error
 }
