@@ -35,6 +35,7 @@ func newHandler(db *sql.DB) (http.Handler, error) {
 
 		r.Route("/tasks", func(r chi.Router) {
 			r.Post("/", rest.Handle(taskHandler.CreateTask))
+			r.Delete("/{task-id}", rest.Handle(taskHandler.DeleteTask))
 		})
 	})
 

@@ -1,9 +1,15 @@
 package tasks
 
 import (
+	"errors"
 	"time"
 
 	"github.com/google/uuid"
+)
+
+var (
+	// ErrTaskNotFound is used when the task is not found.
+	ErrTaskNotFound = errors.New("task not found")
 )
 
 type Task struct {
