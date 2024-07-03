@@ -12,6 +12,7 @@ type TaskUsecase interface {
 	CreateTask(ctx context.Context, input CreateTaskInput) error
 	DeleteTask(ctx context.Context, taskID uuid.UUID) error
 	GetTask(ctx context.Context, taskID uuid.UUID) (tasks.Task, error)
+	GetTasks(ctx context.Context) ([]tasks.Task, error)
 	UpdateTask(ctx context.Context, input UpdateTaskInput) error
 }
 
