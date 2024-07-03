@@ -14,8 +14,10 @@ const _createTaskQuery = `
 `
 
 func (r *TaskRepository) CreateTask(ctx context.Context, task tasks.Task) error {
-	const operation = "TaskRepository.CreateTask"
-
+	const (
+		operation = "TaskRepository.CreateTask"
+		createdBy = "791e7f30-3943-11ef-9a62-abee85e90036"
+	)
 	// Generate task public ID
 	task.PublicID = uuid.New()
 
@@ -27,8 +29,8 @@ func (r *TaskRepository) CreateTask(ctx context.Context, task tasks.Task) error 
 		task.Content,
 		task.Done,
 		task.DateLimit,
-		task.CreatedBy,
-		task.UpdatedBy,
+		createdBy,
+		createdBy,
 	)
 	if err != nil {
 		return fmt.Errorf("%s: %w", operation, err)
