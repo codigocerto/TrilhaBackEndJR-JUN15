@@ -9,8 +9,6 @@ import (
 	"task-manager/app/gateway/http/rest/requests"
 	"task-manager/app/gateway/http/rest/responses"
 	"task-manager/app/gateway/http/user/schema"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 func (h Handler) CreateUser(r *http.Request) responses.Response {
@@ -22,21 +20,15 @@ func (h Handler) CreateUser(r *http.Request) responses.Response {
 		return responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
 	}
 
-	// Validate request
+	// Validate request fileds
 	if req.Name == "" || req.Email == "" || req.Password == "" {
 		return responses.BadRequest(fmt.Errorf("%s: %w", operation, fmt.Errorf("fields are required")))
-	}
-
-	// Hash password with bcrypt
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return responses.InternalServerError(fmt.Errorf("%s: %w", operation, err))
 	}
 
 	input := usecases.CreateUserInput{
 		Name:     req.Name,
 		Email:    req.Email,
-		Password: string(hashedPassword),
+		Password: req.Password,
 	}
 
 	// Create user
