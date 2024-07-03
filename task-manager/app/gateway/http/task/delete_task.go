@@ -9,7 +9,7 @@ import (
 	"task-manager/app/gateway/http/rest/responses"
 )
 
-func (h Handler) DeleteTask(r *http.Request) responses.Response {
+func (h *Handler) DeleteTask(r *http.Request) responses.Response {
 	const operation = "TaskHandler.DeleteTask"
 
 	taskID, err := requests.ParseUUID(r, "task-id")
