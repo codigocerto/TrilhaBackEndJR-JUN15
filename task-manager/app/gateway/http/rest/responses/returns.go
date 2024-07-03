@@ -33,8 +33,9 @@ func InternalServerError(err error) Response {
 
 func NotFound(err error) Response {
 	return Response{
-		Status: http.StatusNotFound,
-		Error:  err,
+		Status:  http.StatusNotFound,
+		Error:   err,
+		Payload: ErrNotFound,
 	}
 }
 

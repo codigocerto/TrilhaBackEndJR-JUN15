@@ -9,6 +9,18 @@ import (
 	"task-manager/app/gateway/http/task/schema"
 )
 
+// UpdateTask updates a task.
+// @Summary Update a task.
+// @Description Update a task.
+// @Tags Tasks
+// @Security BearerToken
+// @Success 200 {object} string "Task updated successfully"
+// @Failure 400 {object} string "Invalid request body"
+// @Failure 404 {object} string "Task not found"
+// @Failure 401 {object} string "Not authorized"
+// @Failure 500 {object} string "Internal server error"
+// @Router /api/v1/task-manager/tasks/{task-id} [put]
+// @Param task-id path string true "Task ID"
 func (h Handler) UpdateTask(r *http.Request) responses.Response {
 	const operation = "TaskHandler.UpdateTask"
 

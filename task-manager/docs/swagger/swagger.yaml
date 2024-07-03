@@ -1,0 +1,289 @@
+basePath: /
+definitions:
+  responses.NotFoundError:
+    properties:
+      title:
+        example: Not found
+        type: string
+    type: object
+  schema.CreateTaskRequest:
+    properties:
+      content:
+        type: string
+      date_limit:
+        type: string
+      title:
+        type: string
+    type: object
+  schema.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  schema.Login:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  schema.TaskResponse:
+    properties:
+      content:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      date_limit:
+        type: string
+      done:
+        type: boolean
+      public_id:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Task Manager API
+  version: "1.0"
+paths:
+  /api/v1/task-manager:
+    post:
+      description: Create a new login to access the system.
+      parameters:
+      - description: Body
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.CreateUserRequest'
+      responses:
+        "200":
+          description: User created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Create a new login to access the system.
+      tags:
+      - Users
+  /api/v1/task-manager/login:
+    post:
+      description: Create a new login to access the system.
+      parameters:
+      - description: Body
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.Login'
+      responses:
+        "200":
+          description: Login created successfully
+          headers:
+            Authorization:
+              description: Bearer token
+              type: string
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Invalid email or password
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Create a new login to access the system.
+      tags:
+      - Users
+  /api/v1/task-manager/tasks:
+    get:
+      description: Get all tasks.
+      responses:
+        "200":
+          description: Tasks found successfully
+          schema:
+            items:
+              $ref: '#/definitions/schema.TaskResponse'
+            type: array
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Get all tasks.
+      tags:
+      - Tasks
+    post:
+      description: Create a new login to access the system.
+      parameters:
+      - description: Body
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/schema.CreateTaskRequest'
+      responses:
+        "200":
+          description: Task created successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Create a new login to access the system.
+      tags:
+      - Tasks
+  /api/v1/task-manager/tasks/{task-id}:
+    delete:
+      description: Delete a task.
+      parameters:
+      - description: Task ID
+        in: path
+        name: task-id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Task deleted successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Task not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Delete a task.
+      tags:
+      - Tasks
+    get:
+      description: Get a task by ID.
+      parameters:
+      - description: Task ID
+        in: path
+        name: task-id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/responses.NotFoundError'
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Get a task by ID.
+      tags:
+      - Tasks
+    put:
+      description: Update a task.
+      parameters:
+      - description: Task ID
+        in: path
+        name: task-id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Task updated successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request body
+          schema:
+            type: string
+        "401":
+          description: Not authorized
+          schema:
+            type: string
+        "404":
+          description: Task not found
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      security:
+      - BearerToken: []
+      summary: Update a task.
+      tags:
+      - Tasks
+securityDefinitions:
+  BearerToken:
+    description: This is a Task Manager API server.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

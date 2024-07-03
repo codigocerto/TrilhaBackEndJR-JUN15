@@ -6,6 +6,8 @@ import (
 	"task-manager/app/config"
 	"task-manager/app/gateway/http"
 
+	_ "task-manager/docs/swagger"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
