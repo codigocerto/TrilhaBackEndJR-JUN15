@@ -33,8 +33,6 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(cfg.Migration.SourceURL)
-
 	// Create a new migration instance
 	m, err := migrate.NewWithDatabaseInstance(
 		cfg.Migration.SourceURL,

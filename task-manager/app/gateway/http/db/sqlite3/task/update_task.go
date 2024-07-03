@@ -10,7 +10,7 @@ const _updateTaskQuery = `
 	UPDATE 
 		tasks
 	SET 
-		title = ?, content = ?, date_limit = ?, done = ?, updated_at = CURRENT_TIMESTAMP, updated_by = ?
+		title = ?, description = ?, date_limit = ?, status = ?,  updated_by = ?, updated_at = CURRENT_TIMESTAMP
 	WHERE 
 		public_id = ?
 `
@@ -37,8 +37,8 @@ func (r *TaskRepository) UpdateTask(ctx context.Context, task tasks.Task) error 
 		task.Content,
 		task.DateLimit,
 		task.Done,
-		task.PublicID,
 		updatedBy,
+		task.PublicID,
 	); err != nil {
 		return fmt.Errorf("%s: %w", operation, err)
 	}
