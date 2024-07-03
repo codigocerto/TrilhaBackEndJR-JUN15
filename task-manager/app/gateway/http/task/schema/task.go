@@ -13,6 +13,13 @@ type CreateTaskRequest struct {
 	DateLimit time.Time `json:"date_limit"`
 }
 
+type UpdateTaskRequest struct {
+	Title     string    `json:"title"`
+	Content   string    `json:"content"`
+	DateLimit time.Time `json:"date_limit"`
+	Done      bool      `json:"done"`
+}
+
 type TaskResponse struct {
 	PublicID  uuid.UUID `json:"public_id"`
 	Title     string    `json:"title"`
