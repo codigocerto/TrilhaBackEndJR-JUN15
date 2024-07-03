@@ -9,6 +9,7 @@ import (
 
 type TaskUsecase interface {
 	CreateTask(ctx context.Context, input CreateTaskInput) error
+	DeleteTask(ctx context.Context, taskID uuid.UUID) error
 }
 
 type CreateTaskInput struct {

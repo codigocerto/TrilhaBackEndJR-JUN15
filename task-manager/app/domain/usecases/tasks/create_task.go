@@ -7,7 +7,7 @@ import (
 	"task-manager/app/domain/usecases"
 )
 
-func (u *Usecase) CreateTask(ctx context.Context, input usecases.CreateTaskInput) error {
+func (u Usecase) CreateTask(ctx context.Context, input usecases.CreateTaskInput) error {
 	const operation = "TaslUsecase.CreateTask"
 
 	task := tasks.Task{
