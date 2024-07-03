@@ -45,3 +45,11 @@ func MapToTaskResponse(task tasks.Task) TaskResponse {
 		UpdatedAt: task.UpdatedAt,
 	}
 }
+
+func MapToTaskResponses(task []tasks.Task) []TaskResponse {
+	var tasks []TaskResponse
+	for _, t := range task {
+		tasks = append(tasks, MapToTaskResponse(t))
+	}
+	return tasks
+}

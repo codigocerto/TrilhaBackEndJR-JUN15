@@ -38,6 +38,7 @@ func newHandler(db *sql.DB) (http.Handler, error) {
 			r.Delete("/{task-id}", rest.Handle(taskHandler.DeleteTask))
 			r.Get("/{task-id}", rest.Handle(taskHandler.GetTask))
 			r.Put("/{task-id}", rest.Handle(taskHandler.UpdateTask))
+			r.Get("/", rest.Handle(taskHandler.GetTasks))
 		})
 	})
 
