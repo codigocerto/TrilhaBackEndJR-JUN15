@@ -13,13 +13,34 @@ import (
 	userHandler "task-manager/app/gateway/http/user"
 
 	"github.com/go-chi/chi/v5"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// newHandler creates a new HTTP handler.
+// @title Task Manager API
+// @version 1.0
+// @BasePath /
+//
+// @securityDefinitions.apikey BearerToken
+// @in header
+// @name Authorization
+//
+// @description This is a Task Manager API server.
+// @host localhost:8080
+// @schemes http
 func newHandler(db *sql.DB) (http.Handler, error) {
 	r := chi.NewRouter()
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
+	})
+
+	// Swagger docs
+	r.Route("/docs/v1/task-manager", func(r chi.Router) {
+		r.Get("/swagger", func(w http.ResponseWriter, r *http.Request) {
+			http.Redirect(w, r, "swagger/index.html", http.StatusMovedPermanently)
+		})
+		r.Get("/swagger/*", httpSwagger.Handler())
 	})
 
 	userRepo := userRepo.NewUserRepository(db)

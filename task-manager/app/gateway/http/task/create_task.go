@@ -9,6 +9,17 @@ import (
 	"task-manager/app/gateway/http/task/schema"
 )
 
+// CreateTask creates a new login to access the system.
+// @Summary Create a new login to access the system.
+// @Description Create a new login to access the system.
+// @Tags Tasks
+// @Security BearerToken
+// @Param Body body schema.CreateTaskRequest true "Body"
+// @Success 200 {object} string "Task created successfully"
+// @Failure 400 {object} string "Invalid request body"
+// @Failure 401 {object} string "Not authorized"
+// @Failure 500 {object} string "Internal server error"
+// @Router /api/v1/task-manager/tasks [post]
 func (h *Handler) CreateTask(r *http.Request) responses.Response {
 	const operation = "TaskHandler.CreateTask"
 

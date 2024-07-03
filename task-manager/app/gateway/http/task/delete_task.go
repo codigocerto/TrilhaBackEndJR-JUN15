@@ -9,6 +9,18 @@ import (
 	"task-manager/app/gateway/http/rest/responses"
 )
 
+// DeleteTask deletes a task.
+// @Summary Delete a task.
+// @Description Delete a task.
+// @Tags Tasks
+// @Security BearerToken
+// @Success 200 {object} string "Task deleted successfully"
+// @Failure 400 {object} string "Invalid request body"
+// @Failure 404 {object} string "Task not found"
+// @Failure 401 {object} string "Not authorized"
+// @Failure 500 {object} string "Internal server error"
+// @Router /api/v1/task-manager/tasks/{task-id} [delete]
+// @Param task-id path string true "Task ID"
 func (h *Handler) DeleteTask(r *http.Request) responses.Response {
 	const operation = "TaskHandler.DeleteTask"
 
