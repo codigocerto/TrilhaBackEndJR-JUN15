@@ -9,5 +9,5 @@ import (
 type UserRepository interface {
 	CreateUser(ctx context.Context, user User) error
 	FindByEmail(ctx context.Context, email string) (User, error)
-	CheckPassword(ctx context.Context, userID uuid.UUID, password string) error
+	GetPassword(ctx context.Context, userID uuid.UUID) (string, error)
 }

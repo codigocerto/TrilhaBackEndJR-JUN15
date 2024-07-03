@@ -2,6 +2,7 @@ package task
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"task-manager/app/domain/entities/tasks"
 
@@ -40,6 +41,10 @@ func (r *TaskRepository) GetTask(ctx context.Context, taskID uuid.UUID) (tasks.T
 		&task.UpdatedBy,
 	)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return tasks.Task{}, fmt.Errorf("%s: %w", operation, tasks.ErrTaskNotFound)
+		}
+
 		return tasks.Task{}, fmt.Errorf("%s: %w", operation, err)
 	}
 

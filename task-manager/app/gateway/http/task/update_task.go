@@ -26,7 +26,7 @@ func (h Handler) UpdateTask(r *http.Request) responses.Response {
 
 	// Validate request
 	if req.Title == "" {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
+		return responses.BadRequest(fmt.Errorf("%s: %s", operation, "title is required"))
 	}
 
 	input := usecases.UpdateTaskInput{
