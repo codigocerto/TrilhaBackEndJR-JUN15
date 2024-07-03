@@ -13,6 +13,7 @@ type InputToken struct {
 	Email    string
 }
 
+// GenerateToken generates a JWT token
 func GenerateToken(ctx context.Context, input InputToken) (string, error) {
 	claims := jwt.MapClaims{
 		"public_id": input.PublicID,

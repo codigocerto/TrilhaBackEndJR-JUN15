@@ -7,6 +7,7 @@ import (
 	userUsecase "task-manager/app/domain/usecases/users"
 	taskRepo "task-manager/app/gateway/http/db/sqlite3/task"
 	userRepo "task-manager/app/gateway/http/db/sqlite3/user"
+	"task-manager/app/gateway/http/middleware/auth"
 	"task-manager/app/gateway/http/rest"
 	taskHandler "task-manager/app/gateway/http/task"
 	userHandler "task-manager/app/gateway/http/user"
@@ -34,11 +35,11 @@ func newHandler(db *sql.DB) (http.Handler, error) {
 		r.Post("/login", rest.Handle(userHandler.Login))
 
 		r.Route("/tasks", func(r chi.Router) {
-			r.Post("/", rest.Handle(taskHandler.CreateTask))
-			r.Delete("/{task-id}", rest.Handle(taskHandler.DeleteTask))
-			r.Get("/{task-id}", rest.Handle(taskHandler.GetTask))
-			r.Put("/{task-id}", rest.Handle(taskHandler.UpdateTask))
-			r.Get("/", rest.Handle(taskHandler.GetTasks))
+			r.With(auth.Auth).Post("/", rest.Handle(taskHandler.CreateTask))
+			r.With(auth.Auth).Delete("/{task-id}", rest.Handle(taskHandler.DeleteTask))
+			r.With(auth.Auth).Get("/{task-id}", rest.Handle(taskHandler.GetTask))
+			r.With(auth.Auth).Put("/{task-id}", rest.Handle(taskHandler.UpdateTask))
+			r.With(auth.Auth).Get("/", rest.Handle(taskHandler.GetTasks))
 		})
 	})
 
