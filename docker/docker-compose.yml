@@ -1,0 +1,11 @@
+services:
+  mysql:
+    container_name: 'trilha-back-end-jr'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_DATABASE=trilha-back-end-jr'
+      - 'MYSQL_PASSWORD=1234'
+      - 'MYSQL_ROOT_PASSWORD=1234'
+      - 'MYSQL_USER=admin'
+    ports:
+      - '3306:3306'
