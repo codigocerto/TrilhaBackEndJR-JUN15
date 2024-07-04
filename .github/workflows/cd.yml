@@ -33,5 +33,4 @@ jobs:
         context: .
         push: true
         tags: |
-          ${{ secrets.REGISTRY_IMAGE }}:${{ env.GIT_SHA }}
           ${{ secrets.REGISTRY_IMAGE }}:latest
