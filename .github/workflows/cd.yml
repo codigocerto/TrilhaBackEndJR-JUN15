@@ -3,7 +3,7 @@ name: Go CD
 on:
   push:
     branches:
-      - main
+      - test-cd-pipeline
 
 jobs:
   deploy:
@@ -11,6 +11,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Get short Git commit SHA
+      run: |
+        echo "::set-env name=GIT_SHA::$(git rev-parse --short HEAD)"
 
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
@@ -27,4 +31,6 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.REGISTRY_IMAGE }}
+        tags: |
+          ${{ secrets.REGISTRY_IMAGE }}:${{ env.GIT_SHA }}
+          ${{ secrets.REGISTRY_IMAGE }}:latest
