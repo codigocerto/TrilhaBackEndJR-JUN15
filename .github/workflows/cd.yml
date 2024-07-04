@@ -13,9 +13,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Get short Git commit SHA
+      id: git_sha
       run: |
-        echo "::set-env name=GIT_SHA::$(git rev-parse --short HEAD)"
-
+        echo "GIT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
 
