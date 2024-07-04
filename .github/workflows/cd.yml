@@ -32,5 +32,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: |
-          ${{ secrets.REGISTRY_IMAGE }}:latest
+        tags: docker.io/andrepreira/shortcut-link:latest
