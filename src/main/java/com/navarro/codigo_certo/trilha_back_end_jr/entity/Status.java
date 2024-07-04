@@ -36,4 +36,21 @@ public class Status {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public enum Values {
+        ACTIVE(1L, "active"),
+        INACTIVE(2L, "inactive");
+
+        private final Long id;
+        private final String description;
+
+        Values(Long id, String description) {
+            this.id = id;
+            this.description = description;
+        }
+
+        public Status toStatus() {
+            return new Status(id, description);
+        }
+    }
 }
