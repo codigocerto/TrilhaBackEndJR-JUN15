@@ -1,7 +1,7 @@
 package user
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"task-manager/app/domain/usecases"
 	"task-manager/app/gateway/http/rest/requests"
@@ -14,11 +14,10 @@ import (
 // @Description Create a new login to access the system.
 // @Tags Users
 // @Param Body body schema.Login true "Body"
-// @Success 200 {object} string "Login created successfully"
-// @Failure 400 {object} string "Invalid request body"
-// @Failure 401 {object} string "Invalid email or password"
-// @Failure 500 {object} string "Internal server error"
-// @Header 200 {string} Authorization "Bearer token"
+// @Success 200 "Success"
+// @Failure 400 {object} responses.BadRequestError "Bad request"
+// @Failure 401 {object} responses.UnauthorizedError "Not authorized"
+// @Failure 500 {object} responses.InternalServerErr "Internal server error"
 // @Router /api/v1/task-manager/login [post]
 func (h Handler) Login(r *http.Request) responses.Response {
 	const operation = "UserHandler.Login"
@@ -26,12 +25,16 @@ func (h Handler) Login(r *http.Request) responses.Response {
 	// Parse request
 	var req schema.Login
 	if err := requests.DecodeBodyJSON(r, &req); err != nil {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		return responses.BadRequest(err)
 	}
 
 	// Validate params request
 	if req.Email == "" || req.Password == "" {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, requests.ErrMissingParams))
+		log.Printf("%s: %v", operation, requests.ErrFieldsRequired)
+
+		return responses.BadRequest(requests.ErrFieldsRequired)
 	}
 
 	input := usecases.LoginInput{
@@ -42,7 +45,9 @@ func (h Handler) Login(r *http.Request) responses.Response {
 	// Call usecase
 	token, err := h.usecase.Login(r.Context(), input)
 	if err != nil {
-		return responses.InternalServerError(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		return responses.InternalServerError(err)
 	}
 
 	header := http.Header{

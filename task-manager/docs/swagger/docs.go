@@ -36,27 +36,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "User created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
-                    "401": {
-                        "description": "Not authorized",
+                    "409": {
+                        "description": "Conflict",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.ConflictError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -82,33 +79,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Login created successfully",
-                        "schema": {
-                            "type": "string"
-                        },
-                        "headers": {
-                            "Authorization": {
-                                "type": "string",
-                                "description": "Bearer token"
-                            }
-                        }
+                        "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
-                        "description": "Invalid email or password",
+                        "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -137,21 +125,21 @@ const docTemplate = `{
                         }
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
                         "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -180,27 +168,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task created successfully",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
                         "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -232,15 +217,15 @@ const docTemplate = `{
                         "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
                         "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "404": {
@@ -252,7 +237,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -279,33 +264,30 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task updated successfully",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
                         "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "404": {
-                        "description": "Task not found",
+                        "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.NotFoundError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -332,33 +314,30 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Task deleted successfully",
-                        "schema": {
-                            "type": "string"
-                        }
+                        "description": "Success"
                     },
                     "400": {
-                        "description": "Invalid request body",
+                        "description": "Bad request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.BadRequestError"
                         }
                     },
                     "401": {
                         "description": "Not authorized",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.UnauthorizedError"
                         }
                     },
                     "404": {
-                        "description": "Task not found",
+                        "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.NotFoundError"
                         }
                     },
                     "500": {
                         "description": "Internal server error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/responses.InternalServerErr"
                         }
                     }
                 }
@@ -366,12 +345,48 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "responses.BadRequestError": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Bad request"
+                }
+            }
+        },
+        "responses.ConflictError": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Conflict"
+                }
+            }
+        },
+        "responses.InternalServerErr": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Internal server error"
+                }
+            }
+        },
         "responses.NotFoundError": {
             "type": "object",
             "properties": {
                 "title": {
                     "type": "string",
                     "example": "Not found"
+                }
+            }
+        },
+        "responses.UnauthorizedError": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Unauthorized"
                 }
             }
         },

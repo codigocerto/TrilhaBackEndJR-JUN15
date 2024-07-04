@@ -1,9 +1,33 @@
 basePath: /
 definitions:
+  responses.BadRequestError:
+    properties:
+      title:
+        example: Bad request
+        type: string
+    type: object
+  responses.ConflictError:
+    properties:
+      title:
+        example: Conflict
+        type: string
+    type: object
+  responses.InternalServerErr:
+    properties:
+      title:
+        example: Internal server error
+        type: string
+    type: object
   responses.NotFoundError:
     properties:
       title:
         example: Not found
+        type: string
+    type: object
+  responses.UnauthorizedError:
+    properties:
+      title:
+        example: Unauthorized
         type: string
     type: object
   schema.CreateTaskRequest:
@@ -69,21 +93,19 @@ paths:
           $ref: '#/definitions/schema.CreateUserRequest'
       responses:
         "200":
-          description: User created successfully
-          schema:
-            type: string
+          description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
-        "401":
-          description: Not authorized
+            $ref: '#/definitions/responses.BadRequestError'
+        "409":
+          description: Conflict
           schema:
-            type: string
+            $ref: '#/definitions/responses.ConflictError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       summary: Create a new login to access the system.
       tags:
       - Users
@@ -99,25 +121,19 @@ paths:
           $ref: '#/definitions/schema.Login'
       responses:
         "200":
-          description: Login created successfully
-          headers:
-            Authorization:
-              description: Bearer token
-              type: string
-          schema:
-            type: string
+          description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
-          description: Invalid email or password
+          description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       summary: Create a new login to access the system.
       tags:
       - Users
@@ -132,17 +148,17 @@ paths:
               $ref: '#/definitions/schema.TaskResponse'
             type: array
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
           description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       security:
       - BearerToken: []
       summary: Get all tasks.
@@ -159,21 +175,19 @@ paths:
           $ref: '#/definitions/schema.CreateTaskRequest'
       responses:
         "200":
-          description: Task created successfully
-          schema:
-            type: string
+          description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
           description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       security:
       - BearerToken: []
       summary: Create a new login to access the system.
@@ -190,25 +204,23 @@ paths:
         type: string
       responses:
         "200":
-          description: Task deleted successfully
-          schema:
-            type: string
+          description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
           description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "404":
-          description: Task not found
+          description: Not Found
           schema:
-            type: string
+            $ref: '#/definitions/responses.NotFoundError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       security:
       - BearerToken: []
       summary: Delete a task.
@@ -226,13 +238,13 @@ paths:
         "200":
           description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
           description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "404":
           description: Not Found
           schema:
@@ -240,7 +252,7 @@ paths:
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       security:
       - BearerToken: []
       summary: Get a task by ID.
@@ -256,25 +268,23 @@ paths:
         type: string
       responses:
         "200":
-          description: Task updated successfully
-          schema:
-            type: string
+          description: Success
         "400":
-          description: Invalid request body
+          description: Bad request
           schema:
-            type: string
+            $ref: '#/definitions/responses.BadRequestError'
         "401":
           description: Not authorized
           schema:
-            type: string
+            $ref: '#/definitions/responses.UnauthorizedError'
         "404":
-          description: Task not found
+          description: Not Found
           schema:
-            type: string
+            $ref: '#/definitions/responses.NotFoundError'
         "500":
           description: Internal server error
           schema:
-            type: string
+            $ref: '#/definitions/responses.InternalServerErr'
       security:
       - BearerToken: []
       summary: Update a task.

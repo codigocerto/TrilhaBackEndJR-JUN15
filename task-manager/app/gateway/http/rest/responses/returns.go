@@ -19,15 +19,17 @@ func Created(payload interface{}) Response {
 
 func BadRequest(err error) Response {
 	return Response{
-		Status: http.StatusBadRequest,
-		Error:  err,
+		Status:  http.StatusBadRequest,
+		Error:   err,
+		Payload: ErrBadRequest,
 	}
 }
 
 func InternalServerError(err error) Response {
 	return Response{
-		Status: http.StatusInternalServerError,
-		Error:  err,
+		Status:  http.StatusInternalServerError,
+		Error:   err,
+		Payload: ErrInternalServerError,
 	}
 }
 
@@ -41,7 +43,8 @@ func NotFound(err error) Response {
 
 func Conflict(err error) Response {
 	return Response{
-		Status: http.StatusConflict,
-		Error:  err,
+		Status:  http.StatusConflict,
+		Error:   err,
+		Payload: ErrConflict,
 	}
 }

@@ -1,7 +1,7 @@
 package task
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"task-manager/app/domain/usecases"
 	"task-manager/app/gateway/http/rest/requests"
@@ -14,11 +14,11 @@ import (
 // @Description Update a task.
 // @Tags Tasks
 // @Security BearerToken
-// @Success 200 {object} string "Task updated successfully"
-// @Failure 400 {object} string "Invalid request body"
-// @Failure 404 {object} string "Task not found"
-// @Failure 401 {object} string "Not authorized"
-// @Failure 500 {object} string "Internal server error"
+// @Success 200 "Success"
+// @Failure 400 {object} responses.BadRequestError "Bad request"
+// @Failure 404 {object} responses.NotFoundError "Not Found"
+// @Failure 401 {object} responses.UnauthorizedError "Not authorized"
+// @Failure 500 {object} responses.InternalServerErr "Internal server error"
 // @Router /api/v1/task-manager/tasks/{task-id} [put]
 // @Param task-id path string true "Task ID"
 func (h Handler) UpdateTask(r *http.Request) responses.Response {
@@ -27,18 +27,24 @@ func (h Handler) UpdateTask(r *http.Request) responses.Response {
 	// Parse task ID
 	taskID, err := requests.ParseUUID(r, "task-id")
 	if err != nil {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		return responses.BadRequest(err)
 	}
 
 	// Parse request body
 	var req schema.UpdateTaskRequest
 	if err := requests.DecodeBodyJSON(r, &req); err != nil {
-		return responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		return responses.BadRequest(err)
 	}
 
 	// Validate request
 	if req.Title == "" {
-		return responses.BadRequest(fmt.Errorf("%s: %s", operation, "title is required"))
+		log.Printf("%s: %s", operation, requests.ErrFieldsRequired)
+
+		return responses.BadRequest(requests.ErrFieldsRequired)
 	}
 
 	input := usecases.UpdateTaskInput{
@@ -51,7 +57,9 @@ func (h Handler) UpdateTask(r *http.Request) responses.Response {
 
 	// Update task
 	if err := h.usecase.UpdateTask(r.Context(), input); err != nil {
-		return responses.InternalServerError(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		return responses.InternalServerError(err)
 	}
 
 	return responses.OK(nil, nil)

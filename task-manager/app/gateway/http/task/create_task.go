@@ -1,7 +1,7 @@
 package task
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"task-manager/app/domain/usecases"
 	"task-manager/app/gateway/http/rest/requests"
@@ -15,10 +15,10 @@ import (
 // @Tags Tasks
 // @Security BearerToken
 // @Param Body body schema.CreateTaskRequest true "Body"
-// @Success 200 {object} string "Task created successfully"
-// @Failure 400 {object} string "Invalid request body"
-// @Failure 401 {object} string "Not authorized"
-// @Failure 500 {object} string "Internal server error"
+// @Success 200 "Success"
+// @Failure 400 {object} responses.BadRequestError "Bad request"
+// @Failure 401 {object} responses.UnauthorizedError "Not authorized"
+// @Failure 500 {object} responses.InternalServerErr "Internal server error"
 // @Router /api/v1/task-manager/tasks [post]
 func (h *Handler) CreateTask(r *http.Request) responses.Response {
 	const operation = "TaskHandler.CreateTask"
@@ -26,12 +26,16 @@ func (h *Handler) CreateTask(r *http.Request) responses.Response {
 	// Decode request body
 	var req schema.CreateTaskRequest
 	if err := requests.DecodeBodyJSON(r, &req); err != nil {
-		responses.BadRequest(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		responses.BadRequest(err)
 	}
 
 	// Validate request
 	if req.Title == "" {
-		responses.BadRequest(fmt.Errorf("%s: %w", operation, fmt.Errorf("fields are required")))
+		log.Printf("%s: %v", operation, requests.ErrFieldsRequired)
+
+		responses.BadRequest(requests.ErrFieldsRequired)
 	}
 
 	input := usecases.CreateTaskInput{
@@ -42,7 +46,9 @@ func (h *Handler) CreateTask(r *http.Request) responses.Response {
 
 	// Create task
 	if err := h.usecase.CreateTask(r.Context(), input); err != nil {
-		responses.InternalServerError(fmt.Errorf("%s: %w", operation, err))
+		log.Printf("%s: %v", operation, err)
+
+		responses.InternalServerError(err)
 	}
 
 	return responses.Created(nil)
