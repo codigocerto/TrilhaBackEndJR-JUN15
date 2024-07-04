@@ -1,99 +1,56 @@
-![Código Certo Coders](https://utfs.io/f/3b2340e8-5523-4aca-a549-0688fd07450e-j4edu.jfif)
-
-# 📚 Trilha Inicial BackEnd Jr
-Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de tarefas, proporcionando funcionalidades de CRUD (Create, Read, Update, Delete) de tarefas, autenticação de usuários e armazenamento dos dados em um banco de dados.
-
-## Objetivos:
-- Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
-- Implementar autenticação de usuários.
-- Utilizar um banco de dados SQLite para armazenar as tarefas.
-- Documentar todo o processo e apresentar as conclusões.
-
-## Requisitos Funcionais:
-- Criar Tarefa: Endpoint para criar uma nova tarefa.
-- Listar Tarefas: Endpoint para listar todas as tarefas.
-- Atualizar Tarefa: Endpoint para atualizar uma tarefa existente.
-- Deletar Tarefa: Endpoint para deletar uma tarefa existente.
-
-## Autenticação de Usuários:
-- Registro de Usuário: Endpoint para registrar um novo usuário.
-- Login de Usuário: Endpoint para autenticar um usuário e gerar um token JWT.
-- Proteção de Rotas: Garantir que apenas usuários autenticados possam acessar os endpoints de tarefas.
-
-## Banco de Dados:
-- Utilizar SQLite como banco de dados para armazenar informações de usuários e tarefas.
-
-   #### Estrutura do Projeto:
-   ```plaintext
-   project-root/
-   │
-   ├── src/
-   │   ├── controllers/
-   │   ├── models/
-   │   ├── routes/
-   │   ├── middlewares/
-   │   ├── database/
-   │   └── app.js
-   │
-   ├── .env
-   ├── .gitignore
-   ├── README.md
-   └── package.json
-   ```
-## Entregáveis:
-   1. **Código Fonte:**
-      - Código fonte do projeto, organizado conforme a estrutura acima.
-   2. **Repositório GitHub:**
-      - Repositório público contendo o código fonte e documentação.
-   3. **Documentação:**
-      - README.md com instruções sobre como configurar e executar o projeto, além de detalhes dos endpoints da API.
-
-### Detalhes Técnicos: 🔧
-- **Boas Práticas:** Utilizar boas práticas de código limpo, legível e bem documentado.
-- **Git:** Utilizar Git para controle de versão e submeter o projeto através de um repositório público no GitHub.
-
-### Dicas para Abordar o Projeto 🌟
-- **Crie um Fork desse Repositório.**
-- **Criar do Zero:** É fundamental que o projeto seja desenvolvido completamente do zero, demonstrando suas habilidades e criatividade desde o início.
-- **Utilize bibliotecas** como Express para criação da API e jsonwebtoken para autenticação.
-- **Documente cada etapa do processo para facilitar a compreensão.**
-
-### Critérios de Avaliação: 📝
-- **Funcionalidade:** A aplicação atende aos requisitos funcionais e funciona corretamente?
-- **Qualidade do Código:** O código é limpo, bem estruturado e adequadamente documentado?
-- **Segurança:** A autenticação foi implementada corretamente e as rotas estão protegidas?
-- **Uso do Git:** O controle de versão é usado de forma eficaz com mensagens de commit significativas?
-- **Documentação:** A documentação é clara e detalha o processo de desenvolvimento e uso da API?
-
-### Não Queremos 🚫
-- Descobrir que o candidato não foi quem realizou o teste.
-- Ver commits grandes sem muita explicação nas mensagens no repositório.
-- Entregas padrão ou cópias de outros projetos. Buscamos originalidade e autenticidade em cada contribuição.
-
-### Prazo ⏳
-A data máxima para entrega das trilhas foi removida, permitindo que as pessoas entreguem conforme sua disponibilidade. No entanto, ainda é necessário concluir a trilha com sucesso para ser inserido em uma equipe.
-
-### Instruções de Entrega: 📬
-Após finalizar o projeto, publique-o em uma URL pública (por exemplo, Vercel, Netlify, GitHub Pages, etc.) e hospede o seu servidor na nuvem. Use serviços que ofereçam uso gratiuto por um período, como a AWS e preencha o [Formulário](https://forms.gle/gZViPMTSDV5nidSu6):  
+# Trilha Back end Jr - Código certo
 
 ---
 
-### Desafio da Inovação 🚀
-Achou esse projeto inicial simples? Eleve ainda mais! Estamos em busca de mentes inovadoras que não apenas criem, mas que também desafiem os padrões. Como você pode transformar essa estrutura inicial em algo verdadeiramente extraordinário? Demonstre o poder da sua criatividade e o impacto das suas ideias inovadoras!
+### Escolha de Tecnologia e Arquitetura
+
+Neste desafio de projeto, optei por utilizar Java com Spring devido ao meu maior conhecimento e conforto com essa linguagem.
+
+#### Motivação para Java com Spring
+
+- **Familiaridade:** Java é a linguagem na qual tenho mais conhecimento e experiência, permitindo-me desenvolver com maior eficiência e segurança.
+- **Framework Spring:** O Spring oferece uma vasta gama de funcionalidades que facilitam o desenvolvimento de aplicações robustas e escaláveis.
+
+#### Arquitetura Utilizada
+
+Decidi utilizar a arquitetura MVC (Model, View, Controller) por suas vantagens em termos de organização e simplicidade. Embora o projeto não seja muito complexo, a arquitetura MVC mantém o código:
+
+- **Clean:** Facilita a manutenção e a compreensão do código.
+- **Modular:** Separa claramente as responsabilidades, melhorando a estrutura e a extensibilidade do projeto.
+- **Facilidade de Entendimento:** A sepa
+
 
 ---
 
-🔗 **Mantenha-se Conectado:**
-- [Discord](https://discord.gg/wzA9FGZHNv)
-- [Website](http://www.codigocertocoders.com.br/)
-- [LinkedIn](https://www.linkedin.com/company/codigocerto/)
-  
-🌐 **Contato:**
-- Email: codigocertocoders@gmail.com
+### Escolha do Banco de dados
+
+Optei por utilizar o MySQL como banco de dados em vez do SQLite. Esta decisão foi tomada porque pretendo implementar um relacionamento entre tarefas (tasks) e usuários (users), onde cada usuário terá controle de suas próprias tarefas sem interferir nas tarefas de outros usuários.
+
+#### Motivação para o MySQL
+
+- **Relacionamentos:** MySQL oferece um suporte robusto para a criação e manutenção de relacionamentos entre tabelas, algo essencial para gerenciar as associações entre tarefas e usuários de forma eficiente.
+- **Escalabilidade:** MySQL é mais adequado para projetos que podem crescer em complexidade e volume de dados, proporcionando uma escalabilidade que o SQLite não oferece tão bem.
+- **Desempenho:** Para operações mais complexas e consultas em grandes volumes de dados, o MySQL geralmente oferece um desempenho melhor em comparação com o SQLite.
+
+#### Utilização do Docker Compose
+
+Para evitar a necessidade de instalar o MySQL diretamente no meu computador, utilizei o Docker Compose para criar e gerenciar um contêiner com a imagem do MySQL. Isso oferece diversas vantagens:
+
+- **Isolamento:** O banco de dados roda em um ambiente isolado, evitando conflitos com outros serviços ou configurações no sistema host.
+- **Portabilidade:** É fácil replicar o ambiente de desenvolvimento em outras máquinas ou servidores.
+- **Facilidade de Configuração:** O Docker Compose permite definir todas as configurações do contêiner em um único arquivo `docker-compose.yml`, facilitando a criação e a manutenção do ambiente de desenvolvimento.
 
 ---
 
-### Precisa de Ajuda?
-Está com alguma dificuldade, encontrou algum problema no desafio ou tem alguma sugestão pra gente? Crie uma issue e descreva o que achar necessário.
+### Dependencias
 
-**Construindo o amanhã, hoje.**
+Deixarei listado todas as dependencias usadas nesse projeto e uma breve descrição de cada.
+
+- **Spring Web:** Utilizada para criar e configurar aplicações web, utilizando o servidor embutido Tomcat.
+- **Spring JPA:** Utilizada para a integração e manipulação de banco de dados através da especificação Java Persistence API, facilitando o mapeamento objeto-relacional (ORM).
+- **Spring Security:** Utilizada para adicionar camadas de segurança à aplicação, fornecendo autenticação e autorização robustas.
+- **Driver do MySql:** Necessário para a conexão da aplicação com um banco de dados MySQL. 
+- **Driver do H2:** Utilizei o h2 (banco em nuvem) para fazer os testes unitários.
+- **JWT (JSON Web Token):** Utilizada para a implementação de autenticação baseada em token. JWTs permitem a transmissão segura de informações entre partes como um objeto JSON, garantindo a integridade e autenticidade dos dados transmitidos.
+
+
