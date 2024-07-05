@@ -4,7 +4,7 @@ import com.navarro.codigo_certo.trilha_back_end_jr.dto.login.RequestLogin;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.login.ResponseLogin;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.register.RequestRegister;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.register.ResponseRegister;
-import com.navarro.codigo_certo.trilha_back_end_jr.service.AuthenticateService;
+import com.navarro.codigo_certo.trilha_back_end_jr.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("auth")
 public class AuthenticationController {
 
-    private final AuthenticateService authenticateService;
+    private final AuthenticationService authenticateService;
 
-    public AuthenticationController(AuthenticateService authenticateService) {
+    public AuthenticationController(AuthenticationService authenticateService) {
         this.authenticateService = authenticateService;
     }
 
