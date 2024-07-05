@@ -28,12 +28,18 @@ public class User implements UserDetails {
 
     @ManyToOne
     @JoinColumn(name = "status_id")
-    private Status status;
+    private Status status = Status.Values.ACTIVE.toStatus();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
 
     public User() {
+    }
+
+    public User(String name, String username, String password) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
     }
 
     @Override
@@ -43,12 +49,12 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
