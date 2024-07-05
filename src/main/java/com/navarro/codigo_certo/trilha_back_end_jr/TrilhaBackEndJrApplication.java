@@ -9,5 +9,4 @@ public class TrilhaBackEndJrApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TrilhaBackEndJrApplication.class, args);
 	}
-
 }
