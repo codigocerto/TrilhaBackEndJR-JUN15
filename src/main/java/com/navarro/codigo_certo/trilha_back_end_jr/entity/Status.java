@@ -1,5 +1,6 @@
 package com.navarro.codigo_certo.trilha_back_end_jr.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -9,8 +10,10 @@ import jakarta.persistence.Table;
 public class Status {
 
     @Id
+    @Column(name = "status_id")
     private Long statusId;
 
+    @Column(length = 15)
     private String description;
 
     public Status() {

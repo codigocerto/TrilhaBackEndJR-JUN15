@@ -4,21 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_tasks")
-public class Tasks {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "task_id")
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
-    private boolean completed;
-
     @ManyToOne
-    @JoinColumn(name = "users_id")
-    private Users users;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Tasks() {
+    public Task() {
     }
 
     public Long getId() {
@@ -37,19 +37,11 @@ public class Tasks {
         this.description = description;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public User getUser() {
+        return user;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

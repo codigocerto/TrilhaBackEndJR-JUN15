@@ -6,24 +6,30 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_users")
-public class Users {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
+    @Column(length = 55)
     private String name;
-    private String login;
+
+    @Column(nullable = false, unique = true, length = 55)
+    private String username;
+
+    @Column(nullable = false)
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tasks> tasks;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks;
 
-    public Users() {
+    public User() {
     }
 
     public Long getId() {
@@ -42,12 +48,12 @@ public class Users {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -66,11 +72,11 @@ public class Users {
         this.status = status;
     }
 
-    public List<Tasks> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<Tasks> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 }
