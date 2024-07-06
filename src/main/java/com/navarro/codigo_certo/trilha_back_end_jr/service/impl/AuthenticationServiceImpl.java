@@ -5,12 +5,14 @@ import com.navarro.codigo_certo.trilha_back_end_jr.dto.login.RequestLogin;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.login.ResponseLogin;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.register.RequestRegister;
 import com.navarro.codigo_certo.trilha_back_end_jr.dto.register.ResponseRegister;
+import com.navarro.codigo_certo.trilha_back_end_jr.entity.Status;
 import com.navarro.codigo_certo.trilha_back_end_jr.entity.User;
 import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.InvalidPassword;
 import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.UserAlreadyExistsException;
 import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.NotFound;
 import com.navarro.codigo_certo.trilha_back_end_jr.repository.UsersRepository;
 import com.navarro.codigo_certo.trilha_back_end_jr.service.AuthenticationService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseLogin login(RequestLogin request) {
-        return this.usersRepository.findByUsername(request.username())
+        return this.usersRepository.findByUsernameAndActive(request.username())
                 .map(user -> {
                     if(this.passwordEncoder.matches(request.password(), user.getPassword())){
                         String token = this.tokenService.generateToken(user);
@@ -44,7 +46,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseRegister register(RequestRegister register) {
-        this.usersRepository.findByUsername(register.username())
+        this.usersRepository.findByUsernameAndActive(register.username())
                 .ifPresent(user -> {
                     throw new UserAlreadyExistsException(
                             String.format("User with username %s already exist!", register.username()));
@@ -56,5 +58,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = this.tokenService.generateToken(newUser);
 
         return new ResponseRegister(newUser.getName(), token);
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(User user) {
+        this.usersRepository.findById(user.getId())
+                .ifPresent(userLog -> userLog.setStatus(Status.Values.INACTIVE.toStatus()));
     }
 }
