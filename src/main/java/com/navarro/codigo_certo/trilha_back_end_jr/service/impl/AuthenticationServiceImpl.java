@@ -8,7 +8,7 @@ import com.navarro.codigo_certo.trilha_back_end_jr.dto.register.ResponseRegister
 import com.navarro.codigo_certo.trilha_back_end_jr.entity.User;
 import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.InvalidPassword;
 import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.UserAlreadyExistsException;
-import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.UserNotFound;
+import com.navarro.codigo_certo.trilha_back_end_jr.infra.exceptions.NotFound;
 import com.navarro.codigo_certo.trilha_back_end_jr.repository.UsersRepository;
 import com.navarro.codigo_certo.trilha_back_end_jr.service.AuthenticationService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     }
                     throw new InvalidPassword("Invalid password!");
                 }).orElseThrow(() ->
-                        new UserNotFound(String.format("User with username %s not found!", request.username())));
+                        new NotFound(String.format("User with username %s not found!", request.username())));
     }
 
     @Override
