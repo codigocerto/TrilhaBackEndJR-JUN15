@@ -33,8 +33,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public ResponseLogin login(RequestLogin request) {
         return this.usersRepository.findByUsername(request.username())
                 .map(user -> {
-                    System.out.println(request.password());
-                    System.out.println(user.getPassword());
                     if(this.passwordEncoder.matches(request.password(), user.getPassword())){
                         String token = this.tokenService.generateToken(user);
                         return new ResponseLogin(user.getName(), token);
