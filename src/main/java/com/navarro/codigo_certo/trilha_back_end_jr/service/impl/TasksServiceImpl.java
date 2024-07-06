@@ -29,17 +29,14 @@ public class TasksServiceImpl implements TasksService {
     }
 
     @Override
-    public Void createTask(User user, RequestTask task) {
-        return null;
+    public void createTask(User user, RequestTask task) {
     }
 
     @Override
-    public Void updateTask(User user, Long id, RequestTask task) {
-        return null;
+    public void updateTask(User user, Long id, RequestTask task) {
     }
 
     @Override
-    public Void deleteTask(User user, Long id) {
-        return null;
+    public void deleteTask(User user, Long id) {
     }
 }
