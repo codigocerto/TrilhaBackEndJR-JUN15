@@ -10,7 +10,7 @@ exclusivamente às tarefas que criar, garantindo que um usuário não possa visu
 
 #### Segue links para teste e visualização
 
-- Swagger: -link aq-
+- Swagger: [Clique para abrir](https://editor.swagger.io/?_gl=1*1i4izy5*_gcl_au*MTAyNTI0OTAzOS4xNzE3MDQwNjg1&_ga=2.150547574.178939595.1720296402-1463679959.1717040677)
 - Collection: -link aq-
 - Url deploy: -link aq-
 
@@ -29,11 +29,11 @@ aplicações robustas e escaláveis.
 
 #### Arquitetura Utilizada
 
-Decidi utilizar a arquitetura MVC (Model, View, Controller) por suas vantagens em termos de organização e simplicidade. Embora o projeto não seja muito complexo, a arquitetura MVC mantém o código:
+Decidi utilizar a arquitetura MVC (Model, View, Controller) por suas vantagens em termos de organização e simplicidade.
+Embora o projeto não seja muito complexo, a arquitetura MVC mantém o código:
 
 - **Clean:** Facilita a manutenção e a compreensão do código.
 - **Modular:** Separa claramente as responsabilidades, melhorando a estrutura e a extensibilidade do projeto.
-- **Facilidade de Entendimento:** A sepa
 
 ---
 
@@ -116,8 +116,9 @@ dados transmitidos;
 
 ### Passo a Passo para Subir o Projeto Localmente
 
-Caso opte por subir o projeto localmente em vez de apenas testar pelo Swagger, você precisará ter o Docker e a JDK 
-instalados em seu computador, além do Postman ou Insomnia para testar as requisições.
+Caso opte por subir o projeto localmente em vez de apenas testar pelo [Swagger](https://editor.swagger.io/?_gl=1*1i4izy5*_gcl_au*MTAyNTI0OTAzOS4xNzE3MDQwNjg1&_ga=2.150547574.178939595.1720296402-1463679959.1717040677), 
+você precisará ter o [Docker](https://www.docker.com/get-started/) e a [JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) instalados em seu computador, 
+além do [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/download) para testar as requisições.
 
 #### 1. Abra seu terminal e faça o clone do projeto
 
@@ -138,4 +139,5 @@ docker compose up
 
 Com os passos anteriores, você já pode abrir e iniciar o projeto em sua IDE de preferência.
 
-Agora abra seu Postman ou Insomnia e importe a Collection que deixarei disponível para você fazer seus testes.
+Agora abra seu [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/download) e importe a 
+Collection que deixarei disponível para você fazer seus testes.
