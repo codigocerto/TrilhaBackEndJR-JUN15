@@ -5,8 +5,8 @@ services:
     image: 'mysql:8.0'
     environment:
       MYSQL_DATABASE: trilha-back-end-jr
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: 1234
       MYSQL_USER: admin
     ports:
       - '3306:3306'
