@@ -11,7 +11,7 @@ exclusivamente às tarefas que criar, garantindo que um usuário não possa visu
 #### Segue links para teste e visualização
 
 - Swagger: [Clique para abrir](https://editor.swagger.io/?_gl=1*1i4izy5*_gcl_au*MTAyNTI0OTAzOS4xNzE3MDQwNjg1&_ga=2.150547574.178939595.1720296402-1463679959.1717040677)
-- Collection: -link aq-
+- Collection: [Clique para fazer download](https://drive.google.com/uc?export=download&id=1bsVf4hcFoRnTFmH0bkQ1_3pxa1Koit7g)
 - Url deploy: -link aq-
 
 ---
