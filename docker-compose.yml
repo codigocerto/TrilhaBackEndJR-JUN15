@@ -18,5 +18,18 @@ services:
       timeout: 10s
       retries: 5
 
+  app:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/trilha-back-end-jr
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
 volumes:
   mysql_data:
