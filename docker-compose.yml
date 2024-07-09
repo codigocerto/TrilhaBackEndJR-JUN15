@@ -13,18 +13,20 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
 
   app:
     build:
+      context: .
       dockerfile: Dockerfile
     ports:
       - '8080:8080'
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/trilha-back-end-jr
       SPRING_DATASOURCE_USERNAME: admin
