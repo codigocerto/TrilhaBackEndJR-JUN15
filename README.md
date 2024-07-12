@@ -12,7 +12,7 @@ exclusivamente às tarefas que criar, garantindo que um usuário não possa visu
 
 - Swagger: [Clique para abrir](https://editor.swagger.io/?_gl=1*1i4izy5*_gcl_au*MTAyNTI0OTAzOS4xNzE3MDQwNjg1&_ga=2.150547574.178939595.1720296402-1463679959.1717040677)
 - Collection: [Clique para fazer download](https://drive.google.com/uc?export=download&id=1bsVf4hcFoRnTFmH0bkQ1_3pxa1Koit7g)
-- Url deploy: -link aq-
+- Url deploy: https://trilhabackendjr-jun15-nh4m.onrender.com
 
 ---
 
@@ -70,29 +70,9 @@ Embora o projeto não seja muito complexo, a arquitetura MVC mantém o código:
 
 ### Escolha do Banco de dados
 
-Optei por utilizar o MySQL como banco de dados em vez do SQLite. 
-Esta decisão foi tomada porque pretendo implementar um relacionamento entre tarefas (tasks) e usuários (users), 
-onde cada usuário terá controle de suas próprias tarefas sem interferir nas tarefas de outros usuários.
-
-#### Motivação para o MySQL
-
-- **Relacionamentos:** MySQL oferece um suporte robusto para a criação e manutenção de relacionamentos entre tabelas,
-algo essencial para gerenciar as associações entre tarefas e usuários de forma eficiente.
-- **Escalabilidade:** MySQL é mais adequado para projetos que podem crescer em complexidade e volume de dados,
-proporcionando uma escalabilidade que o SQLite não oferece tão bem.
-- **Desempenho:** Para operações mais complexas e consultas em grandes volumes de dados, o MySQL geralmente oferece um 
-desempenho melhor em comparação com o SQLite.
-
-#### Utilização do Docker Compose
-
-Para evitar a necessidade de instalar o MySQL diretamente no meu computador, utilizei o Docker Compose para criar e 
-gerenciar um contêiner com a imagem do MySQL. Isso oferece diversas vantagens:
-
-- **Isolamento:** O banco de dados roda em um ambiente isolado, evitando conflitos com outros serviços ou configurações
-no sistema host.
-- **Portabilidade:** É fácil replicar o ambiente de desenvolvimento em outras máquinas ou servidores.
-- **Facilidade de Configuração:** O Docker Compose permite definir todas as configurações do contêiner em um único 
-arquivo `docker-compose.yml`, facilitando a criação e a manutenção do ambiente de desenvolvimento.
+Optei por utilizar o H2 como banco de dados em vez do SQLite. 
+Esta decisão foi tomada pois utilizando o H2, eu consigo utilizar o JPA do spring, deixando o código bem mais clean e 
+menos propício a bugs.
 
 ---
 
@@ -108,9 +88,21 @@ robustas;
 - **JWT (JSON Web Token):** Utilizada para a implementação de autenticação baseada em token. JWTs permitem a 
 transmissão segura de informações entre partes como um objeto JSON, garantindo a integridade e autenticidade dos
 dados transmitidos;
-- **Driver do MySql:** Necessário para a conexão da aplicação com um banco de dados MySQL; 
-- **Driver do H2:** Utilizei o h2 (banco em nuvem) para fazer os testes unitários;
+- **Driver do H2:**  Necessário para a conexão da aplicação com um banco de dados h2 (banco em nuvem);
 - **Starter Test:** Dependencia padrão de testes que vem com o Spring web, implementa JUnit5 e Mockito.
+
+---
+
+### Passo a Passo para testar o projeto usando o link
+
+#### 1. Baixe a collection clicando neste link
+
+- https://drive.google.com/uc?export=download&id=1bsVf4hcFoRnTFmH0bkQ1_3pxa1Koit7g
+
+#### 2. Importe ela em seu Postman ou Insomnia e estará pronto para os testes.
+
+- Postman: https://www.postman.com/
+- Insomnia: https://insomnia.rest/download
 
 ---
 
@@ -125,19 +117,10 @@ além do [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest
 ```
 git clone https://github.com/Navarriin/TrilhaBackEndJR-JUN15.git
 ```
+#### 2. Abra o projeto em sua IDE de preferencia
+#### 3. Inicie o projeto (clicando na seta)
 
-#### 2. Com o Docker iniciado em seu PC, entre na pasta docker
-
-```
-cd TrilhaBackEndJR-JUN15/docker
-```
-#### 3. Suba a imagem do Docker
-
-```
-docker compose up
-```
-
-Com os passos anteriores, você já pode abrir e iniciar o projeto em sua IDE de preferência.
+Seguindo os passos anteriores, seu projeto ja estará rodando.
 
 Agora abra seu [Postman](https://www.postman.com/) ou [Insomnia](https://insomnia.rest/download) e importe a 
 Collection que deixarei disponível para você fazer seus testes.
