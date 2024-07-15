@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  api:
+    build:
+      context: .
+      target: production
+    ports:
+      - 8080:8080
