@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: task
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:memory:myDb?cache=shared
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+api:
+  security:
+    token:
+      secret: mat2h17872ny727db21bd63nj8
+server:
+  port: 8080
