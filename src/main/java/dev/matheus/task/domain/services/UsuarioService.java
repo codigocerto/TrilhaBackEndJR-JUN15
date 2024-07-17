@@ -46,9 +46,9 @@ public class UsuarioService {
     }
 
     private void validaUsuario(UsuarioDTO objDTO) {
-        Optional<Usuario> obj = repository.findByUsuario(objDTO.usuario());
+        Usuario obj = repository.findByUsuario(objDTO.usuario());
 
-        if (obj.isPresent() && !obj.get().getUsuarioId().equals(objDTO.id())) {
+        if (obj != null && !obj.getUsuarioId().equals(objDTO.id())) {
             throw new DataIntegrityViolationException("Este usuário já existe no sistema!");
         }
     }
