@@ -1,18 +1,18 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
 import { Request, Response } from "express";
-import { ChangeTaskStatusUseCase } from "../usecases/change-task-status.usecase";
+import { DeleteTaskUseCase } from "../../usecases/task/delete-task.usecase";
 
-export class ChangeTaskStatusController {
+export class DeleTaskController {
+  constructor() {}
+
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
 
-      const { isDone } = req.body;
+      const deleteTaskUseCase = container.resolve(DeleteTaskUseCase);
 
-      const changeTaskStatus = container.resolve(ChangeTaskStatusUseCase);
-
-      await changeTaskStatus.execute(id, isDone);
+      const task = await deleteTaskUseCase.execute(id);
 
       return res.status(204).send();
     } catch (error) {

@@ -1,10 +1,11 @@
 import { injectable } from "tsyringe";
 import { AppDataSource } from "../database/database";
 import { Task } from "../entities/task.entity";
-import { ITask } from "./task.interface";
+
 import { CreateTaskDTO } from "../controllers/DTOs/create-task.dto";
 import { UpdateTaskDTO } from "../controllers/DTOs/update-task.dto";
 import { AppError } from "../shared/error/app-error";
+import { ITask } from "./interfaces/task.interface";
 
 @injectable()
 export class TaskModel {

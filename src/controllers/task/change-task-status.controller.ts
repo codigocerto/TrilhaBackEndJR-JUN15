@@ -1,19 +1,18 @@
 import "reflect-metadata";
 import { container } from "tsyringe";
 import { Request, Response } from "express";
-import { UpdateTaskDTO } from "./DTOs/update-task.dto";
-import { UpdateTaskUseCase } from "../usecases/update-task.usecase";
+import { ChangeTaskStatusUseCase } from "../../usecases/task/change-task-status.usecase";
 
-export class UpdateTaskController {
+export class ChangeTaskStatusController {
   async handle(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
 
-      const task: UpdateTaskDTO = req.body;
+      const { isDone } = req.body;
 
-      const updateTaskUseCase = container.resolve(UpdateTaskUseCase);
+      const changeTaskStatus = container.resolve(ChangeTaskStatusUseCase);
 
-      await updateTaskUseCase.execute(id, task);
+      await changeTaskStatus.execute(id, isDone);
 
       return res.status(204).send();
     } catch (error) {

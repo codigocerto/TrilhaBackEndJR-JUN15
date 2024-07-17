@@ -1,3 +1,5 @@
+import { User } from "../entities/user.entity";
+
 export interface ITask {
   id?: string;
   name: string;
@@ -5,5 +7,5 @@ export interface ITask {
   createdAt: Date;
   updatedAt: Date;
   isDone: boolean;
-  userId: string;
+  user: User;
 }

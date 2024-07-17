@@ -16,10 +16,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "better-sqlite3": "^9.6.0",
+    "class-transformer": "^0.5.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^9.0.2",
     "reflect-metadata": "^0.2.2",
     "rimraf": "^6.0.0",
     "sqlite": "^5.1.1",
@@ -31,7 +34,9 @@
     "typescript-logging-category-style": "^2.2.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "nodemon": "^3.1.4",
     "ts-node-dev": "^2.0.0"
   }

@@ -2,15 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./user.entity";
+import { Task } from "./task.entity";
+import { Expose } from "class-transformer";
 
-@Entity({ name: "task" })
-export class Task {
+@Entity({ name: "user" })
+export class User {
   @PrimaryGeneratedColumn("uuid")
   id?: string;
 
@@ -18,7 +18,10 @@ export class Task {
   name!: string;
 
   @Column()
-  description!: string;
+  email!: string;
+
+  @Column()
+  password!: string;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -26,16 +29,9 @@ export class Task {
   @UpdateDateColumn()
   updatedAt!: Date;
 
-  @Column({ default: false })
-  isDone!: boolean;
-
-  @ManyToOne(() => User, (user) => user.tasks, {
+  @OneToMany(() => Task, (task) => task.user, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
-  @JoinColumn({ name: "user_id" })
-  user!: User;
-
-  @Column()
-  user_id!: string;
+  tasks!: Task[];
 }

@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
-import { TaskModel } from "../models/task.model";
-import { AppError } from "../shared/error/app-error";
-import { getLogger } from "../shared/logger/app-logger";
+import { TaskModel } from "../../models/task.model";
+import { AppError } from "../../shared/error/app-error";
+import { getLogger } from "../../shared/logger/app-logger";
 
 @injectable()
 export class ChangeTaskStatusUseCase {

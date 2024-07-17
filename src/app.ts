@@ -5,12 +5,14 @@ import { taskRouter } from "./routes/task.routes";
 
 import "../src/container";
 import { AppError } from "./shared/error/app-error";
+import { userRouter } from "./routes/user.routes";
 
 export const app = express();
 
 app.use(express.json());
 
 app.use(taskRouter);
+app.use(userRouter);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
   if (error instanceof AppError) {

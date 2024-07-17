@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
-import { TaskModel } from "../models/task.model";
-import { ITask } from "../models/task.interface";
-import { AppError } from "../shared/error/app-error";
-import { getLogger } from "../shared/logger/app-logger";
+import { TaskModel } from "../../models/task.model";
+import { AppError } from "../../shared/error/app-error";
+import { getLogger } from "../../shared/logger/app-logger";
+import { ITask } from "../../models/interfaces/task.interface";
 
 @injectable()
 export class FindAllTaskUseCase {

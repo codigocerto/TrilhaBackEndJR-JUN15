@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
-import { TaskModel } from "../models/task.model";
-import { UpdateTaskDTO } from "../controllers/DTOs/update-task.dto";
-import { AppError } from "../shared/error/app-error";
-import { getLogger } from "../shared/logger/app-logger";
+import { TaskModel } from "../../models/task.model";
+import { UpdateTaskDTO } from "../../controllers/DTOs/update-task.dto";
+import { AppError } from "../../shared/error/app-error";
+import { getLogger } from "../../shared/logger/app-logger";
 
 @injectable()
 export class UpdateTaskUseCase {
