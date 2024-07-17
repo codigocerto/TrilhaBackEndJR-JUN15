@@ -5,7 +5,7 @@ import dev.matheus.task.domain.enums.Status;
 
 import java.time.LocalDateTime;
 
-public record TarefaDTO(
+public record TarefaResponseDTO(
         Long tarefaId,
         String descricao,
         Status status,
