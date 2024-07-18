@@ -28,7 +28,6 @@ WORKDIR /app
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
-COPY --from=build /app/.env.prd ./
 COPY --from=build /app/swagger_output.json ./
 
 # Expõe a porta 8080 (ou a porta que sua aplicação Node.js utiliza)
