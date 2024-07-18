@@ -9,8 +9,6 @@ COPY package*.json ./
 
 COPY swagger_output.json ./
 
-COPY .env.prd ./
-
 # Instala as dependências do projeto
 RUN npm install
 
