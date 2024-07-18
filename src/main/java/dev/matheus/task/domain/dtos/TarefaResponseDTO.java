@@ -1,7 +1,7 @@
 package dev.matheus.task.domain.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.matheus.task.domain.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 

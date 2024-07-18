@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Users", description = "Endpoints para manipulação de usuários")
-@RequestMapping("/users")
+@Tag(name = "Usuario", description = "Usuario API")
+@RequestMapping("/usuario")
 public class UsuarioController {
     private final UsuarioService service;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<UsuarioDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
@@ -29,7 +29,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO){
-        return ResponseEntity.ok().body(service.update(id, usuarioDTO));
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDto){
+        return ResponseEntity.ok().body(service.update(id, usuarioDto));
     }
 }

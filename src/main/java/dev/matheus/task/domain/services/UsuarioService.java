@@ -26,7 +26,7 @@ public class UsuarioService {
 
     public void delete(Long id){
         validaDelete(id);
-        log.info("Deletando usuário com este ID: " + id);
+        log.info("Deletando usuário com  ID: " + id);
         repository.deleteById(id);
     }
 
@@ -39,30 +39,30 @@ public class UsuarioService {
             recordFound.setUsuario(user.usuario());
             recordFound.setSenha(encryptedPassword);
             return repository.save(recordFound);
-        }).orElseThrow(() -> new RecordNotFoundException("Não foi encontrado nenhum usuário com o ID: " + id));
+        }).orElseThrow(() -> new RecordNotFoundException("Nenhum usuário encontrado com o ID: " + id));
 
-        log.info("Atualizando usuário com o ID:  " + id);
+        log.info("Atualizando usuário com  ID:  " + id);
         return this.toDto(usuario);
     }
 
     private void validaUsuario(UsuarioDTO objDTO) {
         Usuario obj = repository.findByUsuario(objDTO.usuario());
 
-        if (obj != null && !obj.getUsuarioId().equals(objDTO.id())) {
-            throw new DataIntegrityViolationException("Este usuário já existe no sistema!");
+        if (obj != null && !obj.getIdUsuario().equals(objDTO.id())) {
+            throw new DataIntegrityViolationException("Usuário já cadastrado no sistema!");
         }
     }
 
     private void validaDelete(Long id){
         Optional<Usuario> usuario = repository.findById(id);
         if(usuario.isPresent() && usuario.get().getUsuario().equalsIgnoreCase("admin")){
-            throw new DataIntegrityViolationException("Usuário administrador não pode ser excluído!");
+            throw new DataIntegrityViolationException("Usuário com a permissão admin não pode ser deletado");
         }else if(usuario.isEmpty()){
-            throw new RecordNotFoundException("Não existe nenhum um usuário com este ID");
+            throw new RecordNotFoundException("Nenhum usuário com este ID");
         }
     }
 
     private UsuarioDTO toDto(Usuario usuario) {
-        return new UsuarioDTO(usuario.getUsuarioId(), usuario.getUsuario(), usuario.getSenha());
+        return new UsuarioDTO(usuario.getIdUsuario(), usuario.getUsuario(), usuario.getSenha());
     }
 }

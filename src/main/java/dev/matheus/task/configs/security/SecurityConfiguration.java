@@ -22,8 +22,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
     private final SecurityFilter securityFilter;
     private static final String[] PUBLIC_MATCHERS = {
-            "/api/login",
-            "/api/register",
+            "/usuario/login",
+            "/usuario/register",
             "/v3/api-docs/**",
             "/swagger-ui.html",
             "/swagger-ui/**",

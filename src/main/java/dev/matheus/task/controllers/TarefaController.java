@@ -13,24 +13,24 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Tasks", description = "Endpoints para manipulação de tarefas")
-@RequestMapping("/tasks")
+@Tag(name = "Tarefa", description = "Tarefa API")
+@RequestMapping("/tarefa")
 public class TarefaController {
     private final TarefaService service;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<TarefaResponseDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<TarefaResponseDTO> create(@RequestBody TarefaRequestDTO tarefaRequestDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(tarefaRequestDTO));
+    @PostMapping
+    public ResponseEntity<TarefaResponseDTO> create(@RequestBody TarefaRequestDTO tarefaRequestDto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(tarefaRequestDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TarefaResponseDTO> update(@RequestBody TarefaRequestDTO tarefaRequestDTO, @PathVariable Long id){
-        return ResponseEntity.ok().body(service.update(tarefaRequestDTO, id));
+    public ResponseEntity<TarefaResponseDTO> update(@RequestBody TarefaRequestDTO tarefaRequestDto, @PathVariable Long id){
+        return ResponseEntity.ok().body(service.update(tarefaRequestDto, id));
     }
 
     @DeleteMapping("/{id}")
