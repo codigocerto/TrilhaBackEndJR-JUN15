@@ -1,11 +1,10 @@
-require("dotenv").config();
+require("dotenv").config({
+  path: process.env.NODE_ENV === "development" ? ".env.dev" : ".env.prd",
+});
 
 export const databaseConfig = {
   type: "better-sqlite3",
-  database:
-    process.env.NODE_ENV === "development"
-      ? String(process.env.DATA_PATH_DEV)
-      : String(process.env.DATA_PATH_PROD),
+  database: String(process.env.DATA_PATH),
   synchronize: true,
   logging: false,
   entities: String(process.env.ENTITIES),

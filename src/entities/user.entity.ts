@@ -7,7 +7,6 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Task } from "./task.entity";
-import { Expose } from "class-transformer";
 
 @Entity({ name: "user" })
 export class User {

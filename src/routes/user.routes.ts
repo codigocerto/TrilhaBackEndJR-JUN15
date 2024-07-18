@@ -10,6 +10,10 @@ const createUserController = new CreateUserController();
 const findAllUserController = new FindAllUserController();
 const authenticateUserController = new AuthenticateUserController();
 
-userRouter.post("/user", createUserController.handle);
-userRouter.get("/user", ensureAuthenticated, findAllUserController.handle);
+userRouter.post("/user/create", createUserController.handle);
+userRouter.get(
+  "/users/get-all",
+  ensureAuthenticated,
+  findAllUserController.handle
+);
 userRouter.post("/auth/user", authenticateUserController.handle);
