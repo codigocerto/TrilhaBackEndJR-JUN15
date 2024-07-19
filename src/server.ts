@@ -1,5 +1,13 @@
 import { app } from "./app";
 import { appConfig } from "./config/app.config";
+import cors from "cors";
+
+const opt: cors.CorsOptions = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
+
+app.use(cors(opt));
 
 app.listen(
   {
