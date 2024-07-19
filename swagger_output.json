@@ -3,15 +3,20 @@
   "info": {
     "version": "v1.0.0",
     "title": "Task API - Código Certo",
-    "description": "API para gestão de tarefas com o recurso de autenticação de usuário"
+    "description": "API para gestão de tarefas com o recurso de autenticação de usuário",
+    "contact": {
+      "name": "Fabiano Albuquerque",
+      "email": "fabiano.santo0@icloud.com",
+      "url": "https://github.com/fabiano1133"
+    }
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
+      "url": "https://trilhabackendjr-jun15-0pjo.onrender.com",
       "description": ""
     },
     {
-      "url": "https://trilhabackendjr-jun15-0pjo.onrender.com",
+      "url": "http://localhost:8080",
       "description": ""
     }
   ],
@@ -28,8 +33,41 @@
         ],
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "isDone": {
+                        "type": "boolean"
+                      },
+                      "createdAt": {
+                        "type": "string"
+                      },
+                      "updatedAt": {
+                        "type": "string"
+                      },
+                      "user_id": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -61,8 +99,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Created"
           }
         }
       }
@@ -89,8 +127,38 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "isDone": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -134,8 +202,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": ""
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -176,8 +244,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": ""
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -237,8 +305,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Created"
           }
         }
       }
@@ -255,8 +323,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -285,8 +353,8 @@
           }
         },
         "responses": {
-          "default": {
-            "description": ""
+          "201": {
+            "description": "Created"
           }
         }
       }
