@@ -7,8 +7,11 @@ import "./container";
 import { AppError } from "./shared/error/app-error";
 import { userRouter } from "./routes/user.routes";
 import swaggerOutput from "../swagger_output.json";
+import cors from "cors";
 
 export const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 

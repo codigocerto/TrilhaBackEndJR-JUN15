@@ -9,6 +9,10 @@
     {
       "url": "http://localhost:8080",
       "description": ""
+    },
+    {
+      "url": "https://trilhabackendjr-jun15-0pjo.onrender.com",
+      "description": ""
     }
   ],
   "paths": {
