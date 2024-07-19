@@ -30,9 +30,6 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
 COPY --from=build /app/swagger_output.json ./
 
-# Copia o arquivo SQLite para o diretório de dados especificado pela variável de ambiente
-COPY --from=build /app/dist/data/task.sqlite $DATA_PATH
-
 # Expõe a porta 8080 (ou a porta que sua aplicação Node.js utiliza)
 EXPOSE 8080
 
