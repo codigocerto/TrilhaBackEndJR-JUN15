@@ -1,0 +1,16 @@
+@BASE_URL = http://localhost:3333/api/task
+
+### Get all tasks
+GET {{BASE_URL}}
+
+### Get all tasks
+POST {{BASE_URL}}
+Content-Type: application/json
+
+{
+  "title": "Task Title",
+  "description": "Task Description",
+}
+
+### Get task by ID
+GET {{BASE_URL}}/:id
