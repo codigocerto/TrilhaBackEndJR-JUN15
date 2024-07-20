@@ -1,29 +1,48 @@
 import { PrismaService } from "@/prisma";
-import { Prisma, Task } from "@prisma/client";
+import { generateSlug } from "@/utils/generate-slug";
+import { Task } from "@prisma/client";
+import { CreateTask, QueryFind } from "./@types";
 
 class TasksServices {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.TaskCreateInput): Promise<Task | null> {
+  async create(body: CreateTask): Promise<Task | Error> {
+    const { success, error, data } = CreateTask.safeParse(body);
+
+    if (!success) throw new Error(error?.issues[0].message);
+
+    const slug = generateSlug(data.title);
+
+    const eventWithSameSlug = await this.prisma.task.findUnique({
+      where: { slug },
+    });
+
+    if (eventWithSameSlug !== null) {
+      throw new Error("Task already exists");
+    }
+
     return this.prisma.task.create({
-      data,
+      data: {
+        title: data.title,
+        description: data.description,
+        slug,
+      },
     });
   }
 
-  async findAll(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.TaskWhereUniqueInput;
-    where?: Prisma.TaskWhereInput;
-    orderBy?: Prisma.TaskOrderByWithRelationInput;
-  }): Promise<Task[]> {
-    const { skip, take, cursor, where, orderBy } = params;
+  async findAll(queryParams: QueryFind): Promise<Task[]> {
+    const { page, query, take } = queryParams;
     return this.prisma.task.findMany({
-      skip,
+      where: query
+        ? {
+            title: {
+              contains: query,
+            },
+          }
+        : {},
       take,
-      cursor,
-      where,
-      orderBy,
+      skip: page * 10,
+      orderBy: { createdAt: "desc" },
     });
   }
 }

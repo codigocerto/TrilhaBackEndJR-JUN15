@@ -1,1 +1,1 @@
-export * from "./tasks";
+export * from "./tasks.controller";
