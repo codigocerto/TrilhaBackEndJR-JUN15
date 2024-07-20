@@ -11,7 +11,7 @@ model Task {
   id          String @id @default(uuid())
   title       String
   description String
-  slug        String
+  slug        String @unique
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
