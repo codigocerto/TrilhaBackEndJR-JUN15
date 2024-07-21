@@ -86,6 +86,16 @@ class TasksServices {
       },
     });
   }
+
+  async delete(id: string): Promise<true | Error> {
+    const task = await this.findOne(id);
+
+    if (!task) throw new Error('Task not exist');
+
+    await this.prisma.task.delete({ where: { id } });
+
+    return true;
+  }
 }
 
 export { TasksServices };

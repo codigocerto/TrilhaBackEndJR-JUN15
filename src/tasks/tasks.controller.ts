@@ -78,4 +78,20 @@ task.post('/:id', async (req: Request, res: Response) => {
   }
 });
 
+task.delete('/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await tasksService.delete(id);
+    return res.status(204).send({ message: 'Successfully deleted task' });
+  } catch (err: any) {
+    let message;
+    if (err.errors) {
+      message = err.errors.map((error: any) => error.message).join(', ');
+    } else {
+      message = err.message;
+    }
+    return res.status(500).send(err?.code ?? message ?? `${err}`);
+  }
+});
+
 export { task as Tasks };
