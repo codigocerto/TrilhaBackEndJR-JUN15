@@ -1,11 +1,15 @@
 import { QueryFind } from '@/@types';
+import { AuthServices } from '@/auth/auth.service';
 import { PrismaService } from '@/prisma';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { CreateUser, UpdateUser } from './@types';
 
 class UsersServices {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly authService: AuthServices,
+  ) {}
 
   async create(body: CreateUser): Promise<{ accessToken: string } | Error> {
     const { success, error, data } = CreateUser.safeParse(body);
@@ -14,7 +18,7 @@ class UsersServices {
 
     const passwordHash = await bcrypt.hash(data.password, 10);
 
-    const user = await this.prisma.user.create({
+    const { password: _, ...user } = await this.prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
@@ -22,16 +26,9 @@ class UsersServices {
       },
     });
 
-    const token = 'token'; // gerar token JWT
+    const { accessToken } = await this.authService.jwtSessionToken(user.id);
 
-    await this.prisma.session.create({
-      data: {
-        userId: user.id,
-        token,
-      },
-    });
-
-    return { accessToken: token };
+    return { accessToken };
   }
 
   async findAll(

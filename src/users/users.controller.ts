@@ -1,4 +1,5 @@
 import { QueryFind } from '@/@types';
+import { AuthServices } from '@/auth/auth.service';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
 import { ParsedQs } from 'qs';
@@ -6,7 +7,8 @@ import { UsersServices } from './users.service';
 
 const user = Router();
 const prisma = new PrismaService();
-const usersService = new UsersServices(prisma);
+const authServices = new AuthServices(prisma);
+const usersService = new UsersServices(prisma, authServices);
 
 user.post('/', async (req: Request, res: Response) => {
   const body = req.body;
