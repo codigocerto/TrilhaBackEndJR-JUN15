@@ -45,6 +45,14 @@ class TasksServices {
       orderBy: { createdAt: "desc" },
     });
   }
+
+  async findOne(id: string): Promise<Task | null> {
+    const tasks = this.prisma.task.findUnique({ where: { id } });
+
+    if (!tasks) throw new Error("Task not exist");
+
+    return tasks;
+  }
 }
 
 export { TasksServices };

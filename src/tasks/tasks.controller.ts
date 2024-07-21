@@ -26,8 +26,18 @@ task.get("/", async (req: Request, res: Response) => {
     take: take ? Number(take) : 10,
   };
   try {
-    const user = await tasksService.findAll(queryParams);
-    return res.status(200).send(user);
+    const result = await tasksService.findAll(queryParams);
+    return res.status(200).send(result);
+  } catch (error: unknown) {
+    res.status(500).send(error);
+  }
+});
+
+task.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await tasksService.findOne(id);
+    return res.status(200).send(result);
   } catch (error: unknown) {
     res.status(500).send(error);
   }
