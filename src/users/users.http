@@ -1,0 +1,30 @@
+@BASE_URL = http://localhost:3333/api/user
+@ID = 
+
+### Get all users
+GET {{BASE_URL}}
+
+### Create user
+POST {{BASE_URL}}
+Content-Type: application/json
+
+{
+  "name": "Jeferson",
+  "email": "me@jeferson.com",
+  "password": "123456"
+}
+
+### Get user by ID
+GET {{BASE_URL}}/{{ID}}
+
+
+### Update user
+POST {{BASE_URL}}/{{ID}}
+Content-Type: application/json
+
+{
+  "name": "Jeferson"
+}
+
+### Delete user
+DELETE {{BASE_URL}}/{{ID}}

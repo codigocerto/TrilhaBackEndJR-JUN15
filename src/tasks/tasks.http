@@ -1,14 +1,14 @@
 @BASE_URL = http://localhost:3333/api/task
 
 ### Get all tasks
-GET {{BASE_URL}}?take=2
+GET {{BASE_URL}}
 
 ### Create task
 POST {{BASE_URL}}
 Content-Type: application/json
 
 {
-  "title": "Task Title2",
+  "title": "Task Title",
   "description": "Task Description"
 }
 
@@ -23,3 +23,6 @@ Content-Type: application/json
 {
   "title": "Task Title1"
 }
+
+### Delete task
+DELETE {{BASE_URL}}/15d1a80e-d092-46ad-929c-fa7fade0500f

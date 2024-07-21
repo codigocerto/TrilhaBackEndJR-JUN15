@@ -1,7 +1,8 @@
+import { QueryFind } from '@/@types';
 import { PrismaService } from '@/prisma';
 import { generateSlug } from '@/utils';
 import { Task } from '@prisma/client';
-import { CreateTask, QueryFind, UpdateTask } from './@types';
+import { CreateTask, UpdateTask } from './@types';
 
 class TasksServices {
   constructor(private readonly prisma: PrismaService) {}
@@ -23,8 +24,7 @@ class TasksServices {
 
     return this.prisma.task.create({
       data: {
-        title: data.title,
-        description: data.description,
+        ...data,
         slug,
       },
     });
@@ -87,7 +87,7 @@ class TasksServices {
     });
   }
 
-  async delete(id: string): Promise<true | Error> {
+  async delete(id: string): Promise<boolean | Error> {
     const task = await this.findOne(id);
 
     if (!task) throw new Error('Task not exist');

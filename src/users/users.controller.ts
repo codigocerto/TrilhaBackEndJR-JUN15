@@ -1,17 +1,17 @@
+import { QueryFind } from '@/@types';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
 import { ParsedQs } from 'qs';
-import { QueryFind } from './@types';
-import { TasksServices } from './tasks.service';
+import { UsersServices } from './users.service';
 
-const task = Router();
+const user = Router();
 const prisma = new PrismaService();
-const tasksService = new TasksServices(prisma);
+const usersService = new UsersServices(prisma);
 
-task.post('/', async (req: Request, res: Response) => {
+user.post('/', async (req: Request, res: Response) => {
   const body = req.body;
   try {
-    const result = await tasksService.create(body);
+    const result = await usersService.create(body);
     return res.status(201).send(result);
   } catch (err: any) {
     let message;
@@ -24,7 +24,7 @@ task.post('/', async (req: Request, res: Response) => {
   }
 });
 
-task.get('/', async (req: Request, res: Response) => {
+user.get('/', async (req: Request, res: Response) => {
   const { query, page, take } = req.query as ParsedQs;
   const queryParams: QueryFind = {
     query: query ? String(query) : null,
@@ -32,7 +32,7 @@ task.get('/', async (req: Request, res: Response) => {
     take: take ? Number(take) : 10,
   };
   try {
-    const result = await tasksService.findAll(queryParams);
+    const result = await usersService.findAll(queryParams);
     return res.status(200).send(result);
   } catch (err: any) {
     let message;
@@ -45,10 +45,10 @@ task.get('/', async (req: Request, res: Response) => {
   }
 });
 
-task.get('/:id', async (req: Request, res: Response) => {
+user.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await tasksService.findOne(id);
+    const result = await usersService.findOne(id);
     return res.status(200).send(result);
   } catch (err: any) {
     let message;
@@ -61,11 +61,11 @@ task.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-task.post('/:id', async (req: Request, res: Response) => {
+user.post('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const { body } = req;
   try {
-    const result = await tasksService.update(id, body);
+    const result = await usersService.update(id, body);
     return res.status(201).send(result);
   } catch (err: any) {
     let message;
@@ -78,10 +78,10 @@ task.post('/:id', async (req: Request, res: Response) => {
   }
 });
 
-task.delete('/:id', async (req: Request, res: Response) => {
+user.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await tasksService.delete(id);
+    const result = await usersService.delete(id);
     return res.status(204).send(result);
   } catch (err: any) {
     let message;
@@ -94,4 +94,4 @@ task.delete('/:id', async (req: Request, res: Response) => {
   }
 });
 
-export { task as Tasks };
+export { user as Users };
