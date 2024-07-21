@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const Tasks = z.object({
   id: z.string().uuid(),
@@ -17,8 +17,8 @@ const CreateTask = Tasks.pick({
 const UpdateTask = CreateTask.partial();
 
 const QueryFind = z.object({
-  page: z.string().nullable().default("0").transform(Number),
-  take: z.string().nullable().default("10").transform(Number),
+  page: z.string().nullable().default('0').transform(Number),
+  take: z.string().nullable().default('10').transform(Number),
   query: z.string().nullable(),
 });
 

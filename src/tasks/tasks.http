@@ -3,7 +3,7 @@
 ### Get all tasks
 GET {{BASE_URL}}?take=2
 
-### Create tasks
+### Create task
 POST {{BASE_URL}}
 Content-Type: application/json
 
@@ -13,4 +13,13 @@ Content-Type: application/json
 }
 
 ### Get task by ID
-GET {{BASE_URL}}/:id
+GET {{BASE_URL}}/06310188-9150-4034-9ebc-aa6f8c69b7ba
+
+
+### Update task
+POST {{BASE_URL}}/06310188-9150-4034-9ebc-aa6f8c69b7ba
+Content-Type: application/json
+
+{
+  "title": "Task Title1"
+}

@@ -1,7 +1,7 @@
-import { PrismaService } from "@/prisma";
-import { generateSlug } from "@/utils/generate-slug";
-import { Task } from "@prisma/client";
-import { CreateTask, QueryFind } from "./@types";
+import { PrismaService } from '@/prisma';
+import { generateSlug } from '@/utils';
+import { Task } from '@prisma/client';
+import { CreateTask, QueryFind, UpdateTask } from './@types';
 
 class TasksServices {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,7 +18,7 @@ class TasksServices {
     });
 
     if (eventWithSameSlug !== null) {
-      throw new Error("Task already exists");
+      throw new Error('Task already exists');
     }
 
     return this.prisma.task.create({
@@ -42,16 +42,49 @@ class TasksServices {
         : {},
       take,
       skip: page * 10,
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     });
   }
 
   async findOne(id: string): Promise<Task | null> {
     const tasks = this.prisma.task.findUnique({ where: { id } });
 
-    if (!tasks) throw new Error("Task not exist");
+    if (!tasks) throw new Error('Task not exist');
 
     return tasks;
+  }
+
+  async update(id: string, body: UpdateTask): Promise<Task | Error> {
+    const { success, error, data } = UpdateTask.safeParse(body);
+
+    if (!success) throw new Error(error?.issues[0].message);
+
+    if (data.title) {
+      const slug = generateSlug(data.title);
+
+      const eventWithSameSlug = await this.prisma.task.findUnique({
+        where: { slug },
+      });
+
+      if (eventWithSameSlug && eventWithSameSlug.id !== id) {
+        throw new Error('Task with same slug already exists');
+      }
+
+      return this.prisma.task.update({
+        where: { id },
+        data: {
+          title: data.title,
+          slug,
+        },
+      });
+    }
+
+    return this.prisma.task.update({
+      where: { id },
+      data: {
+        description: data.description,
+      },
+    });
   }
 }
 
