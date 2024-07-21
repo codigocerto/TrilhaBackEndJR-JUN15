@@ -1,7 +1,8 @@
+import { TokenSchema } from '@/@types';
 import { PrismaService } from '@/prisma';
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { Login, LoginSchema, TokenSchema } from './@types';
+import { Login, LoginSchema } from './@types';
 import { jwtConstants } from './constants';
 
 class AuthServices {
@@ -19,9 +20,8 @@ class AuthServices {
     if (!user || !(await bcrypt.compare(data.password, user.password)))
       return new Error('Invalid email or password');
 
-    const { accessToken } = await this.jwtSessionToken(user.id);
-
-    return { accessToken };
+    const accessToken = await this.jwtSessionToken(user.id);
+    return accessToken;
   }
 
   async jwtSessionToken(id: string) {
@@ -65,7 +65,7 @@ class AuthServices {
     return { accessToken: token };
   }
 
-  async generateToken(payload: any): Promise<string> {
+  private async generateToken(payload: any): Promise<string> {
     const secret = jwtConstants.secret;
     const expiresIn = jwtConstants.expiresToken;
     const token = jwt.sign({ ...payload }, secret, { expiresIn });

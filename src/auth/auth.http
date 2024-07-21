@@ -1,0 +1,11 @@
+@BASE_URL = http://localhost:3333/api/auth/login
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbHl2eTd0OHAwMDAwNzZ0aGR0eTc2cm51Iiwic2Vzc2lvbklkIjoiY2x5dnltdGg3MDAwMXd3MWt1MnZqZWQ3byIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MjE1OTA2NjgsImV4cCI6MTcyMTU5NDI2OH0.KEV7KfOWz6QWI11wMRojBgzixDcJGDgExLDu_HdiIXg
+
+### Login
+POST {{BASE_URL}}
+Content-Type: application/json
+
+{
+  "email": "me@jeferson.com",
+  "password": "123456"
+}

@@ -1,28 +1,37 @@
+import { QueryFind } from '@/@types';
+import {
+  AuthenticatedRequest,
+  authMiddleware,
+} from '@/middleware/auth.middleware';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
 import { ParsedQs } from 'qs';
-import { QueryFind } from './@types';
 import { TasksServices } from './tasks.service';
 
 const task = Router();
 const prisma = new PrismaService();
 const tasksService = new TasksServices(prisma);
 
-task.post('/', async (req: Request, res: Response) => {
-  const body = req.body;
-  try {
-    const result = await tasksService.create(body);
-    return res.status(201).send(result);
-  } catch (err: any) {
-    let message;
-    if (err.errors) {
-      message = err.errors.map((error: any) => error.message).join(', ');
-    } else {
-      message = err.message;
+task.post(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const body = req.body;
+    const { userId } = req.user;
+    try {
+      const result = await tasksService.create({ userId, ...body });
+      return res.status(201).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
-  }
-});
+  },
+);
 
 task.get('/', async (req: Request, res: Response) => {
   const { query, page, take } = req.query as ParsedQs;
@@ -61,37 +70,45 @@ task.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-task.post('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { body } = req;
-  try {
-    const result = await tasksService.update(id, body);
-    return res.status(201).send(result);
-  } catch (err: any) {
-    let message;
-    if (err.errors) {
-      message = err.errors.map((error: any) => error.message).join(', ');
-    } else {
-      message = err.message;
+task.put(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { userId } = req.user;
+    const { body } = req;
+    try {
+      const result = await tasksService.update(userId, body);
+      return res.status(201).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
-  }
-});
+  },
+);
 
-task.delete('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const result = await tasksService.delete(id);
-    return res.status(204).send(result);
-  } catch (err: any) {
-    let message;
-    if (err.errors) {
-      message = err.errors.map((error: any) => error.message).join(', ');
-    } else {
-      message = err.message;
+task.delete(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { userId } = req.user;
+    try {
+      const result = await tasksService.delete(userId);
+      return res.status(204).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
-  }
-});
+  },
+);
 
 export { task as Tasks };

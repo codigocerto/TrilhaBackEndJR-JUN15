@@ -1,5 +1,5 @@
 @BASE_URL = http://localhost:3333/api/user
-@ID = 
+@ID = clyvvm2cz0000mcovrv2devi4
 
 ### Get all users
 GET {{BASE_URL}}
@@ -9,14 +9,13 @@ POST {{BASE_URL}}
 Content-Type: application/json
 
 {
-  "name": "Jeferson",
-  "email": "me@jeferson.com",
+  "name": "Jane Doe",
+  "email": "jane@doe.com",
   "password": "123456"
 }
 
 ### Get user by ID
 GET {{BASE_URL}}/{{ID}}
-
 
 ### Update user
 POST {{BASE_URL}}/{{ID}}

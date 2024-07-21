@@ -1,10 +1,12 @@
 @BASE_URL = http://localhost:3333/api/task
+@TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbHl2dm0yY3owMDAwbWNvdnJ2MmRldmk0Iiwic2Vzc2lvbklkIjoiY2x5dzJsZjYxMDAwMTFwajhndHZsdHhvNyIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MjE1OTczMjEsImV4cCI6MTcyMTYwMDkyMX0.a-p_4vHTGtU7K_DuKaJoya5Kxnynt2JUXKvBOEqrkZs
 
 ### Get all tasks
 GET {{BASE_URL}}
 
 ### Create task
 POST {{BASE_URL}}
+Authorization: Bearer {{TOKEN}}
 Content-Type: application/json
 
 {

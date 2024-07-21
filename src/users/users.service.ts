@@ -1,7 +1,7 @@
-import { QueryFind } from '@/@types';
+import { QueryFind, TokenSchema } from '@/@types';
 import { AuthServices } from '@/auth/auth.service';
 import { PrismaService } from '@/prisma';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { CreateUser, UpdateUser } from './@types';
 
@@ -11,14 +11,20 @@ class UsersServices {
     private readonly authService: AuthServices,
   ) {}
 
-  async create(body: CreateUser): Promise<{ accessToken: string } | Error> {
+  async create(body: CreateUser): Promise<TokenSchema | Error> {
     const { success, error, data } = CreateUser.safeParse(body);
 
     if (!success) throw new Error(error?.issues[0].message);
 
+    const existUser = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existUser) throw new Error('This email already exist');
+
     const passwordHash = await bcrypt.hash(data.password, 10);
 
-    const { password: _, ...user } = await this.prisma.user.create({
+    await this.prisma.user.create({
       data: {
         name: data.name,
         email: data.email,
@@ -26,7 +32,10 @@ class UsersServices {
       },
     });
 
-    const { accessToken } = await this.authService.jwtSessionToken(user.id);
+    const { accessToken } = (await this.authService.login({
+      email: data.email,
+      password: data.password,
+    })) as TokenSchema;
 
     return { accessToken };
   }
@@ -54,9 +63,11 @@ class UsersServices {
     return users;
   }
 
-  async findOne(id: string): Promise<Omit<User, 'password'> | null> {
+  async findOne(
+    payload: Prisma.UserWhereUniqueInput,
+  ): Promise<Omit<User, 'password'> | { Error: string }> {
     const user = await this.prisma.user.findUnique({
-      where: { id },
+      where: payload,
       select: {
         id: true,
         name: true,
@@ -68,7 +79,7 @@ class UsersServices {
       },
     });
 
-    if (!user) throw new Error('User not exist');
+    if (!user) return { Error: 'User not exist' };
 
     return user;
   }
@@ -118,7 +129,7 @@ class UsersServices {
   }
 
   async delete(id: string): Promise<boolean | Error> {
-    await this.findOne(id);
+    await this.findOne({ id });
     await this.prisma.user.delete({ where: { id } });
     return true;
   }

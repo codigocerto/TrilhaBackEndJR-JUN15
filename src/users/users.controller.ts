@@ -1,5 +1,9 @@
 import { QueryFind } from '@/@types';
 import { AuthServices } from '@/auth/auth.service';
+import {
+  AuthenticatedRequest,
+  authMiddleware,
+} from '@/middleware/auth.middleware';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
 import { ParsedQs } from 'qs';
@@ -50,7 +54,7 @@ user.get('/', async (req: Request, res: Response) => {
 user.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await usersService.findOne(id);
+    const result = await usersService.findOne({ id });
     return res.status(200).send(result);
   } catch (err: any) {
     let message;
@@ -63,37 +67,45 @@ user.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-user.post('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { body } = req;
-  try {
-    const result = await usersService.update(id, body);
-    return res.status(201).send(result);
-  } catch (err: any) {
-    let message;
-    if (err.errors) {
-      message = err.errors.map((error: any) => error.message).join(', ');
-    } else {
-      message = err.message;
+user.put(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.user;
+    const { body } = req;
+    try {
+      const result = await usersService.update(id, body);
+      return res.status(201).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
-  }
-});
+  },
+);
 
-user.delete('/:id', async (req: Request, res: Response) => {
-  const { id } = req.params;
-  try {
-    const result = await usersService.delete(id);
-    return res.status(204).send(result);
-  } catch (err: any) {
-    let message;
-    if (err.errors) {
-      message = err.errors.map((error: any) => error.message).join(', ');
-    } else {
-      message = err.message;
+user.delete(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { userId } = req.user;
+    try {
+      const result = await usersService.delete(userId);
+      return res.status(204).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
-  }
-});
+  },
+);
 
 export { user as Users };

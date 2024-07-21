@@ -5,6 +5,7 @@ const Tasks = z.object({
   title: z.string(),
   description: z.string(),
   slug: z.string(),
+  userId: z.string().cuid(),
   createdAt: z.date(),
   updatedAt: z.date(),
 });
@@ -12,6 +13,7 @@ const Tasks = z.object({
 const CreateTask = Tasks.pick({
   title: true,
   description: true,
+  userId: true,
 });
 
 const UpdateTask = CreateTask.partial();

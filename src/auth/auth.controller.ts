@@ -6,7 +6,7 @@ const auth = Router();
 const prisma = new PrismaService();
 const authService = new AuthServices(prisma);
 
-auth.post('/', async (req: Request, res: Response) => {
+auth.post('/login', async (req: Request, res: Response) => {
   const body = req.body;
   try {
     const result = await authService.login(body);
@@ -21,3 +21,5 @@ auth.post('/', async (req: Request, res: Response) => {
     return res.status(500).send(err?.code ?? message ?? `${err}`);
   }
 });
+
+export { auth as Auth };
