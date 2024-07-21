@@ -43,7 +43,7 @@ user.get('/', async (req: Request, res: Response) => {
     } else {
       message = err.message;
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
+    return res.status(404).send({ error: message });
   }
 });
 
@@ -59,7 +59,7 @@ user.get('/:id', async (req: Request, res: Response) => {
     } else {
       message = err.message;
     }
-    return res.status(500).send(err?.code ?? message ?? `${err}`);
+    return res.status(404).send({ error: message });
   }
 });
 
