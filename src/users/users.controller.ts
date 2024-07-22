@@ -1,4 +1,3 @@
-import { QueryFind } from '@/@types';
 import { AuthServices } from '@/auth/auth.service';
 import {
   AuthenticatedRequest,
@@ -6,7 +5,6 @@ import {
 } from '@/middleware/auth.middleware';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
-import { ParsedQs } from 'qs';
 import { UsersServices } from './users.service';
 
 const user = Router();
@@ -30,15 +28,9 @@ user.post('/', async (req: Request, res: Response) => {
   }
 });
 
-user.get('/', async (req: Request, res: Response) => {
-  const { query, page, take } = req.query as ParsedQs;
-  const queryParams: QueryFind = {
-    query: query ? String(query) : null,
-    page: page ? Number(page) : 0,
-    take: take ? Number(take) : 10,
-  };
+user.get('/all', async (req: Request, res: Response) => {
   try {
-    const result = await usersService.findAll(queryParams);
+    const result = await usersService.findAll();
     return res.status(200).send(result);
   } catch (err: any) {
     let message;
@@ -54,7 +46,7 @@ user.get('/', async (req: Request, res: Response) => {
 user.get('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await usersService.findOne({ id });
+    const result = await usersService.findById({ id });
     return res.status(200).send(result);
   } catch (err: any) {
     let message;
@@ -66,6 +58,26 @@ user.get('/:id', async (req: Request, res: Response) => {
     return res.status(404).send({ error: message });
   }
 });
+
+user.get(
+  '/',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { id } = req.user;
+    try {
+      const result = await usersService.findOne({ id });
+      return res.status(200).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(404).send({ error: message });
+    }
+  },
+);
 
 user.put(
   '/',
@@ -93,9 +105,12 @@ user.delete(
   authMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
     const { userId } = req.user;
+    const { password } = req.body;
     try {
-      const result = await usersService.delete(userId);
-      return res.status(204).send(result);
+      const result = await usersService.delete(userId, password);
+      return res
+        .status(200)
+        .send({ message: 'Successfully deleted user ', result });
     } catch (err: any) {
       let message;
       if (err.errors) {

@@ -1,4 +1,4 @@
-import { QueryFind, TokenSchema } from '@/@types';
+import { TokenSchema } from '@/@types';
 import { AuthServices } from '@/auth/auth.service';
 import { PrismaService } from '@/prisma';
 import { Prisma, User } from '@prisma/client';
@@ -40,27 +40,33 @@ class UsersServices {
     return { accessToken };
   }
 
-  async findAll(
-    queryParams: QueryFind,
-  ): Promise<Omit<User, 'password'>[] | null> {
-    const { page, take } = queryParams;
-
+  async findAll(): Promise<User[] | null> {
     const users = await this.prisma.user.findMany({
-      take,
-      skip: page * 10,
-      orderBy: { createdAt: 'desc' },
+      include: { comments: true, sessions: true, tasks: true, _count: true },
+    });
+
+    return users;
+  }
+
+  async findById(
+    payload: Prisma.UserWhereUniqueInput,
+  ): Promise<Omit<User, 'password'> | { Error: string }> {
+    const user = await this.prisma.user.findUnique({
+      where: payload,
       select: {
         id: true,
         name: true,
         email: true,
+        tasks: true,
+        comments: true,
         createdAt: true,
         updatedAt: true,
-        tasks: true,
-        Session: { where: { active: true }, select: { id: true, token: true } },
       },
     });
 
-    return users;
+    if (!user) return { Error: 'User not exist' };
+
+    return user;
   }
 
   async findOne(
@@ -75,7 +81,11 @@ class UsersServices {
         createdAt: true,
         updatedAt: true,
         tasks: true,
-        Session: { where: { active: true }, select: { id: true, token: true } },
+        comments: true,
+        sessions: {
+          where: { active: true },
+          select: { id: true, token: true },
+        },
       },
     });
 
@@ -103,7 +113,8 @@ class UsersServices {
           createdAt: true,
           updatedAt: true,
           tasks: true,
-          Session: {
+          comments: true,
+          sessions: {
             where: { active: true },
             select: { id: true, token: true },
           },
@@ -121,15 +132,24 @@ class UsersServices {
         createdAt: true,
         updatedAt: true,
         tasks: true,
-        Session: { where: { active: true }, select: { id: true, token: true } },
+        comments: true,
+        sessions: {
+          where: { active: true },
+          select: { id: true, token: true },
+        },
       },
     });
 
     return user;
   }
 
-  async delete(id: string): Promise<boolean | Error> {
-    await this.findOne({ id });
+  async delete(id: string, password: string): Promise<boolean | Error> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) throw new Error('User not exist');
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) throw new Error('Invalid password');
+
     await this.prisma.user.delete({ where: { id } });
     return true;
   }
