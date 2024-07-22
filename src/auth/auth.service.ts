@@ -27,7 +27,7 @@ class AuthServices {
   async jwtSessionToken(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
-      include: { Session: true },
+      include: { sessions: true },
     });
 
     if (!user) throw new Error('User not found');
