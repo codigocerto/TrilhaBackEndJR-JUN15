@@ -92,13 +92,16 @@ task.put(
 );
 
 task.delete(
-  '/',
+  '/:id',
   authMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
     const { userId } = req.user;
+    const taskId = req.params.id;
     try {
-      const result = await tasksService.delete(userId);
-      return res.status(204).send(result);
+      const result = await tasksService.delete(userId, taskId);
+      return res
+        .status(200)
+        .send({ message: 'Successfully deleted task', result });
     } catch (err: any) {
       let message;
       if (err.errors) {

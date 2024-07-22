@@ -40,6 +40,7 @@ class TasksServices {
             },
           }
         : {},
+      include: { comments: true },
       take,
       skip: page * 10,
       orderBy: { createdAt: 'desc' },
@@ -47,7 +48,10 @@ class TasksServices {
   }
 
   async findOne(id: string): Promise<Task | null> {
-    const tasks = this.prisma.task.findUnique({ where: { id } });
+    const tasks = this.prisma.task.findUnique({
+      where: { id },
+      include: { comments: true },
+    });
 
     if (!tasks) throw new Error('Task not exist');
 
@@ -76,6 +80,7 @@ class TasksServices {
           title: data.title,
           slug,
         },
+        include: { comments: true },
       });
     }
 
@@ -84,15 +89,16 @@ class TasksServices {
       data: {
         description: data.description,
       },
+      include: { comments: true },
     });
   }
 
-  async delete(id: string): Promise<boolean | Error> {
-    const task = await this.findOne(id);
-
+  async delete(userId: string, taskId: string): Promise<boolean | Error> {
+    const task = await this.prisma.task.findUnique({ where: { id: taskId } });
     if (!task) throw new Error('Task not exist');
+    if (task?.userId !== userId) throw new Error('Unauthorized');
 
-    await this.prisma.task.delete({ where: { id } });
+    await this.prisma.task.delete({ where: { id: taskId } });
 
     return true;
   }
