@@ -1,99 +1,142 @@
-![Código Certo Coders](https://utfs.io/f/3b2340e8-5523-4aca-a549-0688fd07450e-j4edu.jfif)
+# Como foi construir esse projeto?
 
-# 📚 Trilha Inicial BackEnd Jr
-Este projeto tem como objetivo desenvolver uma API RESTful para gerenciamento de tarefas, proporcionando funcionalidades de CRUD (Create, Read, Update, Delete) de tarefas, autenticação de usuários e armazenamento dos dados em um banco de dados.
+Foi algo bem desafiador por eu não ter usado o express puro ainda, apenas tinha usado o fastify e nestJS(_que usa o express como base_). Mas por outro lado acabou sendo mais tranquilo por que esse tipo de aplicação eu ja vinha desenvolvendo para uma outra aplicação pessoal que venho trabalhando o [MeuPet](https://jefersonsann.com/projects/meupet/), um projeto pessoal feito em next.js que estou passando a logica de negocio para nestJS.
 
-## Objetivos:
-- Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
-- Implementar autenticação de usuários.
-- Utilizar um banco de dados SQLite para armazenar as tarefas.
-- Documentar todo o processo e apresentar as conclusões.
+Uma das coisas que me fez perder bastante tempo era que usando o Express eu precisava passa o `app.use(json())` para o corpo da requisição ser recebida(_eu não sabia_), por usar framework e bibliotecas que ja vem com isso configurado.
 
-## Requisitos Funcionais:
-- Criar Tarefa: Endpoint para criar uma nova tarefa.
-- Listar Tarefas: Endpoint para listar todas as tarefas.
-- Atualizar Tarefa: Endpoint para atualizar uma tarefa existente.
-- Deletar Tarefa: Endpoint para deletar uma tarefa existente.
+E em algumas partes como no **service** eu resolvi usar classes ao invés de function ou arrow function por questão de organização.
 
-## Autenticação de Usuários:
-- Registro de Usuário: Endpoint para registrar um novo usuário.
-- Login de Usuário: Endpoint para autenticar um usuário e gerar um token JWT.
-- Proteção de Rotas: Garantir que apenas usuários autenticados possam acessar os endpoints de tarefas.
+Mas no fim foi muito gratificante e prazeroso realizar esse projeto.
+Estou aberto para dicas e sugestões.
 
-## Banco de Dados:
-- Utilizar SQLite como banco de dados para armazenar informações de usuários e tarefas.
+## 1 - Mapear tudo o que era pedido e saber se eu era capaz de realizar(mais é logico que sim!)
 
-   #### Estrutura do Projeto:
-   ```plaintext
-   project-root/
-   │
-   ├── src/
-   │   ├── controllers/
-   │   ├── models/
-   │   ├── routes/
-   │   ├── middlewares/
-   │   ├── database/
-   │   └── app.js
-   │
-   ├── .env
-   ├── .gitignore
-   ├── README.md
-   └── package.json
-   ```
-## Entregáveis:
-   1. **Código Fonte:**
-      - Código fonte do projeto, organizado conforme a estrutura acima.
-   2. **Repositório GitHub:**
-      - Repositório público contendo o código fonte e documentação.
-   3. **Documentação:**
-      - README.md com instruções sobre como configurar e executar o projeto, além de detalhes dos endpoints da API.
+- [x] Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
 
-### Detalhes Técnicos: 🔧
-- **Boas Práticas:** Utilizar boas práticas de código limpo, legível e bem documentado.
-- **Git:** Utilizar Git para controle de versão e submeter o projeto através de um repositório público no GitHub.
+- [x] Implementar autenticação de usuários.
 
-### Dicas para Abordar o Projeto 🌟
-- **Crie um Fork desse Repositório.**
-- **Criar do Zero:** É fundamental que o projeto seja desenvolvido completamente do zero, demonstrando suas habilidades e criatividade desde o início.
-- **Utilize bibliotecas** como Express para criação da API e jsonwebtoken para autenticação.
-- **Documente cada etapa do processo para facilitar a compreensão.**
+- [x] Utilizar um banco de dados SQLite para armazenar as tarefas.
 
-### Critérios de Avaliação: 📝
-- **Funcionalidade:** A aplicação atende aos requisitos funcionais e funciona corretamente?
-- **Qualidade do Código:** O código é limpo, bem estruturado e adequadamente documentado?
-- **Segurança:** A autenticação foi implementada corretamente e as rotas estão protegidas?
-- **Uso do Git:** O controle de versão é usado de forma eficaz com mensagens de commit significativas?
-- **Documentação:** A documentação é clara e detalha o processo de desenvolvimento e uso da API?
+- [ ] \(Optional) Documentar todo o processo e apresentar as conclusões.
 
-### Não Queremos 🚫
-- Descobrir que o candidato não foi quem realizou o teste.
-- Ver commits grandes sem muita explicação nas mensagens no repositório.
-- Entregas padrão ou cópias de outros projetos. Buscamos originalidade e autenticidade em cada contribuição.
+> [!NOTE]
+> Estou utilizando o SQLite junto com o Prisma ORM
 
-### Prazo ⏳
-A data máxima para entrega das trilhas foi removida, permitindo que as pessoas entreguem conforme sua disponibilidade. No entanto, ainda é necessário concluir a trilha com sucesso para ser inserido em uma equipe.
+## 2 - Requisitos Funcionais:
 
-### Instruções de Entrega: 📬
-Após finalizar o projeto, publique-o em uma URL pública (por exemplo, Vercel, Netlify, GitHub Pages, etc.) e hospede o seu servidor na nuvem. Use serviços que ofereçam uso gratiuto por um período, como a AWS e preencha o [Formulário](https://forms.gle/gZViPMTSDV5nidSu6):  
+- [x] Criar Tarefa: Endpoint para criar uma nova tarefa.
 
----
+```
+/api/task
+```
 
-### Desafio da Inovação 🚀
-Achou esse projeto inicial simples? Eleve ainda mais! Estamos em busca de mentes inovadoras que não apenas criem, mas que também desafiem os padrões. Como você pode transformar essa estrutura inicial em algo verdadeiramente extraordinário? Demonstre o poder da sua criatividade e o impacto das suas ideias inovadoras!
+É obrigatório para criar uma task:
 
----
+- [x] O usuário estar autenticado
+- [x] Passa um titulo e uma descrição
 
-🔗 **Mantenha-se Conectado:**
-- [Discord](https://discord.gg/wzA9FGZHNv)
-- [Website](http://www.codigocertocoders.com.br/)
-- [LinkedIn](https://www.linkedin.com/company/codigocerto/)
-  
-🌐 **Contato:**
-- Email: codigocertocoders@gmail.com
+```
+# Exemplo:
+{
+  "title": "Task Title",
+  "description": "Task Description"
+}
+```
 
----
+- [x] Listar Tarefas: Endpoint para listar todas as tarefas.
 
-### Precisa de Ajuda?
-Está com alguma dificuldade, encontrou algum problema no desafio ou tem alguma sugestão pra gente? Crie uma issue e descreva o que achar necessário.
+```
+/api/task
+```
 
-**Construindo o amanhã, hoje.**
+Rota para listar todos as tarefas(tasks)
+
+- [x] Atualizar Tarefa: Endpoint para atualizar uma tarefa existente.
+
+```
+/api/task
+```
+
+É obrigatório para atualizar uma task:
+
+- [x] O usuário estar autenticado
+- [x] A task ter sido ele quem a criou
+- [x] Passa um titulo ou uma nova descrição
+
+```
+# Exemplo:
+{
+  "title": "Task Title 2",
+  "description": "Other Description"
+}
+```
+
+- [x] Deletar Tarefa: Endpoint para deletar uma tarefa existente.
+
+```
+/api/task
+```
+
+É obrigatório para deletar uma task:
+
+- [x] O usuário estar autenticado
+- [x] O Id deve ser informado como parâmetro na url
+- [x] O usuário autenticado ter criado a task
+
+> [!NOTE]
+>
+> Em routes é o local onde especifico o caminho base para cada Endpoint
+>
+> **routes.use('/api/task', Tasks);** // é o caminho base para os endpoint de tasks
+> Ja no controller de _src/tasks_ é onde eu indico o final de cada rota e os middleware caso necessário
+
+## 3 - Autenticação de Usuários:
+
+- [x] Registro de Usuário: Endpoint para registrar um novo usuário.
+- [x] Login de Usuário: Endpoint para autenticar um usuário e gerar um token JWT.
+- [x] Proteção de Rotas: Garantir que apenas usuários autenticados possam acessar os endpoints de tarefas.
+
+## 4 - Banco de Dados:
+
+- [x] Utilizar SQLite como banco de dados para armazenar informações de usuários e tarefas.
+
+### Tabela "users" no banco de dados:
+
+| column     | type      | more    |
+| ---------- | --------- | ------- |
+| id         | String    | cuid()  |
+| name       | String    |
+| email      | String    | @unique |
+| password   | String    |
+| tasks      | Task[]    |
+| comments   | Comment[] |
+| sessions   | Session[] |
+| created_at | DateTime  |
+| updated_at | DateTime  |
+
+### Tabela "sessions" no banco de dados:
+
+| column     | type     | more           |
+| ---------- | -------- | -------------- |
+| id         | String   | cuid()         |
+| userId     | String   |
+| token      | String   | @unique        |
+| active     | Boolean  | @default(true) |
+| created_at | DateTime |
+| updated_at | DateTime |
+
+> [!NOTE]
+> Resolvi criar a autenticação em sessão separada, por achar ser mais fácil de controlar e implementar seguranças como refresh token, IP do usuário, seções em diversos aplicativos ou navegadores, ou seja, o que a aplicação pedir conforme ela se expandir.
+
+### Tabela "tasks" no banco de dados:
+
+| column      | type      | more    |
+| ----------- | --------- | ------- |
+| id          | String    | cuid()  |
+| title       | String    |
+| description | String    |
+| slug        | String    | @unique |
+| userId      | String    |
+| comments    | Comment[] |
+| created_at  | DateTime  |
+| updated_at  | DateTime  |
