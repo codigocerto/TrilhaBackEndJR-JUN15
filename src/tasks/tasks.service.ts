@@ -58,10 +58,19 @@ class TasksServices {
     return tasks;
   }
 
-  async update(id: string, body: UpdateTask): Promise<Task | Error> {
+  async update(
+    userId: string,
+    taskId: string,
+    body: UpdateTask,
+  ): Promise<Task | Error> {
     const { success, error, data } = UpdateTask.safeParse(body);
 
     if (!success) throw new Error(error?.issues[0].message);
+
+    const task = await this.prisma.task.findUnique({ where: { id: taskId } });
+
+    if (!task) throw new Error('Task not exist');
+    if (task?.userId !== userId) throw new Error('Unauthorized');
 
     if (data.title) {
       const slug = generateSlug(data.title);
@@ -70,12 +79,12 @@ class TasksServices {
         where: { slug },
       });
 
-      if (eventWithSameSlug && eventWithSameSlug.id !== id) {
+      if (eventWithSameSlug && eventWithSameSlug.id !== taskId) {
         throw new Error('Task with same slug already exists');
       }
 
       return this.prisma.task.update({
-        where: { id },
+        where: { id: taskId },
         data: {
           title: data.title,
           slug,
@@ -85,10 +94,8 @@ class TasksServices {
     }
 
     return this.prisma.task.update({
-      where: { id },
-      data: {
-        description: data.description,
-      },
+      where: { id: taskId },
+      data: { ...data },
       include: { comments: true },
     });
   }

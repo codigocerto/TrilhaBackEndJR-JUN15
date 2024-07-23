@@ -71,13 +71,14 @@ task.get('/:id', async (req: Request, res: Response) => {
 });
 
 task.put(
-  '/',
+  '/:taskId',
   authMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
     const { userId } = req.user;
-    const { body } = req;
+    const { taskId } = req.params;
+    const body = req.body;
     try {
-      const result = await tasksService.update(userId, body);
+      const result = await tasksService.update(userId, taskId, body);
       return res.status(201).send(result);
     } catch (err: any) {
       let message;
