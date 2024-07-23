@@ -7,11 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write src/**/*.ts",
     "start:dev": "tsx watch --env-file .env src/server.ts",
-    "build": "tsup src",
-    "start": "node ./dist/index.js"
+    "build": "tsup",
+    "start": "node ./dist/server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "![Jeferson Santos](https://jefersonsann.com)",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.17.0",
@@ -27,7 +27,19 @@
     "@types/node": "^20.14.11",
     "prettier": "^3.3.3",
     "prisma": "^5.17.0",
+    "tsup": "^8.2.2",
     "tsx": "^4.16.2",
     "typescript": "^5.5.3"
+  },
+  "tsup": {
+    "entry": [
+      "src/**/*.ts"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "exclude": [
+      "src/**/*.http"
+    ],
+    "clean": true
   }
 }
