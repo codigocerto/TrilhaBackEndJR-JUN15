@@ -140,3 +140,59 @@ Rota para listar todos as tarefas(tasks)
 | comments    | Comment[] |
 | created_at  | DateTime  |
 | updated_at  | DateTime  |
+
+# Como rodar esse projeto?
+
+## 🚀 Configuração Inicial Local
+
+#### 1. Clone o repositório:
+
+```
+git clone https://github.com/jefersonsann/TrilhaBackEndJR-JUN15.git
+```
+
+Ou fork
+
+```
+git clone https://github.com/<SEU_USERNAME>/TrilhaBackEndJR-JUN15.git
+```
+
+#### 2. Clone o arquivo .env de exemplo `.env.example`:
+
+Ou use o comando abaixo
+
+```
+cp .env.example > .env
+```
+
+#### 3. Instale as dependências:
+
+```
+$ npm install
+$ npx prisma generate
+$ npx prisma migrate dev
+```
+
+#### 4. Iniciando a aplicação como dev:
+
+```
+$ npm run start:dev
+```
+
+#### 5. Fazendo deploy:
+
+```
+$ npm run build
+```
+
+Iniciando a aplicação após deploy
+
+```
+$ npm run start
+```
+
+A API estará disponível em <http://localhost:3333>.
+
+## Author
+
+- [Jeferson Santos](https://jefersonsann.com) | [GitHub](https://github.com/jefersonsann)
