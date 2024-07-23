@@ -7,7 +7,7 @@ const QueryFind = z.object({
 });
 
 const Token = z.object({
-  accessToken: z.string(),
+  accessToken: z.string().nullable(),
 });
 
 export type QueryFind = z.infer<typeof QueryFind>;

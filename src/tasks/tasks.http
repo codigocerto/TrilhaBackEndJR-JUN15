@@ -18,14 +18,13 @@ Content-Type: application/json
 ### Get task by ID
 GET {{BASE_URL}}/{{ID}}
 
-
 ### Update task
-POST {{BASE_URL}}
+PUT {{BASE_URL}}/{{ID}}
 Authorization: Bearer {{TOKEN}}
 Content-Type: application/json
 
 {
-  "title": "Task Title1"
+  "completed": true
 }
 
 ### Delete task

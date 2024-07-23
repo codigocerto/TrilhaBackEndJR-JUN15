@@ -21,6 +21,7 @@ class AuthServices {
       return new Error('Invalid email or password');
 
     const accessToken = await this.jwtSessionToken(user.id);
+
     return accessToken;
   }
 
@@ -38,6 +39,7 @@ class AuthServices {
         active: true,
       },
       data: {
+        token: null,
         active: false,
       },
     });
@@ -45,7 +47,7 @@ class AuthServices {
     const session = await this.prisma.session.create({
       data: {
         userId: user.id,
-        token: '',
+        token: null,
         active: true,
       },
     });

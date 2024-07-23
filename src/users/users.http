@@ -1,5 +1,5 @@
 @BASE_URL = http://localhost:3333/api/user
-@ID = clyx4c6x1000860cmuhunzmjk
+@ID = 
 @TOKEN = 
 
 ### Get all users
