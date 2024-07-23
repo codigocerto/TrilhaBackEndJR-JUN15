@@ -39,10 +39,11 @@ model Session {
 }
 
 model Task {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   title       String
   description String
-  slug        String @unique
+  slug        String  @unique
+  completed   Boolean @default(false)
   userId      String
 
   comments Comment[]

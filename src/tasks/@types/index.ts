@@ -5,6 +5,7 @@ const Tasks = z.object({
   title: z.string(),
   description: z.string(),
   slug: z.string(),
+  completed: z.boolean(),
   userId: z.string().cuid(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -16,7 +17,7 @@ const CreateTask = Tasks.pick({
   userId: true,
 });
 
-const UpdateTask = CreateTask.partial();
+const UpdateTask = Tasks.partial();
 
 export type Tasks = z.infer<typeof Tasks>;
 export type CreateTask = z.infer<typeof CreateTask>;
