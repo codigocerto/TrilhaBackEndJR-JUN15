@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "resolveJsonModule": true,
     "paths": {
       "@/*": ["./src/*"]
     }
