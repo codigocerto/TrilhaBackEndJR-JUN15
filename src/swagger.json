@@ -9,11 +9,6 @@
     },
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://localhost:4000/api"
-    }
-  ],
   "tags": [
     {
       "name": "users"
@@ -26,7 +21,7 @@
     }
   ],
   "paths": {
-    "/user": {
+    "/api/user": {
       "post": {
         "tags": ["users"],
         "summary": "Criar um novo usuário.",
@@ -46,7 +41,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -170,7 +169,7 @@
         }
       }
     },
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "tags": ["auth"],
         "summary": "Rota para fazer login.",
@@ -189,7 +188,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "properties": {
+                    "accessToken": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -206,7 +209,7 @@
         }
       }
     },
-    "/auth/logout": {
+    "/api/auth/logout": {
       "put": {
         "tags": ["auth"],
         "summary": "Rota para fazer logout.",
@@ -238,7 +241,7 @@
         }
       }
     },
-    "/task": {
+    "/api/task": {
       "post": {
         "tags": ["tasks"],
         "summary": "Criar uma nova task.",
@@ -356,7 +359,7 @@
         }
       }
     },
-    "/task/{id}": {
+    "/api/task/{id}": {
       "get": {
         "tags": ["tasks"],
         "summary": "Buscar task por id.",
@@ -369,14 +372,10 @@
           {
             "in": "path",
             "name": "id",
-            "required": true,
             "schema": {
-              "type": "string",
-              "format": "cuid",
-              "example": null
+              "type": "string"
             },
-            "style": "matrix",
-            "explode": true
+            "required": true
           }
         ],
         "responses": {
@@ -413,14 +412,10 @@
           {
             "in": "path",
             "name": "id",
-            "required": true,
             "schema": {
-              "type": "string",
-              "format": "cuid",
-              "example": null
+              "type": "string"
             },
-            "style": "matrix",
-            "explode": true
+            "required": true
           }
         ],
         "responses": {
@@ -508,10 +503,6 @@
             "type": "string",
             "example": "john@doe.com"
           },
-          "password": {
-            "type": "string",
-            "example": 123456
-          },
           "tasks": {
             "type": "array",
             "items": {
@@ -540,22 +531,11 @@
           "id": {
             "type": "string"
           },
-          "userId": {
-            "type": "string"
-          },
           "token": {
             "type": "string"
           },
           "active": {
             "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
           }
         }
       },
