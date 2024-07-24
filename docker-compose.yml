@@ -1,22 +1,47 @@
 version: "3.8"
+
 services:
+  sqlite:
+    container_name: sqlite
+    build:
+      context: .
+      dockerfile: Dockerfile.sqlite
+    volumes:
+      - ./sqlite_data:/database
+    networks:
+      - mynet3
+    command: ["tail", "-f", "/dev/null"]
+
   api:
     container_name: trilha-backend
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
-    tty: true
-    working_dir: '/usr/app'
+    depends_on:
+      - sqlite
     environment:
-      - DB_DATABASE_NAME=${DB_DATABASE_NAME}
-      - DATABASE_URL=${DATABASE_URL}
+      - DB_HOST=sqlite
+      - DB_PORT=5432
+      - PORT=4000
+      - DATABASE_URL=file:/database/sqlite:5432.db
     ports:
-      - '4000:4000'
+      - "4000:4000"
     command: >
       sh -c "npx prisma generate &&
       npx prisma migrate deploy &&
       npm run build && npm run start"
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
+      - api-volume:/usr/app
+      - modules-volume:/usr/app/node_modules
+
+networks:
+  mynet3:
+    driver: bridge
+
+volumes:
+  sqlite_data:
+  api-volume:
+  modules-volume:
+
+

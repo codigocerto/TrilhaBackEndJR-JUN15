@@ -4,7 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import { routes } from './routes';
 import swaggerSchema from './swagger.json';
 
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || 4000;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const app = express();
