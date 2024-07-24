@@ -1,3 +1,4 @@
+import cors from 'cors';
 import express, { json } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { routes } from './routes';
@@ -7,6 +8,7 @@ const PORT = process.env.PORT || 3333;
 const HOST = process.env.HOST || '0.0.0.0';
 
 const app = express();
+app.use(cors());
 app.use(json());
 
 // Rotas
