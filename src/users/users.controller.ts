@@ -63,9 +63,9 @@ user.get(
   '/',
   authMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
-    const { id } = req.user;
+    const { userId } = req.user;
     try {
-      const result = await usersService.findOne({ id });
+      const result = await usersService.findOne({ id: userId });
       return res.status(200).send(result);
     } catch (err: any) {
       let message;
@@ -83,10 +83,10 @@ user.put(
   '/',
   authMiddleware,
   async (req: AuthenticatedRequest, res: Response) => {
-    const { id } = req.user;
+    const { userId } = req.user;
     const { body } = req;
     try {
-      const result = await usersService.update(id, body);
+      const result = await usersService.update(userId, body);
       return res.status(201).send(result);
     } catch (err: any) {
       let message;
