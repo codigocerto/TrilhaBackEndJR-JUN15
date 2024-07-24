@@ -17,10 +17,10 @@ Estou aberto para dicas e sugestões.
 
 - [x] Utilizar um banco de dados SQLite para armazenar as tarefas.
 
-- [ ] \(Optional) Documentar todo o processo e apresentar as conclusões.
+- [x] Documentar todo o processo e apresentar as conclusões.
 
 > [!NOTE]
-> Estou utilizando o SQLite junto com o Prisma ORM
+> Estou utilizando o [SQLite](https://www.sqlite.org/) junto com o [Prisma ORM](https://www.prisma.io/)
 
 ## 2 - Requisitos Funcionais:
 
@@ -145,6 +145,9 @@ Rota para listar todos as tarefas(tasks)
 
 ## 🚀 Configuração Inicial Local
 
+> [!NOTE]
+> Antes tenha garantido que voce esta com o [Nodejs](https://nodejs.org/) instalado na sua maquina, e o [docker](https://www.docker.com/) é opcional.
+
 #### 1. Clone o repositório:
 
 ```
@@ -191,7 +194,10 @@ Iniciando a aplicação após deploy
 $ npm run start
 ```
 
-A API estará disponível em <http://localhost:3333>.
+Rota para users disponível em <http://localhost:4000/api/user>.
+Rota para auth disponível em <http://localhost:4000/api/auth + /login ou /logout>.
+Rota para tasks disponível em <http://localhost:4000/api/task>.
+As rotas com swagger estará disponível em <http://localhost:4000/docs>.
 
 ## Author
 
