@@ -25,7 +25,22 @@ class AuthServices {
     return accessToken;
   }
 
-  async jwtSessionToken(id: string) {
+  async logout(id: string): Promise<boolean | Error> {
+    await this.prisma.session.updateMany({
+      where: {
+        user: { id },
+        active: true,
+      },
+      data: {
+        token: null,
+        active: false,
+      },
+    });
+
+    return true;
+  }
+
+  private async jwtSessionToken(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
       include: { sessions: true },

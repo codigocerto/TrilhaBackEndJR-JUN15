@@ -1,3 +1,7 @@
+import {
+  AuthenticatedRequest,
+  authMiddleware,
+} from '@/middleware/auth.middleware';
 import { PrismaService } from '@/prisma';
 import { Request, Response, Router } from 'express';
 import { AuthServices } from './auth.service';
@@ -21,5 +25,25 @@ auth.post('/login', async (req: Request, res: Response) => {
     return res.status(500).send(err?.code ?? message ?? `${err}`);
   }
 });
+
+auth.delete(
+  '/logout',
+  authMiddleware,
+  async (req: AuthenticatedRequest, res: Response) => {
+    const { userId } = req.user;
+    try {
+      const result = await authService.logout(userId);
+      return res.status(200).send(result);
+    } catch (err: any) {
+      let message;
+      if (err.errors) {
+        message = err.errors.map((error: any) => error.message).join(', ');
+      } else {
+        message = err.message;
+      }
+      return res.status(500).send(err?.code ?? message ?? `${err}`);
+    }
+  },
+);
 
 export { auth as Auth };
