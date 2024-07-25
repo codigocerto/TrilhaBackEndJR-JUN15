@@ -9,6 +9,8 @@ E em algumas partes como no **service** eu resolvi usar classes ao invés de fun
 Mas no fim foi muito gratificante e prazeroso realizar esse projeto.
 Estou aberto para dicas e sugestões.
 
+Deploy AWS Swagger: [jefersonsann.online:4000/docs/](http://jefersonsann.online:4000/docs/#/)
+
 ## 1 - Mapear tudo o que era pedido e saber se eu era capaz de realizar(mais é logico que sim!)
 
 - [x] Criar uma API que permita CRUD (Create, Read, Update, Delete) de tarefas.
