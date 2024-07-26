@@ -1,0 +1,15 @@
+@BASE_URL = http://localhost:4000/api/auth/
+@TOKEN = 
+
+### Login
+POST {{BASE_URL}}/login
+Content-Type: application/json
+
+{
+  "email": "john@doe.com",
+  "password": "123456"
+}
+
+### Logout
+DELETE {{BASE_URL}}/logout
+Authorization: Bearer {{TOKEN}}

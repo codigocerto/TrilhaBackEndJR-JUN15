@@ -1,0 +1,32 @@
+@BASE_URL = http://localhost:3333/api/task
+@ID = 
+@TOKEN = 
+
+### Get all tasks
+GET {{BASE_URL}}
+
+### Create task
+POST {{BASE_URL}}
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+  "title": "Task Title",
+  "description": "Task Description"
+}
+
+### Get task by ID
+GET {{BASE_URL}}/{{ID}}
+
+### Update task
+PUT {{BASE_URL}}/{{ID}}
+Authorization: Bearer {{TOKEN}}
+Content-Type: application/json
+
+{
+  "completed": true
+}
+
+### Delete task
+DELETE {{BASE_URL}}/{{ID}}
+Authorization: Bearer {{TOKEN}}
