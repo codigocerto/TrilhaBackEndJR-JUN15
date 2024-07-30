@@ -26,6 +26,8 @@ public class TarefaService {
         return repository.findAll().stream().map(this::toDto).toList();
     }
 
+    // Servico para criar uma nova tarefa
+
     public TarefaResponseDTO create(TarefaRequestDTO tarefaRequestDto){
         Tarefa tarefa = new Tarefa();
         tarefa.setDescricao(tarefaRequestDto.descricao());
@@ -37,6 +39,8 @@ public class TarefaService {
 
         return this.toDto(repository.save(tarefa));
     }
+
+    // Servico para atualizar uma tarefa
 
     public TarefaResponseDTO update(TarefaRequestDTO tarefaRequestDto, Long id){
         Tarefa tarefa = repository.findById(id).map(data -> {
@@ -51,12 +55,16 @@ public class TarefaService {
         return this.toDto(tarefa);
     }
 
+    // Servico para deletar uma tarefa
+
     public void delete(Long id){
         Optional<Tarefa> tarefa = repository.findById(id);
         if(tarefa.isEmpty()) throw new RecordNotFoundException(NENHUMA_TAREFA + id);
         log.info("Excluido uma tarefa com ID: " + tarefa.get().getTarefaId());
         repository.deleteById(id);
     }
+
+    // Metodo para converter uma entidade Tarefa em um DTO
 
     private TarefaResponseDTO toDto(Tarefa tarefa){
         return new TarefaResponseDTO(tarefa.getTarefaId(), tarefa.getDescricao(), tarefa.getStatus(), tarefa.getDataCriacao(), tarefa.getDataAtualizacao());
