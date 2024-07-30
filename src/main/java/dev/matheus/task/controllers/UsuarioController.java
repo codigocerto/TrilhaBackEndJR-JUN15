@@ -1,6 +1,7 @@
 package dev.matheus.task.controllers;
 
-import dev.matheus.task.domain.dtos.UsuarioDTO;
+import dev.matheus.task.domain.dtos.UsuarioRequestDTO;
+import dev.matheus.task.domain.dtos.UsuarioResponseDTO;
 import dev.matheus.task.domain.services.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class UsuarioController {
     private final UsuarioService service;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> findAll(){
+    public ResponseEntity<List<UsuarioResponseDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
@@ -29,7 +30,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDto){
-        return ResponseEntity.ok().body(service.update(id, usuarioDto));
+    public ResponseEntity<UsuarioResponseDTO> update(@PathVariable Long id, @RequestBody UsuarioRequestDTO usuarioRequestDTO){
+        return ResponseEntity.ok().body(service.update(id, usuarioRequestDTO));
     }
 }
