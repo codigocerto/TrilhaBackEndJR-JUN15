@@ -1,5 +1,9 @@
 package dev.matheus.task.domain.dtos;
 
-public record UsuarioRequestDTO (String usuario, String senha) {
-}
+import io.swagger.v3.oas.annotations.media.Schema;
 
+public record UsuarioRequestDTO(
+
+    @Schema(description = "Nome do usuário", example = "Matheus") String usuario,
+    @Schema(description = "Senha do usuário", example = "123456") String senha) {
+}

@@ -18,7 +18,7 @@ public class Swagger {
     public GroupedOpenApi publicApi(){
         return GroupedOpenApi.builder()
                 .group("task")
-                .displayName("task-api")
+                .displayName("Tasks API V1")
                 .pathsToMatch("/**")
                 .build();
     }
@@ -37,9 +37,9 @@ public class Swagger {
                         ("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info()
                         .title("Desafio Back-end Código-Certo")
-                        .description("API Rest para gerenciamento de tarefas")
+                        .description("API REST para gerenciamento de tarefas, desenvolvido para o processo seletivo da Código-Certo, onde o usuário deve se registrar e autenticar para realizar o CRUD de tarefas.")
                         .contact(new Contact()
-                                .name("@matheus mello")
+                                .name("@matheus")
                                 .email("matheusgmello1@gmail.com"))
                         .license(new License()
                                 .name("MIT LICENSE")

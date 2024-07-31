@@ -27,6 +27,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
             "/v3/api-docs/**",
             "/swagger-ui.html",
             "/swagger-ui/**",
+            "/swagger-resource/**",
             "/h2-console/**"
     };
 
@@ -37,15 +38,16 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_MATCHERS).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .headers(headers -> headers.frameOptions().sameOrigin()) // Permite que o console H2 seja exibido em um iframe
+                        .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions().sameOrigin()) // Permite que o console H2 seja exibido em um
+                                                                         // iframe
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

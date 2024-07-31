@@ -3,6 +3,7 @@ package dev.matheus.task.controllers;
 import dev.matheus.task.domain.dtos.UsuarioRequestDTO;
 import dev.matheus.task.domain.dtos.UsuarioResponseDTO;
 import dev.matheus.task.domain.services.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,23 +14,26 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Usuario", description = "Usuario API")
+@Tag(name = "Usuários", description = "Rotas dos Usuários") 
 @RequestMapping("/usuario")
 public class UsuarioController {
     private final UsuarioService service;
 
     @GetMapping
+    @Operation(summary = "Lista todos os usuários", description = "Lista todos os usuários cadastrados no banco de dados")
     public ResponseEntity<List<UsuarioResponseDTO>> findAll(){
         return ResponseEntity.ok().body(service.findAll());
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Deleta um usuário", description = "Deleta um usuário de acordo com o ID informado")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "Atualiza um usuário", description = "Atualiza um usuário de acordo com o ID informado")
     public ResponseEntity<UsuarioResponseDTO> update(@PathVariable Long id, @RequestBody UsuarioRequestDTO usuarioRequestDTO){
         return ResponseEntity.ok().body(service.update(id, usuarioRequestDTO));
     }
