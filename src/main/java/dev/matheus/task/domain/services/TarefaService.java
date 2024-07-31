@@ -57,10 +57,10 @@ public class TarefaService {
 
     // Servico para deletar uma tarefa
 
-    public void delete(Long id){
+    public void delete(Long id) {
         Optional<Tarefa> tarefa = repository.findById(id);
-        if(tarefa.isEmpty()) throw new RecordNotFoundException(NENHUMA_TAREFA + id);
-        log.info("Excluido uma tarefa com ID: " + tarefa.get().getTarefaId());
+        if (tarefa.isEmpty()) throw new RecordNotFoundException(NENHUMA_TAREFA + id);
+        log.info("Excluindo uma tarefa com ID: " + tarefa.get().getTarefaId());
         repository.deleteById(id);
     }
 
