@@ -12,9 +12,14 @@ export class UpdateTaskService {
   ) {}
 
   async updateTask(id: number, data: UpdateTaskDto) {
-    const foundTask: Task | null = await this.taskRepository.findOneBy({ id });
+    const foundTask: boolean = await this.taskRepository.existsBy({ id });
     if (foundTask) {
-      this.taskRepository.save(data);
+      this.taskRepository
+        .createQueryBuilder()
+        .update(Task)
+        .set({ description: data.description, taskName: data.taskName })
+        .where({ id: id })
+        .execute();
     }
   }
 }
