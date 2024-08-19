@@ -17,6 +17,7 @@ import { Task } from '../models/task.entity';
 import { UpdateTaskDto } from '../dtos/update-task.dto';
 import { UpdateTaskService } from '../services/update-task.service';
 import { DeleteTaskService } from '../services/delete-task.service';
+import { GetTaskDto } from '../dtos/get-task.dto';
 
 @Controller('/tasks')
 export class TasksController {
@@ -28,7 +29,7 @@ export class TasksController {
   ) {}
 
   @Get()
-  async getAllTasks(@Res() response) {
+  async getAllTasks(@Res() response): Promise<GetTaskDto[]> {
     const tasksList: Task[] | null = await this.findAllTasksService.findAll();
     return response.status(200).json(tasksList);
   }
