@@ -6,16 +6,20 @@ import { UpdateTaskService } from './services/update-task.service';
 import { DeleteTaskService } from './services/delete-task.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Task } from './models/task.entity';
-import { AuthController } from './auth/auth.controller';
+import { AuthModule } from 'src/auth/auth.module';
+import { JwtService } from '@nestjs/jwt';
+import { FindOneTaskService } from './services/find-one-task.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task])],
-  controllers: [TasksController, AuthController],
+  imports: [TypeOrmModule.forFeature([Task]), AuthModule],
+  controllers: [TasksController],
   providers: [
     FindAllTasksService,
+    FindOneTaskService,
     CreateNewTaskService,
     UpdateTaskService,
     DeleteTaskService,
+    JwtService,
   ],
 })
 export class TasksModule {}
