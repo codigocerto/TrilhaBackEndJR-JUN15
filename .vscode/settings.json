@@ -1,0 +1,17 @@
+{
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "files.exclude": {
+    "node_modules/": true,
+    "prettierrc.json": true,
+    ".eslintignore": true,
+    ".eslintrc.json": true,
+    ".editorconfig": true,
+    ".gitignore": true,
+    ".vscode": true
+  }
+}
